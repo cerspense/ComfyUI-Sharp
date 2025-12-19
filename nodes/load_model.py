@@ -1,33 +1,14 @@
 """LoadSharpModel node for ComfyUI-Sharp."""
 
 import os
-import sys
 
 import torch
-
-# Add ml-sharp to path
-# Priority: SHARP_PATH env var > /home/shadeform/ml-sharp/src > relative path
-ML_SHARP_PATH = os.environ.get("SHARP_PATH")
-if not ML_SHARP_PATH:
-    # Try /home/shadeform/ml-sharp/src first
-    default_path = "/home/shadeform/ml-sharp/src"
-    if os.path.exists(default_path):
-        ML_SHARP_PATH = default_path
-    else:
-        # Fallback to relative path from this file
-        ML_SHARP_PATH = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "ml-sharp", "src"
-        )
-
-if ML_SHARP_PATH not in sys.path:
-    sys.path.insert(0, ML_SHARP_PATH)
 
 # Model cache
 _MODEL_CACHE = {}
 
-# Default model URL
-DEFAULT_MODEL_URL = "https://ml-site.cdn-apple.com/models/sharp/sharp_2572gikvuh.pt"
+# Default model URL (Hugging Face mirror)
+DEFAULT_MODEL_URL = "https://huggingface.co/apple/Sharp/resolve/main/sharp_2572gikvuh.pt"
 
 
 class LoadSharpModel:
@@ -45,7 +26,7 @@ class LoadSharpModel:
             "optional": {
                 "checkpoint_path": ("STRING", {
                     "default": "",
-                    "tooltip": "Path to .pt checkpoint. Leave empty to auto-download from Apple CDN."
+                    "tooltip": "Path to .pt checkpoint. Leave empty to auto-download from Hugging Face."
                 }),
             }
         }
@@ -79,7 +60,7 @@ class LoadSharpModel:
         if checkpoint_path and os.path.exists(checkpoint_path):
             state_dict = torch.load(checkpoint_path, weights_only=True)
         else:
-            print(f"[SHARP] Downloading model from {DEFAULT_MODEL_URL}")
+            print(f"[SHARP] Downloading model from Hugging Face...")
             state_dict = torch.hub.load_state_dict_from_url(DEFAULT_MODEL_URL, progress=True)
 
         # Create predictor

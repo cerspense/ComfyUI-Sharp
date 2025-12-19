@@ -1,31 +1,12 @@
 """SharpPredict node for ComfyUI-Sharp."""
 
 import os
-import sys
 import time
 from pathlib import Path
 
 import numpy as np
 import torch
 import torch.nn.functional as F
-
-# Add ml-sharp to path
-# Priority: SHARP_PATH env var > /home/shadeform/ml-sharp/src > relative path
-ML_SHARP_PATH = os.environ.get("SHARP_PATH")
-if not ML_SHARP_PATH:
-    # Try /home/shadeform/ml-sharp/src first
-    default_path = "/home/shadeform/ml-sharp/src"
-    if os.path.exists(default_path):
-        ML_SHARP_PATH = default_path
-    else:
-        # Fallback to relative path from this file
-        ML_SHARP_PATH = os.path.join(
-            os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "ml-sharp", "src"
-        )
-
-if ML_SHARP_PATH not in sys.path:
-    sys.path.insert(0, ML_SHARP_PATH)
 
 # Try to import ComfyUI folder_paths for output directory
 try:
