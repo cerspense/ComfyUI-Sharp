@@ -100,6 +100,59 @@ class RGBGaussianPredictor(nn.Module):
         self.gaussian_composer = gaussian_composer
         self.depth_alignment = DepthAlignment(scale_map_estimator)
 
+    def encode(self, image: torch.Tensor):
+        """Encode image to get disparity and features (expensive, cacheable).
+
+        Args:
+            image: The image to process.
+
+        Returns:
+            Tuple of (monodepth_output, image) for use with decode().
+        """
+        monodepth_output = self.monodepth_model(image)
+        return monodepth_output, image
+
+    def decode(
+        self,
+        monodepth_output,
+        image: torch.Tensor,
+        disparity_factor: torch.Tensor,
+        depth: torch.Tensor | None = None,
+    ) -> Gaussians3D:
+        """Decode cached features to gaussians (cheap, can vary focal length).
+
+        Args:
+            monodepth_output: Output from encode().
+            image: The original image.
+            disparity_factor: Factor to convert depth to disparities.
+            depth: Ground truth depth to align predicted depth to.
+
+        Returns:
+            The predicted 3D Gaussians.
+        """
+        monodepth_disparity = monodepth_output.disparity
+
+        disparity_factor = disparity_factor[:, None, None, None]
+        monodepth = disparity_factor / monodepth_disparity.clamp(min=1e-4, max=1e4)
+
+        monodepth, _ = self.depth_alignment(
+            monodepth,
+            depth,
+            monodepth_output.decoder_features,
+        )
+
+        init_output = self.init_model(image, monodepth)
+        image_features = self.feature_model(
+            init_output.feature_input, encodings=monodepth_output.output_features
+        )
+        delta_values = self.prediction_head(image_features)
+        gaussians = self.gaussian_composer(
+            delta=delta_values,
+            base_values=init_output.gaussian_base_values,
+            global_scale=init_output.global_scale,
+        )
+        return gaussians
+
     def forward(
         self,
         image: torch.Tensor,
