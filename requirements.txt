@@ -1,0 +1,13 @@
+# Core dependencies for SHARP
+torch>=2.0.0
+torchvision>=0.15.0
+numpy>=1.21.0
+pillow>=9.0.0
+
+# SHARP specific
+timm>=0.9.0
+plyfile>=1.0.0
+scipy>=1.10.0
+pillow-heif>=0.10.0
+imageio>=2.0.0
+imageio-ffmpeg>=0.4.0
