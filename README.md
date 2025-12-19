@@ -18,6 +18,7 @@ Workflow 2: focal length extraction from exif data.
 
 https://github.com/user-attachments/assets/b0c3e196-aa93-4380-8f8b-9c19b833b818
 
+Note: for PLY inference this model is good on its own, but for the Gaussian Viewer node, you're going to need to install this node as well! https://github.com/PozzettiAndrea/ComfyUI-GeometryPack
 
 Model auto-downloads on first run. For offline use, place `sharp_2572gikvuh.pt` in `ComfyUI/models/sharp/`.
 
