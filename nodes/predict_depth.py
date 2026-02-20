@@ -10,8 +10,6 @@ import time
 import numpy as np
 import torch
 import torch.nn.functional as F
-import comfy.model_management
-import comfy.model_patcher
 
 from .load_model import _build_sharp_model
 from .utils.image import comfy_to_numpy_rgb
@@ -54,6 +52,9 @@ class SharpPredictDepth:
 
     def _get_patcher(self, config):
         """Lazily build and cache ModelPatcher from config dict."""
+        import comfy.model_management
+        import comfy.model_patcher
+
         key = (config["model_path"], config["dtype"])
         if not hasattr(self, '_patcher') or self._config_key != key:
             predictor = _build_sharp_model(config["model_path"], config["dtype"])
@@ -79,6 +80,8 @@ class SharpPredictDepth:
         Returns depth maps as [N, H, W, 1] tensor (grayscale images).
         If reference_depth is provided, uses SHARP's learned dense alignment.
         """
+        import comfy.model_management
+
         patcher = self._get_patcher(model)
         comfy.model_management.load_models_gpu([patcher])
         predictor = patcher.model

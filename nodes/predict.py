@@ -9,8 +9,6 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn.functional as F
-import comfy.model_management
-import comfy.model_patcher
 
 from .load_model import _build_sharp_model
 
@@ -80,6 +78,9 @@ class SharpPredict:
 
     def _get_patcher(self, config):
         """Lazily build and cache ModelPatcher from config dict."""
+        import comfy.model_management
+        import comfy.model_patcher
+
         key = (config["model_path"], config["dtype"])
         if not hasattr(self, '_patcher') or self._config_key != key:
             predictor = _build_sharp_model(config["model_path"], config["dtype"])
@@ -111,6 +112,7 @@ class SharpPredict:
         If extrinsics/intrinsics are provided (from SamplePanorama), Gaussians are
         unprojected into world coordinates using those camera parameters.
         """
+        import comfy.model_management
         from .sharp.utils.gaussians import save_ply, unproject_gaussians
 
         patcher = self._get_patcher(model)

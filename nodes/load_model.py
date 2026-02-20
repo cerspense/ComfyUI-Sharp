@@ -5,8 +5,6 @@ import logging
 
 import torch
 from huggingface_hub import hf_hub_download
-import comfy.model_management
-import comfy.model_patcher
 
 log = logging.getLogger("sharp")
 
@@ -73,6 +71,8 @@ class LoadSharpModel:
 
     def load_model(self, precision: str = "auto", checkpoint_path: str = ""):
         """Resolve config and download model if needed. No weight loading."""
+        import comfy.model_management
+
         device = comfy.model_management.get_torch_device()
 
         # Resolve dtype
