@@ -275,5 +275,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "SamplePanorama": "Sample Panorama (Equirect → Perspective)",
+    "SamplePanorama": "Sample Panorama (Equirect -> Perspective)",
 }

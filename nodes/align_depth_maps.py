@@ -400,7 +400,7 @@ def compute_global_alignments_optimized(
 
     The formulation:
     - For each pair (i,j) we measure ratio r_ij = median(d_i / d_j)
-    - We want scales s_i such that s_i / s_j ≈ r_ij
+    - We want scales s_i such that s_i / s_j ~= r_ij
     - In log-space: x_i - x_j = log(r_ij) where x_i = log(s_i)
     - This is a linear system A @ x = b, solved with least squares
 
@@ -488,7 +488,7 @@ def compute_global_alignments_optimized(
         log_ratio = -math.log(max(ratio, 1e-6))  # s_i / s_j = 1/ratio
 
         if i == 0:
-            # x_0 = 0, so: -x_j = log_ratio → x_j = -log_ratio
+            # x_0 = 0, so: -x_j = log_ratio -> x_j = -log_ratio
             A[k, j - 1] = -1.0
         elif j == 0:
             # x_0 = 0, so: x_i = log_ratio
@@ -508,7 +508,7 @@ def compute_global_alignments_optimized(
         solution = torch.linalg.lstsq(A, b).solution  # [num_views-1]
 
         # Convert back from log-space
-        scales = [1.0]  # x_0 = 0 → s_0 = 1
+        scales = [1.0]  # x_0 = 0 -> s_0 = 1
         for i in range(num_views - 1):
             scales.append(math.exp(solution[i].item()))
 
