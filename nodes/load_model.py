@@ -19,32 +19,11 @@ SHARP_REPO_ID = "apple/Sharp"
 SHARP_FILENAME = "sharp_2572gikvuh.pt"
 
 
-def _build_sharp_model(model_path, dtype):
-    """Build and load the SHARP predictor model.
-
-    Called lazily by inference nodes on first use.
-    Returns a loaded nn.Module on CPU with the given dtype.
-    """
-    from .sharp.models import PredictorParams, create_predictor
-    import comfy.utils
-
-    log.info(f"Loading checkpoint from {model_path}")
-    state_dict = comfy.utils.load_torch_file(model_path)
-
-    log.info("Initializing model...")
-    with torch.device("meta"):
-        predictor = create_predictor(PredictorParams())
-    predictor.load_state_dict(state_dict, assign=True)
-    predictor.eval()
-    predictor.to(dtype=dtype)  # set dtype, stay on CPU
-    log.info(f"Model ready ({dtype})")
-    return predictor
-
-
 class LoadSharpModel:
-    """Configure the SHARP model. Downloads checkpoint if needed.
+    """Load SHARP model and wrap with ModelPatcher for ComfyUI-native VRAM management.
 
-    Model weights are loaded lazily by inference nodes on first use.
+    The model is built once, cached by ComfyUI's execution cache, and stays in
+    VRAM between runs (no repeated GPU transfers).
     """
 
     @classmethod
@@ -67,19 +46,23 @@ class LoadSharpModel:
     RETURN_NAMES = ("model",)
     FUNCTION = "load_model"
     CATEGORY = "SHARP"
-    DESCRIPTION = "Configure the SHARP model for monocular 3D Gaussian Splatting prediction."
+    DESCRIPTION = "Load the SHARP model for monocular 3D Gaussian Splatting prediction."
 
     def load_model(self, precision: str = "auto", checkpoint_path: str = ""):
-        """Resolve config and download model if needed. No weight loading."""
+        """Build model, load weights, wrap with ModelPatcher."""
         import comfy.model_management
+        import comfy.model_patcher
+        import comfy.utils
+        from .sharp import PredictorParams, create_predictor
 
-        device = comfy.model_management.get_torch_device()
+        load_device = comfy.model_management.get_torch_device()
+        offload_device = comfy.model_management.unet_offload_device()
 
         # Resolve dtype
         if precision == "auto":
-            if comfy.model_management.should_use_bf16(device):
+            if comfy.model_management.should_use_bf16(load_device):
                 dtype = torch.bfloat16
-            elif comfy.model_management.should_use_fp16(device):
+            elif comfy.model_management.should_use_fp16(load_device):
                 dtype = torch.float16
             else:
                 dtype = torch.float32
@@ -101,7 +84,29 @@ class LoadSharpModel:
                 local_dir=MODELS_DIR,
             )
 
-        return ({"model_path": model_path, "dtype": dtype},)
+        # Load state dict
+        log.info(f"Loading checkpoint from {model_path}")
+        state_dict = comfy.utils.load_torch_file(model_path)
+
+        # Build model on meta device (zero memory)
+        log.info("Initializing model...")
+        with torch.device("meta"):
+            predictor = create_predictor(PredictorParams())
+
+        # Load weights and set dtype
+        predictor.load_state_dict(state_dict, assign=True)
+        predictor.eval()
+        predictor.to(dtype=dtype)
+        log.info(f"Model ready ({dtype})")
+
+        # Wrap with ModelPatcher — ComfyUI manages VRAM from here
+        patcher = comfy.model_patcher.ModelPatcher(
+            predictor,
+            load_device=load_device,
+            offload_device=offload_device,
+        )
+
+        return (patcher,)
 
 
 NODE_CLASS_MAPPINGS = {

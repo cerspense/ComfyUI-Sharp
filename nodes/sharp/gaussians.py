@@ -12,7 +12,7 @@ from typing import Any, Literal, NamedTuple
 
 import numpy as np
 import torch
-from plyfile import PlyData, PlyElement
+from plyfile import PlyData
 
 from . import color_space as cs_utils
 from . import linalg
@@ -145,27 +145,18 @@ def decompose_covariance_matrices(
 
     Note: This operation is not differentiable.
     """
-    device = covariance_matrices.device
-    dtype = covariance_matrices.dtype
-
-    # We convert to fp64 to avoid numerical errors.
-    covariance_matrices = covariance_matrices.detach().cpu().to(torch.float64)
+    # SVD on GPU in float32 (sufficient for inference/visualization)
+    covariance_matrices = covariance_matrices.detach().float()
     rotations, singular_values_2, _ = torch.linalg.svd(covariance_matrices)
 
-    # NOTE: in SVD, it is possible that U and VT are both reflections.
-    # We need to correct them.
-    batch_idx, gaussian_idx = torch.where(torch.linalg.det(rotations) < 0)
-    num_reflections = len(gaussian_idx)
-    if num_reflections > 0:
-        LOGGER.warning(
-            "Received %d reflection matrices from SVD. Flipping them to rotations.",
-            num_reflections,
-        )
-        # Flip the last column of reflection and make it a rotation.
-        rotations[batch_idx, gaussian_idx, :, -1] *= -1
+    # Vectorized reflection fix — ensure proper rotations (det > 0)
+    dets = torch.linalg.det(rotations)
+    mask = dets < 0
+    if mask.any():
+        rotations[mask, :, -1] *= -1
+
     quaternions = linalg.quaternions_from_rotation_matrices(rotations)
-    quaternions = quaternions.to(dtype=dtype, device=device)
-    singular_values = singular_values_2.sqrt().to(dtype=dtype, device=device)
+    singular_values = singular_values_2.sqrt()
     return quaternions, singular_values
 
 
@@ -346,11 +337,11 @@ def load_ply(path: Path) -> tuple[Gaussians3D, SceneMetaData]:
 @torch.no_grad()
 def save_ply(
     gaussians: Gaussians3D, f_px: float, image_shape: tuple[int, int], path: Path
-) -> tuple[PlyData, dict]:
+) -> tuple[None, dict]:
     """Save a predicted Gaussian3D to a ply file.
 
     Returns:
-        tuple: (PlyData, metadata_dict) where metadata_dict contains camera and scene info.
+        tuple: (None, metadata_dict) where metadata_dict contains camera and scene info.
     """
 
     def _inverse_sigmoid(tensor: torch.Tensor) -> torch.Tensor:
@@ -391,21 +382,29 @@ def save_ply(
         dim=1,
     )
 
-    dtype_full = [
-        (attribute, "f4")
-        for attribute in ["x", "y", "z"]
+    property_names = (
+        ["x", "y", "z"]
         + [f"f_dc_{i}" for i in range(3)]
         + ["opacity"]
         + [f"scale_{i}" for i in range(3)]
         + [f"rot_{i}" for i in range(4)]
-    ]
+    )
 
     num_gaussians = len(xyz)
-    elements = np.empty(num_gaussians, dtype=dtype_full)
-    elements[:] = list(map(tuple, attributes.detach().cpu().numpy()))
-    vertex_elements = PlyElement.describe(elements, "vertex")
 
-    # Build metadata dictionary instead of embedding in PLY
+    # Write binary PLY directly (bypasses plyfile's slow structured array path)
+    header = "ply\nformat binary_little_endian 1.0\n"
+    header += f"element vertex {num_gaussians}\n"
+    for name in property_names:
+        header += f"property float {name}\n"
+    header += "end_header\n"
+
+    data = attributes.detach().cpu().to(torch.float32).contiguous().numpy()
+    with open(path, "wb") as f:
+        f.write(header.encode("ascii"))
+        data.tofile(f)
+
+    # Build metadata dictionary
     image_height, image_width = image_shape
 
     # Calculate disparity quantiles
@@ -436,8 +435,4 @@ def save_ply(
         "version": [1, 5, 0],
     }
 
-    # Save only vertex data (standard 3DGS PLY format for compatibility)
-    plydata = PlyData([vertex_elements])
-    plydata.write(path)
-
-    return plydata, metadata
+    return None, metadata

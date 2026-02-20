@@ -10,8 +10,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from .load_model import _build_sharp_model
-
 log = logging.getLogger("sharp")
 
 # Try to import ComfyUI folder_paths for output directory
@@ -76,22 +74,6 @@ class SharpPredict:
     OUTPUT_NODE = True
     DESCRIPTION = "Generate 3D Gaussian Splatting PLY file(s) from image(s) using SHARP. Batch input creates a folder with numbered PLY files."
 
-    def _get_patcher(self, config):
-        """Lazily build and cache ModelPatcher from config dict."""
-        import comfy.model_management
-        import comfy.model_patcher
-
-        key = (config["model_path"], config["dtype"])
-        if not hasattr(self, '_patcher') or self._config_key != key:
-            predictor = _build_sharp_model(config["model_path"], config["dtype"])
-            self._patcher = comfy.model_patcher.ModelPatcher(
-                predictor,
-                load_device=comfy.model_management.get_torch_device(),
-                offload_device=comfy.model_management.unet_offload_device(),
-            )
-            self._config_key = key
-        return self._patcher
-
     @torch.no_grad()
     def predict(
         self,
@@ -113,12 +95,12 @@ class SharpPredict:
         unprojected into world coordinates using those camera parameters.
         """
         import comfy.model_management
-        from .sharp.utils.gaussians import save_ply, unproject_gaussians
+        from .sharp.gaussians import save_ply, unproject_gaussians
 
-        patcher = self._get_patcher(model)
-        comfy.model_management.load_models_gpu([patcher])
-        predictor = patcher.model
-        device = patcher.load_device
+        # model is a ModelPatcher from LoadSharpModel
+        comfy.model_management.load_models_gpu([model])
+        predictor = model.model
+        device = model.load_device
 
         # Handle batch dimension
         if image.dim() == 3:
@@ -244,7 +226,7 @@ class SharpPredict:
             intrinsics: Optional 4x4 camera intrinsics
         """
         global _encode_cache
-        from .sharp.utils.gaussians import unproject_gaussians
+        from .sharp.gaussians import unproject_gaussians
 
         internal_shape = (1536, 1536)
         height, width = image.shape[:2]
@@ -260,7 +242,7 @@ class SharpPredict:
             image_resized_pt = _encode_cache["image_resized"]
         else:
             # Cache miss - need to encode
-            log.info("Cache miss - running encoder (this is the slow part)...")
+            log.info("Encoding...")
 
             # Clear old cache
             _encode_cache["image_hash"] = None
@@ -279,11 +261,10 @@ class SharpPredict:
                 align_corners=True,
             )
 
-            # Encode (expensive)
+            # Encode
             encode_start = time.time()
             monodepth_output, _ = predictor.encode(image_resized_pt)
-            encode_time = time.time() - encode_start
-            log.info(f"Encode time: {encode_time:.2f}s")
+            log.info(f"Encode time: {time.time() - encode_start:.2f}s")
 
             # Update cache
             _encode_cache["image_hash"] = image_hash
@@ -291,13 +272,12 @@ class SharpPredict:
             _encode_cache["image_resized"] = image_resized_pt
             _encode_cache["original_shape"] = (height, width)
 
-        # Decode (cheap) - always run with current focal length
+        # Decode - always run with current focal length
         disparity_factor = torch.tensor([f_px / width]).float().to(device)
 
         decode_start = time.time()
         gaussians_ndc = predictor.decode(monodepth_output, image_resized_pt, disparity_factor)
-        decode_time = time.time() - decode_start
-        log.info(f"Decode time: {decode_time:.2f}s")
+        log.info(f"Decode time: {time.time() - decode_start:.2f}s")
 
         # Build intrinsics for unprojection (use provided or construct from f_px)
         if intrinsics is not None:

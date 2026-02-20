@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import torch
 import torch.nn.functional as F
-from scipy.spatial.transform import Rotation
 
 
 def rotation_matrices_from_quaternions(quaternions: torch.Tensor) -> torch.Tensor:
@@ -39,24 +38,63 @@ def rotation_matrices_from_quaternions(quaternions: torch.Tensor) -> torch.Tenso
 
 
 def quaternions_from_rotation_matrices(matrices: torch.Tensor) -> torch.Tensor:
-    """Convert batch of rotation matrices to quaternions.
+    """Convert batch of rotation matrices to quaternions (w-first).
+
+    Pure PyTorch implementation using Shepperd's method. Runs on GPU.
 
     Args:
-        matrices: The matrices to convert to quaternions.
+        matrices: Rotation matrices of shape [..., 3, 3].
 
     Returns:
-        The quaternions corresponding to the rotation matrices.
-
-    Note: this operation is not differentiable and will be performed on the CPU.
+        Quaternions of shape [..., 4] in (w, x, y, z) convention.
     """
     if not matrices.shape[-2:] == (3, 3):
         raise ValueError(f"matrices have invalid shape {matrices.shape}")
-    matrices_np = matrices.detach().cpu().numpy()
-    quaternions_np = Rotation.from_matrix(matrices_np.reshape(-1, 3, 3)).as_quat()
-    # We use a convention where the w component is at the start of the quaternion.
-    quaternions_np = quaternions_np[:, [3, 0, 1, 2]]
-    quaternions_np = quaternions_np.reshape(matrices_np.shape[:-2] + (4,))
-    return torch.as_tensor(quaternions_np, device=matrices.device, dtype=matrices.dtype)
+
+    batch_shape = matrices.shape[:-2]
+    R = matrices.reshape(-1, 3, 3)
+    n = R.shape[0]
+
+    q = torch.empty(n, 4, device=R.device, dtype=R.dtype)
+    trace = R[:, 0, 0] + R[:, 1, 1] + R[:, 2, 2]
+
+    # Case 1: trace > 0 → w is largest component
+    m1 = trace > 0
+    if m1.any():
+        s = (trace[m1] + 1.0).clamp(min=1e-10).sqrt() * 2
+        q[m1, 0] = 0.25 * s
+        q[m1, 1] = (R[m1, 2, 1] - R[m1, 1, 2]) / s
+        q[m1, 2] = (R[m1, 0, 2] - R[m1, 2, 0]) / s
+        q[m1, 3] = (R[m1, 1, 0] - R[m1, 0, 1]) / s
+
+    # Case 2: R[0,0] is largest diagonal element
+    m2 = (~m1) & (R[:, 0, 0] > R[:, 1, 1]) & (R[:, 0, 0] > R[:, 2, 2])
+    if m2.any():
+        s = (1 + R[m2, 0, 0] - R[m2, 1, 1] - R[m2, 2, 2]).clamp(min=1e-10).sqrt() * 2
+        q[m2, 0] = (R[m2, 2, 1] - R[m2, 1, 2]) / s
+        q[m2, 1] = 0.25 * s
+        q[m2, 2] = (R[m2, 0, 1] + R[m2, 1, 0]) / s
+        q[m2, 3] = (R[m2, 0, 2] + R[m2, 2, 0]) / s
+
+    # Case 3: R[1,1] is largest diagonal element
+    m3 = (~m1) & (~m2) & (R[:, 1, 1] > R[:, 2, 2])
+    if m3.any():
+        s = (1 + R[m3, 1, 1] - R[m3, 0, 0] - R[m3, 2, 2]).clamp(min=1e-10).sqrt() * 2
+        q[m3, 0] = (R[m3, 0, 2] - R[m3, 2, 0]) / s
+        q[m3, 1] = (R[m3, 0, 1] + R[m3, 1, 0]) / s
+        q[m3, 2] = 0.25 * s
+        q[m3, 3] = (R[m3, 1, 2] + R[m3, 2, 1]) / s
+
+    # Case 4: R[2,2] is largest diagonal element
+    m4 = (~m1) & (~m2) & (~m3)
+    if m4.any():
+        s = (1 + R[m4, 2, 2] - R[m4, 0, 0] - R[m4, 1, 1]).clamp(min=1e-10).sqrt() * 2
+        q[m4, 0] = (R[m4, 1, 0] - R[m4, 0, 1]) / s
+        q[m4, 1] = (R[m4, 0, 2] + R[m4, 2, 0]) / s
+        q[m4, 2] = (R[m4, 1, 2] + R[m4, 2, 1]) / s
+        q[m4, 3] = 0.25 * s
+
+    return q.reshape(batch_shape + (4,))
 
 
 def get_cross_product_matrix(vectors: torch.Tensor) -> torch.Tensor:

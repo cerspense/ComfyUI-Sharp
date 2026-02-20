@@ -11,7 +11,6 @@ import numpy as np
 import torch
 import torch.nn.functional as F
 
-from .load_model import _build_sharp_model
 from .utils.image import comfy_to_numpy_rgb
 
 log = logging.getLogger("sharp")
@@ -50,22 +49,6 @@ class SharpPredictDepth:
     CATEGORY = "SHARP"
     DESCRIPTION = "Generate depth maps from images using SHARP. Optionally align to reference depth (e.g., DepthAnythingV3) using learned dense alignment."
 
-    def _get_patcher(self, config):
-        """Lazily build and cache ModelPatcher from config dict."""
-        import comfy.model_management
-        import comfy.model_patcher
-
-        key = (config["model_path"], config["dtype"])
-        if not hasattr(self, '_patcher') or self._config_key != key:
-            predictor = _build_sharp_model(config["model_path"], config["dtype"])
-            self._patcher = comfy.model_patcher.ModelPatcher(
-                predictor,
-                load_device=comfy.model_management.get_torch_device(),
-                offload_device=comfy.model_management.unet_offload_device(),
-            )
-            self._config_key = key
-        return self._patcher
-
     @torch.no_grad()
     def predict_depth(
         self,
@@ -82,10 +65,10 @@ class SharpPredictDepth:
         """
         import comfy.model_management
 
-        patcher = self._get_patcher(model)
-        comfy.model_management.load_models_gpu([patcher])
-        predictor = patcher.model
-        device = patcher.load_device
+        # model is a ModelPatcher from LoadSharpModel
+        comfy.model_management.load_models_gpu([model])
+        predictor = model.model
+        device = model.load_device
 
         # Handle batch dimension
         if image.dim() == 3:
@@ -134,7 +117,7 @@ class SharpPredictDepth:
             if intrinsics is not None:
                 f_px = intrinsics[0, 0].item()
             else:
-                # Default: assume 65° FOV for the input image size
+                # Default: assume 65 deg FOV for the input image size
                 import math
                 fov_rad = math.radians(65)
                 f_px = (width / 2) / math.tan(fov_rad / 2)
