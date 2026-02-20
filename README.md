@@ -1,5 +1,7 @@
 # ComfyUI-Sharp
 
+**[View Workflow Gallery](https://pozzettiandrea.github.io/ComfyUI-Sharp/)**
+
 ComfyUI wrapper for [SHARP](https://arxiv.org/abs/2512.10685) by [Apple](https://github.com/apple/ml-sharp) - monocular 3D Gaussian Splatting in under 1 second.
 
 2 Example workflows.

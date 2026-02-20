@@ -1,58 +1,10 @@
 [project]
-name = "comfyui-sharp"
+name = "ComfyUI-Sharp"
 description = "ComfyUI wrapper around Apple's latest SHARP model (ml-sharp). Monocular 3D Gaussian Splatting in under 1 second. Generate 3D Gaussians from a single image using Apple's SHARP model."
 version = "0.0.3"
-license = { text = "MIT License (wrapper) + SHARP License (vendored library)" }
-readme = "README.md"
-authors = [
-    { name = "Andrea Pozzetti", email = "andrea@pozzetti.it" }
-]
-dynamic = ["dependencies"]
-
-[project.urls]
-Repository = "https://github.com/PozzettiAndrea/ComfyUI-Sharp"
-Documentation = "https://github.com/PozzettiAndrea/ComfyUI-Sharp/blob/main/README.md"
+license = {file = "LICENSE"}
 
 [tool.comfy]
 PublisherId = "pznodes"
 DisplayName = "Sharp"
 Icon = ""
-
-[build-system]
-requires = ["setuptools>=45", "wheel"]
-build-backend = "setuptools.build_meta"
-
-[tool.setuptools.dynamic]
-dependencies = {file = ["requirements.txt"]}
-
-[tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_classes = ["Test*"]
-python_functions = ["test_*"]
-addopts = [
-    "-v",
-    "--tb=short",
-    "--strict-markers",
-]
-markers = [
-    "unit: Unit tests (fast, no model loading)",
-    "integration: Integration tests with real models (slow)",
-]
-filterwarnings = [
-    "ignore::DeprecationWarning",
-    "ignore::UserWarning",
-]
-
-[tool.coverage.run]
-source = ["nodes", "utils"]
-omit = [
-    "*/tests/*",
-    "*/test_*.py",
-    "*/__pycache__/*",
-]
-
-[tool.coverage.report]
-precision = 2
-show_missing = true
-skip_covered = false
