@@ -19,6 +19,7 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
+import comfy.model_management
 import comfy.ops
 from comfy.ldm.modules.attention import optimized_attention
 
@@ -589,7 +590,29 @@ class SlidingPyramidNetwork(nn.Module):
         x0_tile_size = x0_patches.shape[0]
 
         x_pyramid_patches = torch.cat((x0_patches, x1_patches, x2_patches), dim=0)
-        x_pyramid_encodings, patch_intermediate_features = self.patch_encoder(x_pyramid_patches)
+
+        # Dynamic chunking based on free VRAM (same pattern as ComfyUI's attention_split)
+        N = x_pyramid_patches.shape[0]
+        mem_free = comfy.model_management.get_free_memory(x_pyramid_patches.device)
+        patch_mem_estimate = 200 * 1024 * 1024  # ~200 MB per patch through ViT
+        chunk_size = max(1, int(mem_free * 0.8 / patch_mem_estimate))
+        chunk_size = min(chunk_size, N)
+
+        if chunk_size >= N:
+            x_pyramid_encodings, patch_intermediate_features = self.patch_encoder(x_pyramid_patches)
+        else:
+            encoding_chunks = []
+            intermediate_chunks: dict[int, list[torch.Tensor]] = {}
+            for i in range(0, N, chunk_size):
+                enc, inter = self.patch_encoder(x_pyramid_patches[i:i + chunk_size])
+                encoding_chunks.append(enc)
+                for layer_id, feat in inter.items():
+                    intermediate_chunks.setdefault(layer_id, []).append(feat)
+            x_pyramid_encodings = torch.cat(encoding_chunks, dim=0)
+            patch_intermediate_features = {
+                layer_id: torch.cat(feats, dim=0)
+                for layer_id, feats in intermediate_chunks.items()
+            }
 
         # Merge intermediate features
         x_latent0_encodings = self.patch_encoder.reshape_feature(

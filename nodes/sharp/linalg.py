@@ -58,7 +58,7 @@ def quaternions_from_rotation_matrices(matrices: torch.Tensor) -> torch.Tensor:
     q = torch.empty(n, 4, device=R.device, dtype=R.dtype)
     trace = R[:, 0, 0] + R[:, 1, 1] + R[:, 2, 2]
 
-    # Case 1: trace > 0 → w is largest component
+    # Case 1: trace > 0 -- w is largest component
     m1 = trace > 0
     if m1.any():
         s = (trace[m1] + 1.0).clamp(min=1e-10).sqrt() * 2
