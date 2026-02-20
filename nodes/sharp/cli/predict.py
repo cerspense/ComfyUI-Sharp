@@ -15,14 +15,14 @@ import torch
 import torch.nn.functional as F
 import torch.utils.data
 
-from sharp.models import (
+from nodes.sharp.models import (
     PredictorParams,
     RGBGaussianPredictor,
     create_predictor,
 )
-from sharp.utils import io
-from sharp.utils import logging as logging_utils
-from sharp.utils.gaussians import (
+from nodes.sharp.utils import io
+from nodes.sharp.utils import logging as logging_utils
+from nodes.sharp.utils.gaussians import (
     Gaussians3D,
     SceneMetaData,
     save_ply,

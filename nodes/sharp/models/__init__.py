@@ -6,7 +6,7 @@ Copyright (C) 2025 Apple Inc. All Rights Reserved.
 
 from __future__ import annotations
 
-from sharp.models.monodepth import (
+from nodes.sharp.models.monodepth import (
     create_monodepth_adaptor,
     create_monodepth_dpt,
 )

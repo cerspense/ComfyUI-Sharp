@@ -16,7 +16,7 @@ try:
 except ImportError:
     OUTPUT_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "output")
 
-from ..utils.image import comfy_to_numpy_rgb, convert_focallength
+from .utils.image import comfy_to_numpy_rgb, convert_focallength
 
 
 # Global cache for encoded features (single image only)
@@ -80,7 +80,7 @@ class SharpPredict:
 
         Features are cached per image - changing focal_length with same image is instant.
         """
-        from sharp.utils.gaussians import save_ply, unproject_gaussians
+        from nodes.sharp.utils.gaussians import save_ply, unproject_gaussians
 
         predictor = model["predictor"]
         device = torch.device(model["device"])
@@ -176,7 +176,7 @@ class SharpPredict:
         Changing focal_length reuses cached features (instant).
         """
         global _encode_cache
-        from sharp.utils.gaussians import unproject_gaussians
+        from nodes.sharp.utils.gaussians import unproject_gaussians
 
         internal_shape = (1536, 1536)
         height, width = image.shape[:2]

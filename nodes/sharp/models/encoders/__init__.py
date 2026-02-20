@@ -4,7 +4,7 @@ For licensing see accompanying LICENSE file.
 Copyright (C) 2025 Apple Inc. All Rights Reserved.
 """
 
-from sharp.models.encoders.base_encoder import BaseEncoder
+from nodes.sharp.models.encoders.base_encoder import BaseEncoder
 
 from .monodepth_encoder import (
     MonodepthFeatureEncoder,

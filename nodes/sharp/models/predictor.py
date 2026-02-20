@@ -11,8 +11,8 @@ import logging
 import torch
 from torch import nn
 
-from sharp.models.monodepth import MonodepthWithEncodingAdaptor
-from sharp.utils.gaussians import Gaussians3D
+from nodes.sharp.models.monodepth import MonodepthWithEncodingAdaptor
+from nodes.sharp.utils.gaussians import Gaussians3D
 
 from .composer import GaussianComposer
 

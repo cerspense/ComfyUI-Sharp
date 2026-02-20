@@ -7,10 +7,10 @@ Copyright (C) 2025 Apple Inc. All Rights Reserved.
 import dataclasses
 from typing import Literal
 
-import sharp.utils.math as math_utils
-from sharp.models.blocks import NormLayerName, UpsamplingMode
-from sharp.models.presets import ViTPreset
-from sharp.utils.color_space import ColorSpace
+import nodes.sharp.utils.math as math_utils
+from nodes.sharp.models.blocks import NormLayerName, UpsamplingMode
+from nodes.sharp.models.presets import ViTPreset
+from nodes.sharp.utils.color_space import ColorSpace
 
 DimsDecoder = tuple[int, int, int, int, int]
 DPTImageEncoderType = Literal["skip_conv", "skip_conv_kernel2"]

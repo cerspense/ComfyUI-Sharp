@@ -13,9 +13,9 @@ import gsplat
 import torch
 from torch import nn
 
-from sharp.utils import color_space as cs_utils
-from sharp.utils import io, vis
-from sharp.utils.gaussians import BackgroundColor, Gaussians3D
+from nodes.sharp.utils import color_space as cs_utils
+from nodes.sharp.utils import io, vis
+from nodes.sharp.utils.gaussians import BackgroundColor, Gaussians3D
 
 
 class RenderingOutputs(NamedTuple):

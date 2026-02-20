@@ -1,3 +1,6 @@
+comfy-env
+comfy-3d-viewers
+
 # Core dependencies for SHARP
 torch>=2.0.0
 torchvision>=0.15.0

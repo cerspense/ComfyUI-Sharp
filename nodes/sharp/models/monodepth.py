@@ -14,13 +14,13 @@ from typing import NamedTuple, Tuple
 import torch
 import torch.nn as nn
 
-from sharp.models import normalizers
-from sharp.models.decoders import MultiresConvDecoder, create_monodepth_decoder
-from sharp.models.encoders import (
+from nodes.sharp.models import normalizers
+from nodes.sharp.models.decoders import MultiresConvDecoder, create_monodepth_decoder
+from nodes.sharp.models.encoders import (
     SlidingPyramidNetwork,
     create_monodepth_encoder,
 )
-from sharp.utils import module_surgery
+from nodes.sharp.utils import module_surgery
 
 from .params import MonodepthAdaptorParams, MonodepthParams
 

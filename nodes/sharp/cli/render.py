@@ -13,9 +13,9 @@ import click
 import torch
 import torch.utils.data
 
-from sharp.utils import camera, gsplat, io
-from sharp.utils import logging as logging_utils
-from sharp.utils.gaussians import Gaussians3D, SceneMetaData, load_ply
+from nodes.sharp.utils import camera, gsplat, io
+from nodes.sharp.utils import logging as logging_utils
+from nodes.sharp.utils.gaussians import Gaussians3D, SceneMetaData, load_ply
 
 LOGGER = logging.getLogger(__name__)
 

@@ -12,9 +12,9 @@ import torch
 import torch.nn.functional as F
 from torch import nn
 
-from sharp.models.decoders import UNetDecoder
-from sharp.models.encoders import UNetEncoder
-from sharp.utils import math as math_utils
+from nodes.sharp.models.decoders import UNetDecoder
+from nodes.sharp.models.encoders import UNetEncoder
+from nodes.sharp.utils import math as math_utils
 
 from .params import AlignmentParams
 

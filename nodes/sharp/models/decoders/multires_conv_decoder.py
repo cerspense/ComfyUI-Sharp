@@ -13,8 +13,8 @@ from typing import Iterable
 import torch
 import torch.nn as nn
 
-from sharp.models.blocks import FeatureFusionBlock2d, UpsamplingMode
-from sharp.utils.training import checkpoint_wrapper
+from nodes.sharp.models.blocks import FeatureFusionBlock2d, UpsamplingMode
+from nodes.sharp.utils.training import checkpoint_wrapper
 
 from .base_decoder import BaseDecoder
 
