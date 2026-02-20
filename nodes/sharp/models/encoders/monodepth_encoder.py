@@ -11,7 +11,7 @@ from __future__ import annotations
 import torch
 import torch.nn as nn
 
-from nodes.sharp.models.presets import (
+from ..presets import (
     MONODEPTH_ENCODER_DIMS_MAP,
     MONODEPTH_HOOK_IDS_MAP,
     ViTPreset,

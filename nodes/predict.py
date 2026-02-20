@@ -49,11 +49,17 @@ class SharpPredict:
                     "min": 0.0,
                     "max": 500.0,
                     "step": 0.1,
-                    "tooltip": "Focal length in mm (35mm equivalent). 0 = auto (defaults to 30mm)."
+                    "tooltip": "Focal length in mm (35mm equivalent). 0 = auto (defaults to 30mm). Ignored if intrinsics provided."
                 }),
                 "output_prefix": ("STRING", {
                     "default": "sharp",
                     "tooltip": "Prefix for output PLY filename or folder name for batches."
+                }),
+                "extrinsics": ("EXTRINSICS", {
+                    "tooltip": "Camera extrinsics (from SamplePanorama). If batched, must match image batch size."
+                }),
+                "intrinsics": ("INTRINSICS", {
+                    "tooltip": "Camera intrinsics (from SamplePanorama). Overrides focal_length_mm if provided."
                 }),
             }
         }
@@ -72,6 +78,8 @@ class SharpPredict:
         image: torch.Tensor,
         focal_length_mm: float = 0.0,
         output_prefix: str = "sharp",
+        extrinsics: torch.Tensor = None,
+        intrinsics: torch.Tensor = None,
     ):
         """Run SHARP inference and save PLY file(s).
 
@@ -79,8 +87,11 @@ class SharpPredict:
         For batch: creates folder {prefix}_{timestamp}/ with 001.ply, 002.ply, etc.
 
         Features are cached per image - changing focal_length with same image is instant.
+
+        If extrinsics/intrinsics are provided (from SamplePanorama), Gaussians are
+        unprojected into world coordinates using those camera parameters.
         """
-        from nodes.sharp.utils.gaussians import save_ply, unproject_gaussians
+        from .sharp.utils.gaussians import save_ply, unproject_gaussians
 
         predictor = model["predictor"]
         device = torch.device(model["device"])
@@ -90,7 +101,17 @@ class SharpPredict:
             image = image.unsqueeze(0)
 
         batch_size = image.shape[0]
-        print(f"[SHARP] Processing {batch_size} image(s)")
+
+        # Validate extrinsics batch size if provided
+        has_camera_params = extrinsics is not None and intrinsics is not None
+        if has_camera_params:
+            if extrinsics.dim() == 2:
+                extrinsics = extrinsics.unsqueeze(0)
+            if extrinsics.shape[0] != batch_size:
+                raise ValueError(f"Extrinsics batch size ({extrinsics.shape[0]}) must match image batch size ({batch_size})")
+            print(f"[SHARP] Processing {batch_size} image(s) with provided camera parameters (panorama mode)")
+        else:
+            print(f"[SHARP] Processing {batch_size} image(s)")
 
         # Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -125,15 +146,28 @@ class SharpPredict:
             if i == 0:
                 print(f"[SHARP] Image size: {width}x{height}")
 
-            # Determine focal length in pixels
-            if focal_length_mm > 0:
-                f_px = convert_focallength(width, height, focal_length_mm)
+            # Get camera parameters for this image
+            if has_camera_params:
+                # Use provided intrinsics (extract focal length)
+                img_intrinsics = intrinsics.to(device)
+                img_extrinsics = extrinsics[i].to(device)
+                f_px = img_intrinsics[0, 0].item()  # fx from intrinsics matrix
             else:
-                f_px = convert_focallength(width, height, 30.0)
+                # Use focal_length_mm parameter
+                if focal_length_mm > 0:
+                    f_px = convert_focallength(width, height, focal_length_mm)
+                else:
+                    f_px = convert_focallength(width, height, 30.0)
+                img_extrinsics = None
+                img_intrinsics = None
 
             # Run inference with caching
             print(f"[SHARP] Running inference on image {i+1}/{batch_size}...")
-            gaussians = self._predict_image_cached(predictor, image_np, f_px, device)
+            gaussians = self._predict_image_cached(
+                predictor, image_np, f_px, device,
+                extrinsics=img_extrinsics,
+                intrinsics=img_intrinsics,
+            )
 
             # Determine output filename
             if is_batch:
@@ -169,14 +203,24 @@ class SharpPredict:
         image: np.ndarray,
         f_px: float,
         device: torch.device,
+        extrinsics: torch.Tensor = None,
+        intrinsics: torch.Tensor = None,
     ):
         """Predict Gaussians with caching of encoded features.
 
         The expensive encode step is cached per image.
         Changing focal_length reuses cached features (instant).
+
+        Args:
+            predictor: SHARP predictor model
+            image: Input image as numpy array [H, W, 3]
+            f_px: Focal length in pixels
+            device: Torch device
+            extrinsics: Optional 4x4 camera extrinsics (world-to-camera)
+            intrinsics: Optional 4x4 camera intrinsics
         """
         global _encode_cache
-        from nodes.sharp.utils.gaussians import unproject_gaussians
+        from .sharp.utils.gaussians import unproject_gaussians
 
         internal_shape = (1536, 1536)
         height, width = image.shape[:2]
@@ -231,26 +275,37 @@ class SharpPredict:
         decode_time = time.time() - decode_start
         print(f"[SHARP] Decode time: {decode_time:.2f}s")
 
-        # Build intrinsics for unprojection
-        intrinsics = (
-            torch.tensor(
-                [
-                    [f_px, 0, width / 2, 0],
-                    [0, f_px, height / 2, 0],
-                    [0, 0, 1, 0],
-                    [0, 0, 0, 1],
-                ]
+        # Build intrinsics for unprojection (use provided or construct from f_px)
+        if intrinsics is not None:
+            unproj_intrinsics = intrinsics.clone()
+        else:
+            unproj_intrinsics = (
+                torch.tensor(
+                    [
+                        [f_px, 0, width / 2, 0],
+                        [0, f_px, height / 2, 0],
+                        [0, 0, 1, 0],
+                        [0, 0, 0, 1],
+                    ]
+                )
+                .float()
+                .to(device)
             )
-            .float()
-            .to(device)
-        )
-        intrinsics_resized = intrinsics.clone()
+
+        # Scale intrinsics to internal resolution
+        intrinsics_resized = unproj_intrinsics.clone()
         intrinsics_resized[0] *= internal_shape[0] / width
         intrinsics_resized[1] *= internal_shape[1] / height
 
-        # Convert Gaussians to metric space
+        # Use provided extrinsics or identity
+        if extrinsics is not None:
+            unproj_extrinsics = extrinsics
+        else:
+            unproj_extrinsics = torch.eye(4, device=device)
+
+        # Convert Gaussians to world/metric space
         gaussians = unproject_gaussians(
-            gaussians_ndc, torch.eye(4).to(device), intrinsics_resized, internal_shape
+            gaussians_ndc, unproj_extrinsics, intrinsics_resized, internal_shape
         )
 
         return gaussians

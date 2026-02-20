@@ -49,7 +49,7 @@ class LoadSharpModel:
 
     def load_model(self, device: str, checkpoint_path: str = ""):
         """Load and cache the SHARP model."""
-        from nodes.sharp.models import PredictorParams, create_predictor
+        from .sharp.models import PredictorParams, create_predictor
 
         # Resolve device
         if device == "auto":

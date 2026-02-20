@@ -13,13 +13,13 @@ from typing import NamedTuple
 import torch
 import torch.nn as nn
 
-from nodes.sharp.models.blocks import (
+from .blocks import (
     FeatureFusionBlock2d,
     NormLayerName,
     residual_block_2d,
 )
-from nodes.sharp.models.decoders import BaseDecoder, MultiresConvDecoder
-from nodes.sharp.models.params import DPTImageEncoderType, GaussianDecoderParams
+from .decoders import BaseDecoder, MultiresConvDecoder
+from .params import DPTImageEncoderType, GaussianDecoderParams
 
 
 def create_gaussian_decoder(

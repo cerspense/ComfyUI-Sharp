@@ -7,7 +7,7 @@ Copyright (C) 2025 Apple Inc. All Rights Reserved.
 
 from __future__ import annotations
 
-from nodes.sharp.models.presets import (
+from ..presets import (
     MONODEPTH_ENCODER_DIMS_MAP,
     ViTPreset,
 )

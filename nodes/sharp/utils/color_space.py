@@ -11,7 +11,7 @@ from typing import Literal
 
 import torch
 
-from nodes.sharp.utils.robust import robust_where
+from .robust import robust_where
 
 LOGGER = logging.getLogger(__name__)
 

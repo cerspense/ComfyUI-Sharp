@@ -14,7 +14,7 @@ import torch.fx
 import torch.nn as nn
 import torch.nn.functional as F
 
-from nodes.sharp.utils.training import checkpoint_wrapper
+from ...utils.training import checkpoint_wrapper
 
 from .base_encoder import BaseEncoder
 from .vit_encoder import TimmViT

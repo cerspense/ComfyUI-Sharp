@@ -11,7 +11,7 @@ from typing import List
 import torch
 from torch import nn
 
-from nodes.sharp.models.blocks import (
+from ..blocks import (
     NormLayerName,
     norm_layer_2d,
     residual_block_2d,

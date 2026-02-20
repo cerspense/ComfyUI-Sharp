@@ -14,8 +14,8 @@ import numpy as np
 import torch
 from plyfile import PlyData, PlyElement
 
-from nodes.sharp.utils import color_space as cs_utils
-from nodes.sharp.utils import linalg
+from . import color_space as cs_utils
+from . import linalg
 
 LOGGER = logging.getLogger(__name__)
 

@@ -10,10 +10,10 @@ import torch
 from torch import nn
 from torch.nn import functional as F
 
-from nodes.sharp.models.initializer import GaussianBaseValues
-from nodes.sharp.utils import math as math_utils
-from nodes.sharp.utils.color_space import ColorSpace, sRGB2linearRGB
-from nodes.sharp.utils.gaussians import Gaussians3D
+from .initializer import GaussianBaseValues
+from ..utils import math as math_utils
+from ..utils.color_space import ColorSpace, sRGB2linearRGB
+from ..utils.gaussians import Gaussians3D
 
 from .params import DeltaFactor
 

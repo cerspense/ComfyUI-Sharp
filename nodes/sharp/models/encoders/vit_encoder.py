@@ -11,7 +11,7 @@ import logging
 import timm
 import torch
 
-from nodes.sharp.models.presets.vit import VIT_CONFIG_DICT, ViTConfig, ViTPreset
+from ..presets.vit import VIT_CONFIG_DICT, ViTConfig, ViTPreset
 
 LOGGER = logging.getLogger(__name__)
 
