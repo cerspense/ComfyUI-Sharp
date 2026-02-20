@@ -225,10 +225,11 @@ class ViTAttention(nn.Module):
         self.qkv = operations.Linear(dim, dim * 3, bias=qkv_bias, dtype=dtype, device=device)
         self.proj = operations.Linear(dim, dim, dtype=dtype, device=device)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
+    def forward(self, x: torch.Tensor, transformer_options={}) -> torch.Tensor:
         qkv = self.qkv(x)
         q, k, v = qkv.chunk(3, dim=-1)  # Each [B, N, C]
-        out = optimized_attention(q, k, v, heads=self.num_heads)
+        out = optimized_attention(q, k, v, heads=self.num_heads,
+                                  transformer_options=transformer_options)
         return self.proj(out)
 
 
@@ -301,8 +302,8 @@ class VisionTransformerBlock(nn.Module):
         )
         self.ls2 = LayerScale(dim, init_values=init_values, dtype=dtype, device=device)
 
-    def forward(self, x: torch.Tensor) -> torch.Tensor:
-        x = x + self.ls1(self.attn(self.norm1(x)))
+    def forward(self, x: torch.Tensor, transformer_options={}) -> torch.Tensor:
+        x = x + self.ls1(self.attn(self.norm1(x), transformer_options=transformer_options))
         x = x + self.ls2(self.mlp(self.norm2(x)))
         return x
 
@@ -389,7 +390,7 @@ class VisionTransformer(nn.Module):
         return embeddings
 
     def forward(
-        self, input_tensor: torch.Tensor
+        self, input_tensor: torch.Tensor, transformer_options={}
     ) -> tuple[torch.Tensor, dict[int, torch.Tensor]]:
         """Forward pass with intermediate feature extraction."""
         intermediate_features: dict[int, torch.Tensor] = {}
@@ -405,7 +406,7 @@ class VisionTransformer(nn.Module):
         x = self.norm_pre(x)
 
         for idx, block in enumerate(self.blocks):
-            x = block(x)
+            x = block(x, transformer_options=transformer_options)
             if (
                 self.intermediate_features_ids is not None
                 and idx in self.intermediate_features_ids
@@ -620,6 +621,7 @@ class SlidingPyramidNetwork(nn.Module):
             encoding_chunks = []
             intermediate_chunks: dict[int, list[torch.Tensor]] = {}
             for i in range(0, N, chunk_size):
+                comfy.model_management.throw_exception_if_processing_interrupted()
                 enc, inter = self.patch_encoder(x_pyramid_patches[i:i + chunk_size])
                 encoding_chunks.append(enc)
                 for layer_id, feat in inter.items():

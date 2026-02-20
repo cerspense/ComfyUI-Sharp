@@ -95,10 +95,14 @@ class SharpPredict:
         unprojected into world coordinates using those camera parameters.
         """
         import comfy.model_management
+        import comfy.utils
         from .sharp.gaussians import save_ply, unproject_gaussians
 
         # model is a ModelPatcher from LoadSharpModel
-        comfy.model_management.load_models_gpu([model])
+        # Estimate activation memory: SPN processes 35 patches through ViT at 1536x1536
+        dtype = model.model.dtype if hasattr(model.model, 'dtype') else torch.float32
+        memory_required = (1536 * 1536 * 6) * comfy.model_management.dtype_size(dtype)
+        comfy.model_management.load_models_gpu([model], memory_required=memory_required)
         predictor = model.model
         device = model.load_device
 
@@ -142,8 +146,10 @@ class SharpPredict:
         all_intrinsics = []
 
         inference_start = time.time()
+        pbar = comfy.utils.ProgressBar(batch_size)
 
         for i in range(batch_size):
+            comfy.model_management.throw_exception_if_processing_interrupted()
             # Extract single image from batch
             single_image = image[i:i+1]
             image_np = comfy_to_numpy_rgb(single_image)
@@ -190,6 +196,7 @@ class SharpPredict:
             all_intrinsics.append(metadata["intrinsic"])
 
             log.info(f"Saved: {ply_path} ({metadata['num_gaussians']:,} gaussians)")
+            pbar.update(1)
 
         inference_time = time.time() - inference_start
         log.info(f"Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
@@ -226,6 +233,7 @@ class SharpPredict:
             intrinsics: Optional 4x4 camera intrinsics
         """
         global _encode_cache
+        import comfy.model_management
         from .sharp.gaussians import unproject_gaussians
 
         internal_shape = (1536, 1536)
@@ -265,6 +273,9 @@ class SharpPredict:
             encode_start = time.time()
             monodepth_output, _ = predictor.encode(image_resized_pt)
             log.info(f"Encode time: {time.time() - encode_start:.2f}s")
+
+            # Release fragmented GPU memory after heavy encode (35 ViT passes)
+            comfy.model_management.soft_empty_cache()
 
             # Update cache
             _encode_cache["image_hash"] = image_hash
