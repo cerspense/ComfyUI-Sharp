@@ -4,13 +4,19 @@ Runs SHARP inference but outputs depth maps instead of PLY files.
 Used for panorama depth visualization and verification before Gaussian creation.
 """
 
+import logging
 import time
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+import comfy.model_management
+import comfy.model_patcher
 
+from .load_model import _build_sharp_model
 from .utils.image import comfy_to_numpy_rgb
+
+log = logging.getLogger("sharp")
 
 
 class SharpPredictDepth:
@@ -46,10 +52,23 @@ class SharpPredictDepth:
     CATEGORY = "SHARP"
     DESCRIPTION = "Generate depth maps from images using SHARP. Optionally align to reference depth (e.g., DepthAnythingV3) using learned dense alignment."
 
+    def _get_patcher(self, config):
+        """Lazily build and cache ModelPatcher from config dict."""
+        key = (config["model_path"], config["dtype"])
+        if not hasattr(self, '_patcher') or self._config_key != key:
+            predictor = _build_sharp_model(config["model_path"], config["dtype"])
+            self._patcher = comfy.model_patcher.ModelPatcher(
+                predictor,
+                load_device=comfy.model_management.get_torch_device(),
+                offload_device=comfy.model_management.unet_offload_device(),
+            )
+            self._config_key = key
+        return self._patcher
+
     @torch.no_grad()
     def predict_depth(
         self,
-        model: dict,
+        model,
         image: torch.Tensor,
         extrinsics: torch.Tensor = None,
         intrinsics: torch.Tensor = None,
@@ -60,15 +79,17 @@ class SharpPredictDepth:
         Returns depth maps as [N, H, W, 1] tensor (grayscale images).
         If reference_depth is provided, uses SHARP's learned dense alignment.
         """
-        predictor = model["predictor"]
-        device = torch.device(model["device"])
+        patcher = self._get_patcher(model)
+        comfy.model_management.load_models_gpu([patcher])
+        predictor = patcher.model
+        device = patcher.load_device
 
         # Handle batch dimension
         if image.dim() == 3:
             image = image.unsqueeze(0)
 
         batch_size = image.shape[0]
-        print(f"[SharpPredictDepth] Processing {batch_size} image(s)")
+        log.info(f"Processing {batch_size} image(s)")
 
         # Check if we have reference depth for alignment
         use_alignment = reference_depth is not None
@@ -76,17 +97,17 @@ class SharpPredictDepth:
             if reference_depth.dim() == 3:
                 reference_depth = reference_depth.unsqueeze(0)
             if reference_depth.shape[0] != batch_size:
-                print(f"[SharpPredictDepth] WARNING: reference_depth batch size ({reference_depth.shape[0]}) "
-                      f"doesn't match image batch size ({batch_size}). Disabling alignment.")
+                log.warning(f"reference_depth batch size ({reference_depth.shape[0]}) "
+                            f"doesn't match image batch size ({batch_size}). Disabling alignment.")
                 use_alignment = False
             else:
                 # Check if scale_map_estimator is available
                 scale_map_estimator = predictor.depth_alignment.scale_map_estimator
                 if scale_map_estimator is None:
-                    print(f"[SharpPredictDepth] WARNING: scale_map_estimator not available in model. Disabling alignment.")
+                    log.warning("scale_map_estimator not available in model. Disabling alignment.")
                     use_alignment = False
                 else:
-                    print(f"[SharpPredictDepth] Using learned dense alignment with reference depth")
+                    log.info("Using learned dense alignment with reference depth")
 
         # SHARP processes at 1536x1536 internally
         # We output depth at native disparity resolution (1536x1536)
@@ -104,7 +125,7 @@ class SharpPredictDepth:
             height, width = image_np.shape[:2]
 
             if i == 0:
-                print(f"[SharpPredictDepth] Image size: {width}x{height}")
+                log.info(f"Image size: {width}x{height}")
 
             # Get focal length from intrinsics or use default
             if intrinsics is not None:
@@ -127,7 +148,7 @@ class SharpPredictDepth:
             )
 
             # Run SHARP encode/decode
-            print(f"[SharpPredictDepth] Running inference on image {i+1}/{batch_size}...")
+            log.info(f"Running inference on image {i+1}/{batch_size}...")
 
             encode_start = time.time()
             monodepth_output, depth_decoder_features = predictor.encode(image_resized_pt)
@@ -136,7 +157,7 @@ class SharpPredictDepth:
             # Compute disparity factor (consistent across all views with same FOV)
             disparity_factor = f_px / width
 
-            print(f"[SharpPredictDepth]   Encode: {encode_time:.2f}s, disparity_factor: {disparity_factor:.4f}")
+            log.info(f"  Encode: {encode_time:.2f}s, disparity_factor: {disparity_factor:.4f}")
 
             # Extract depth from RAW DISPARITY (not Gaussians!)
             # monodepth_output.disparity is [1, 1, 1536, 1536] at internal resolution
@@ -180,7 +201,7 @@ class SharpPredictDepth:
                 # Convert back to disparity for consistent output
                 aligned_disparity = disparity_factor / aligned_depth.clamp(min=1e-4)
 
-                print(f"[SharpPredictDepth]   Alignment map range: {alignment_map.min():.3f} - {alignment_map.max():.3f}")
+                log.info(f"  Alignment map range: {alignment_map.min():.3f} - {alignment_map.max():.3f}")
 
                 # Store alignment map for visualization
                 alignment_map_vis = alignment_map[0, 0].cpu()  # [H, W]
@@ -205,7 +226,7 @@ class SharpPredictDepth:
             depth_map_raw = disparity_factor / disparity_resized.clamp(min=1e-4)  # [H, W]
 
             if i == 0:
-                print(f"[SharpPredictDepth]   Depth range: {depth_map_raw.min():.3f} - {depth_map_raw.max():.3f}")
+                log.debug(f"  Depth range: {depth_map_raw.min():.3f} - {depth_map_raw.max():.3f}")
 
             # Convert to [H, W, 1] format for ComfyUI
             depth_map = depth_map_raw.unsqueeze(-1).cpu()  # [H, W, 1]
@@ -216,13 +237,13 @@ class SharpPredictDepth:
             all_depth_maps.append(depth_map_rgb)
 
         inference_time = time.time() - inference_start
-        print(f"[SharpPredictDepth] Total inference time: {inference_time:.2f}s")
+        log.info(f"Total inference time: {inference_time:.2f}s")
 
         # Stack all depth maps
         depth_maps_batch = torch.stack(all_depth_maps, dim=0)  # [N, H, W, 3]
         alignment_maps_batch = torch.stack(all_alignment_maps, dim=0)  # [N, H, W, 3]
 
-        print(f"[SharpPredictDepth] Output shape: {depth_maps_batch.shape}")
+        log.info(f"Output shape: {depth_maps_batch.shape}")
 
         # Scale intrinsics to match output depth map size (1536x1536 internal resolution)
         # Input intrinsics are for the original image size
@@ -233,8 +254,8 @@ class SharpPredictDepth:
             scale_factor = output_size / input_size
 
             if abs(scale_factor - 1.0) > 0.01:  # Only scale if significantly different
-                print(f"[SharpPredictDepth] Scaling intrinsics by {scale_factor:.3f} "
-                      f"(input {input_size} -> output {output_size})")
+                log.info(f"Scaling intrinsics by {scale_factor:.3f} "
+                         f"(input {input_size} -> output {output_size})")
                 # Scale f_px, f_py, cx, cy
                 intrinsics_scaled = intrinsics.clone()
                 intrinsics_scaled[0, 0] *= scale_factor  # f_px

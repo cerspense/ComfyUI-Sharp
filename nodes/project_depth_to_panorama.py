@@ -4,11 +4,14 @@ Projects depth maps from perspective views back to equirectangular panorama
 with blending and debug visualization.
 """
 
+import logging
 import math
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+log = logging.getLogger("sharp")
 
 
 def extrinsics_to_yaw_pitch(extrinsics: torch.Tensor) -> tuple[float, float]:
@@ -209,14 +212,14 @@ def project_depth_maps_to_panorama_with_disagreement(
     if overlap_mask.any():
         overlap_std = std_dev[overlap_mask]
         overlap_rel = relative_disagreement[overlap_mask]
-        print(f"[ProjectDepthToPanorama] Overlap regions ({overlap_mask.sum().item()} pixels):")
-        print(f"    Absolute disagreement: mean={overlap_std.mean():.4f}, max={overlap_std.max():.4f}")
-        print(f"    Relative disagreement: mean={overlap_rel.mean():.2%}, max={overlap_rel.max():.2%}")
+        log.info(f"Overlap regions ({overlap_mask.sum().item()} pixels):")
+        log.info(f"    Absolute disagreement: mean={overlap_std.mean():.4f}, max={overlap_std.max():.4f}")
+        log.info(f"    Relative disagreement: mean={overlap_rel.mean():.2%}, max={overlap_rel.max():.2%}")
 
         # Count pixels with high disagreement (>10% relative)
         high_disagreement = (relative_disagreement > 0.1) & overlap_mask
-        print(f"    High disagreement (>10%): {high_disagreement.sum().item()} pixels "
-              f"({high_disagreement.sum().item() / overlap_mask.sum().item() * 100:.1f}% of overlap)")
+        log.info(f"    High disagreement (>10%): {high_disagreement.sum().item()} pixels "
+                 f"({high_disagreement.sum().item() / overlap_mask.sum().item() * 100:.1f}% of overlap)")
 
     # Global normalization for visualization
     valid_mask = panorama_weight > 0.01
@@ -225,7 +228,7 @@ def project_depth_maps_to_panorama_with_disagreement(
         valid_depths = panorama_depth[valid_mask]
         depth_min = valid_depths.min()
         depth_max = valid_depths.max()
-        print(f"[ProjectDepthToPanorama] Depth range: {depth_min:.4f} to {depth_max:.4f}")
+        log.info(f"Depth range: {depth_min:.4f} to {depth_max:.4f}")
 
         if depth_max > depth_min:
             panorama_depth = torch.where(
@@ -643,9 +646,9 @@ class ProjectDepthToPanorama:
     ):
         """Project depth maps to panorama with disagreement visualization."""
 
-        print(f"[ProjectDepthToPanorama] Input: {depth_maps.shape[0]} depth maps")
-        print(f"[ProjectDepthToPanorama] Output panorama: {panorama_width} x {panorama_width // 2}")
-        print(f"[ProjectDepthToPanorama] Blend mode: {blend_mode}")
+        log.info(f"Input: {depth_maps.shape[0]} depth maps")
+        log.info(f"Output panorama: {panorama_width} x {panorama_width // 2}")
+        log.info(f"Blend mode: {blend_mode}")
 
         # Project depth maps with disagreement tracking
         panoramic_depth, disagreement, overlap_count = project_depth_maps_to_panorama_with_disagreement(
@@ -699,7 +702,7 @@ class ProjectDepthToPanorama:
         debug_overlay_out = debug_overlay.unsqueeze(0)  # [1, H, W, 3]
         disagreement_out = disagreement_heatmap.unsqueeze(0)  # [1, H, W, 3]
 
-        print(f"[ProjectDepthToPanorama] Output shape: {panoramic_depth_out.shape}")
+        log.info(f"Output shape: {panoramic_depth_out.shape}")
 
         return (panoramic_depth_out, debug_overlay_out, disagreement_out,)
 

@@ -3,6 +3,7 @@
 Merges multiple PLY files (from panorama samples) into a single unified Gaussian scene.
 """
 
+import logging
 import os
 import time
 from pathlib import Path
@@ -10,6 +11,8 @@ from pathlib import Path
 import numpy as np
 import torch
 from plyfile import PlyData, PlyElement
+
+log = logging.getLogger("sharp")
 
 
 def load_ply_simple(path: str) -> dict:
@@ -162,7 +165,7 @@ class MergeGaussians:
         if not ply_files:
             raise ValueError(f"No PLY files found in: {ply_folder}")
 
-        print(f"[MergeGaussians] Found {len(ply_files)} PLY files to merge")
+        log.info(f"Found {len(ply_files)} PLY files to merge")
 
         # Load all PLY files
         all_positions = []
@@ -172,7 +175,7 @@ class MergeGaussians:
         all_opacities = []
 
         for i, ply_path in enumerate(ply_files):
-            print(f"[MergeGaussians] Loading {ply_path.name} ({i+1}/{len(ply_files)})")
+            log.info(f"Loading {ply_path.name} ({i+1}/{len(ply_files)})")
             data = load_ply_simple(str(ply_path))
 
             positions = data['positions']
@@ -194,7 +197,7 @@ class MergeGaussians:
 
             filtered_count = (~mask).sum()
             if filtered_count > 0:
-                print(f"[MergeGaussians]   Filtered out {filtered_count:,} Gaussians")
+                log.info(f"  Filtered out {filtered_count:,} Gaussians")
 
             all_positions.append(positions[mask])
             all_colors.append(colors[mask])
@@ -210,14 +213,14 @@ class MergeGaussians:
         merged_opacities = np.concatenate(all_opacities, axis=0)
 
         num_gaussians = len(merged_positions)
-        print(f"[MergeGaussians] Total Gaussians after merge: {num_gaussians:,}")
+        log.info(f"Total Gaussians after merge: {num_gaussians:,}")
 
         # Save merged PLY
         timestamp = int(time.time() * 1000)
         output_filename = f"{output_prefix}_{timestamp}.ply"
         output_path = ply_folder.parent / output_filename
 
-        print(f"[MergeGaussians] Saving to {output_path}")
+        log.info(f"Saving to {output_path}")
         save_merged_ply(
             merged_positions,
             merged_colors,
@@ -227,7 +230,7 @@ class MergeGaussians:
             str(output_path),
         )
 
-        print(f"[MergeGaussians] Done! Merged {len(ply_files)} files into {num_gaussians:,} Gaussians")
+        log.info(f"Done! Merged {len(ply_files)} files into {num_gaussians:,} Gaussians")
 
         return (str(output_path), num_gaussians,)
 

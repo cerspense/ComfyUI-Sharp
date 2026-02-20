@@ -3,11 +3,14 @@
 Samples perspective cutouts from an equirectangular panorama for use with SHARP.
 """
 
+import logging
 import math
 
 import numpy as np
 import torch
 import torch.nn.functional as F
+
+log = logging.getLogger("sharp")
 
 
 def create_rotation_matrix(yaw: float, pitch: float) -> torch.Tensor:
@@ -221,9 +224,9 @@ class SamplePanorama:
 
         num_vertical = max(1, math.ceil(vertical_range / step_degrees))
 
-        print(f"[SamplePanorama] FOV: {fov_degrees}°, Overlap: {overlap_percent}%")
-        print(f"[SamplePanorama] Step angle: {step_degrees:.1f}°")
-        print(f"[SamplePanorama] Samples: {num_horizontal} horizontal × {num_vertical} vertical = {num_horizontal * num_vertical} total")
+        log.info(f"FOV: {fov_degrees}, Overlap: {overlap_percent}%")
+        log.info(f"Step angle: {step_degrees:.1f}")
+        log.info(f"Samples: {num_horizontal} horizontal x {num_vertical} vertical = {num_horizontal * num_vertical} total")
 
         # Handle batch dimension
         if panorama.dim() == 3:
@@ -265,7 +268,7 @@ class SamplePanorama:
         images_batch = torch.stack(all_images, dim=0)  # [N, H, W, C]
         extrinsics_batch = torch.stack(all_extrinsics, dim=0)  # [N, 4, 4]
 
-        print(f"[SamplePanorama] Output shape: {images_batch.shape}")
+        log.info(f"Output shape: {images_batch.shape}")
 
         return (images_batch, extrinsics_batch, intrinsics, num_horizontal, num_vertical)
 

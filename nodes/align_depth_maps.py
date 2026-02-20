@@ -5,11 +5,14 @@ across multiple perspective views before panorama projection.
 """
 
 import json
+import logging
 import math
 from collections import deque
 
 import torch
 import torch.nn.functional as F
+
+log = logging.getLogger("sharp")
 
 
 def extrinsics_to_direction(extrinsics: torch.Tensor) -> torch.Tensor:
@@ -327,15 +330,15 @@ def compute_global_alignments(
             )
 
             # Detailed debug output
-            print(f"[AlignDepthMaps] View {neighbor} -> {current}:")
-            print(f"    Overlap: {debug_info['overlap_pixels']} pixels, {debug_info['valid_pixels']} valid")
-            print(f"    Depth1 (ref): {debug_info['d1_range'][0]:.2f} - {debug_info['d1_range'][1]:.2f}")
-            print(f"    Depth2 (src): {debug_info['d2_range'][0]:.2f} - {debug_info['d2_range'][1]:.2f}")
-            print(f"    Ratio range: {debug_info['ratio_range'][0]:.3f} - {debug_info['ratio_range'][1]:.3f}")
-            print(f"    Scale: {scale:.4f} (median={debug_info['ratio_median']:.4f}, std={debug_info['ratio_std']:.4f})")
+            log.debug(f"View {neighbor} -> {current}:")
+            log.debug(f"    Overlap: {debug_info['overlap_pixels']} pixels, {debug_info['valid_pixels']} valid")
+            log.debug(f"    Depth1 (ref): {debug_info['d1_range'][0]:.2f} - {debug_info['d1_range'][1]:.2f}")
+            log.debug(f"    Depth2 (src): {debug_info['d2_range'][0]:.2f} - {debug_info['d2_range'][1]:.2f}")
+            log.debug(f"    Ratio range: {debug_info['ratio_range'][0]:.3f} - {debug_info['ratio_range'][1]:.3f}")
+            log.debug(f"    Scale: {scale:.4f} (median={debug_info['ratio_median']:.4f}, std={debug_info['ratio_std']:.4f})")
             if debug_info.get('scale_clamped'):
-                print(f"    WARNING: Scale clamped from {debug_info['original_scale']:.4f} to {scale:.4f}")
-            print(f"    Inlier ratio: {debug_info['inlier_ratio']:.1%}")
+                log.warning(f"Scale clamped from {debug_info['original_scale']:.4f} to {scale:.4f}")
+            log.debug(f"    Inlier ratio: {debug_info['inlier_ratio']:.1%}")
 
             alignments[neighbor] = (scale, shift)
             visited.add(neighbor)
@@ -344,7 +347,7 @@ def compute_global_alignments(
     # Handle disconnected views (no overlap with any aligned view)
     for i in range(num_views):
         if i not in alignments:
-            print(f"[AlignDepthMaps] Warning: View {i} has no overlap with aligned views, using identity")
+            log.warning(f"View {i} has no overlap with aligned views, using identity")
             alignments[i] = (1.0, 0.0)
 
     return alignments
@@ -416,13 +419,13 @@ def compute_global_alignments_optimized(
     depth_h, depth_w = depth_maps.shape[1:3]
     device = depth_maps.device
 
-    print(f"[GlobalOpt] Computing globally optimal alignment for {num_views} views")
+    log.info(f"Computing globally optimal alignment for {num_views} views")
 
     # Step 1: Compute ALL pairwise scale ratios
     adjacency = build_adjacency_graph(extrinsics, intrinsics)
     pairwise_ratios = {}  # (i, j) -> ratio where i < j
 
-    print(f"[GlobalOpt] Computing pairwise ratios...")
+    log.info("Computing pairwise ratios...")
     for i in range(num_views):
         for j in adjacency[i]:
             if i < j:  # Only compute once per pair
@@ -433,7 +436,7 @@ def compute_global_alignments_optimized(
                 )
 
                 if coords_i.shape[0] < 10:
-                    print(f"[GlobalOpt] Pair ({i},{j}): insufficient overlap ({coords_i.shape[0]} pixels)")
+                    log.debug(f"Pair ({i},{j}): insufficient overlap ({coords_i.shape[0]} pixels)")
                     continue
 
                 depth_i = depth_maps[i, :, :, 0]
@@ -446,25 +449,25 @@ def compute_global_alignments_optimized(
 
                 if n_valid > 100:
                     pairwise_ratios[(i, j)] = scale
-                    print(f"[GlobalOpt] Pair ({i},{j}): ratio={scale:.4f}, "
-                          f"valid={n_valid}, inlier_ratio={debug_info['inlier_ratio']:.1%}")
+                    log.debug(f"Pair ({i},{j}): ratio={scale:.4f}, "
+                             f"valid={n_valid}, inlier_ratio={debug_info['inlier_ratio']:.1%}")
                 else:
-                    print(f"[GlobalOpt] Pair ({i},{j}): insufficient valid pixels ({n_valid})")
+                    log.debug(f"Pair ({i},{j}): insufficient valid pixels ({n_valid})")
 
     # Compute initial loss (with identity scales)
     identity_scales = [1.0] * num_views
     initial_loss, initial_rmse, _ = compute_global_misalignment(identity_scales, pairwise_ratios)
-    print(f"[GlobalOpt] Initial misalignment (identity scales): loss={initial_loss:.4f}, RMSE={initial_rmse:.4f}")
+    log.info(f"Initial misalignment (identity scales): loss={initial_loss:.4f}, RMSE={initial_rmse:.4f}")
 
     # Step 2: Build linear system for log-scale optimization
     # x_i - x_j = log(r_ij) for each pair
     # Fix x_0 = 0 (reference)
 
     num_pairs = len(pairwise_ratios)
-    print(f"[GlobalOpt] Found {num_pairs} valid pairs")
+    log.info(f"Found {num_pairs} valid pairs")
 
     if num_pairs == 0:
-        print("[GlobalOpt] No valid pairs, using identity scales")
+        log.warning("No valid pairs, using identity scales")
         return {i: (1.0, 0.0) for i in range(num_views)}
 
     # Build A matrix and b vector
@@ -501,7 +504,7 @@ def compute_global_alignments_optimized(
         b[k] = log_ratio
 
     # Step 3: Solve least squares: x = (A^T A)^{-1} A^T b
-    print(f"[GlobalOpt] Solving least squares system ({num_pairs} equations, {num_views-1} unknowns)")
+    log.info(f"Solving least squares system ({num_pairs} equations, {num_views-1} unknowns)")
 
     try:
         # Use torch.linalg.lstsq for numerical stability
@@ -512,14 +515,14 @@ def compute_global_alignments_optimized(
         for i in range(num_views - 1):
             scales.append(math.exp(solution[i].item()))
 
-        print(f"[GlobalOpt] Raw scales: {[f'{s:.4f}' for s in scales]}")
+        log.debug(f"Raw scales: {[f'{s:.4f}' for s in scales]}")
 
         # Compute loss after optimization (before normalization)
         opt_loss, opt_rmse, per_pair = compute_global_misalignment(scales, pairwise_ratios)
-        print(f"[GlobalOpt] Optimized misalignment: loss={opt_loss:.4f}, RMSE={opt_rmse:.4f}")
+        log.info(f"Optimized misalignment: loss={opt_loss:.4f}, RMSE={opt_rmse:.4f}")
 
     except Exception as e:
-        print(f"[GlobalOpt] Least squares failed: {e}, using identity scales")
+        log.error(f"Least squares failed: {e}, using identity scales")
         scales = [1.0] * num_views
 
     # Step 4: Normalize so median scale = 1.0 (prevents overall drift)
@@ -527,29 +530,29 @@ def compute_global_alignments_optimized(
     if median_scale > 0:
         scales = [s / median_scale for s in scales]
 
-    print(f"[GlobalOpt] Normalized scales: {[f'{s:.4f}' for s in scales]}")
+    log.debug(f"Normalized scales: {[f'{s:.4f}' for s in scales]}")
 
     # Compute final loss after normalization
     final_loss, final_rmse, per_pair = compute_global_misalignment(scales, pairwise_ratios)
-    print(f"[GlobalOpt] Final misalignment: loss={final_loss:.4f}, RMSE={final_rmse:.4f}")
+    log.info(f"Final misalignment: loss={final_loss:.4f}, RMSE={final_rmse:.4f}")
 
     # Print per-pair residuals
-    print(f"[GlobalOpt] Per-pair log-errors:")
+    log.debug("Per-pair log-errors:")
     for (i, j), err in sorted(per_pair.items()):
         status = "OK" if err < 0.1 else "WARN" if err < 0.2 else "BAD"
-        print(f"    Pair ({i},{j}): {err:.4f} [{status}]")
+        log.debug(f"    Pair ({i},{j}): {err:.4f} [{status}]")
 
     # Summary
     min_scale, max_scale = min(scales), max(scales)
     variation = max_scale / min_scale if min_scale > 0 else float('inf')
-    print(f"[GlobalOpt] Scale range: {min_scale:.4f} - {max_scale:.4f} ({variation:.2f}x variation)")
+    log.info(f"Scale range: {min_scale:.4f} - {max_scale:.4f} ({variation:.2f}x variation)")
 
     improvement = (initial_rmse - final_rmse) / initial_rmse * 100 if initial_rmse > 0 else 0
-    print(f"[GlobalOpt] Improvement: {improvement:.1f}% reduction in RMSE")
+    log.info(f"Improvement: {improvement:.1f}% reduction in RMSE")
 
     # Warn if variation is still high
     if variation > 2.0:
-        print(f"[GlobalOpt] WARNING: High scale variation ({variation:.2f}x) - alignment may be unreliable")
+        log.warning(f"High scale variation ({variation:.2f}x) - alignment may be unreliable")
 
     return {i: (scales[i], 0.0) for i in range(num_views)}
 
@@ -602,8 +605,8 @@ class AlignDepthMaps:
         """Align depth maps using global optimization or BFS chain."""
 
         num_views = depth_maps.shape[0]
-        print(f"[AlignDepthMaps] Aligning {num_views} depth maps")
-        print(f"[AlignDepthMaps] Method: {method}")
+        log.info(f"Aligning {num_views} depth maps")
+        log.info(f"Method: {method}")
 
         # Clamp reference view to valid range
         reference_view = min(reference_view, num_views - 1)
@@ -615,7 +618,7 @@ class AlignDepthMaps:
             )
         else:
             # Legacy BFS method (kept for comparison)
-            print(f"[AlignDepthMaps] Using BFS chain (reference view: {reference_view})")
+            log.info(f"Using BFS chain (reference view: {reference_view})")
             alignments = compute_global_alignments(
                 depth_maps, extrinsics, intrinsics,
                 reference_view, num_iterations=1000, inlier_threshold=0.05
@@ -645,12 +648,12 @@ class AlignDepthMaps:
         min_scale, max_scale = min(scales), max(scales)
         variation = max_scale / min_scale if min_scale > 0 else float('inf')
 
-        print(f"[AlignDepthMaps] Alignment complete")
-        print(f"[AlignDepthMaps] Final scale range: {min_scale:.4f} - {max_scale:.4f} ({variation:.2f}x variation)")
+        log.info("Alignment complete")
+        log.info(f"Final scale range: {min_scale:.4f} - {max_scale:.4f} ({variation:.2f}x variation)")
 
         # Check for problematic alignments
         if variation > 2.0:
-            print(f"[AlignDepthMaps] WARNING: Large scale variation ({variation:.2f}x) - alignment may be unreliable.")
+            log.warning(f"Large scale variation ({variation:.2f}x) - alignment may be unreliable.")
 
         return (aligned_batch, extrinsics, intrinsics, info_str,)
 

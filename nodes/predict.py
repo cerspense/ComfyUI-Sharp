@@ -1,6 +1,7 @@
 """SharpPredict node for ComfyUI-Sharp."""
 
 import hashlib
+import logging
 import os
 import time
 from pathlib import Path
@@ -8,6 +9,12 @@ from pathlib import Path
 import numpy as np
 import torch
 import torch.nn.functional as F
+import comfy.model_management
+import comfy.model_patcher
+
+from .load_model import _build_sharp_model
+
+log = logging.getLogger("sharp")
 
 # Try to import ComfyUI folder_paths for output directory
 try:
@@ -71,10 +78,23 @@ class SharpPredict:
     OUTPUT_NODE = True
     DESCRIPTION = "Generate 3D Gaussian Splatting PLY file(s) from image(s) using SHARP. Batch input creates a folder with numbered PLY files."
 
+    def _get_patcher(self, config):
+        """Lazily build and cache ModelPatcher from config dict."""
+        key = (config["model_path"], config["dtype"])
+        if not hasattr(self, '_patcher') or self._config_key != key:
+            predictor = _build_sharp_model(config["model_path"], config["dtype"])
+            self._patcher = comfy.model_patcher.ModelPatcher(
+                predictor,
+                load_device=comfy.model_management.get_torch_device(),
+                offload_device=comfy.model_management.unet_offload_device(),
+            )
+            self._config_key = key
+        return self._patcher
+
     @torch.no_grad()
     def predict(
         self,
-        model: dict,
+        model,
         image: torch.Tensor,
         focal_length_mm: float = 0.0,
         output_prefix: str = "sharp",
@@ -93,8 +113,10 @@ class SharpPredict:
         """
         from .sharp.utils.gaussians import save_ply, unproject_gaussians
 
-        predictor = model["predictor"]
-        device = torch.device(model["device"])
+        patcher = self._get_patcher(model)
+        comfy.model_management.load_models_gpu([patcher])
+        predictor = patcher.model
+        device = patcher.load_device
 
         # Handle batch dimension
         if image.dim() == 3:
@@ -109,9 +131,9 @@ class SharpPredict:
                 extrinsics = extrinsics.unsqueeze(0)
             if extrinsics.shape[0] != batch_size:
                 raise ValueError(f"Extrinsics batch size ({extrinsics.shape[0]}) must match image batch size ({batch_size})")
-            print(f"[SHARP] Processing {batch_size} image(s) with provided camera parameters (panorama mode)")
+            log.info(f"Processing {batch_size} image(s) with provided camera parameters (panorama mode)")
         else:
-            print(f"[SHARP] Processing {batch_size} image(s)")
+            log.info(f"Processing {batch_size} image(s)")
 
         # Ensure output directory exists
         os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -144,7 +166,7 @@ class SharpPredict:
             height, width = image_np.shape[:2]
 
             if i == 0:
-                print(f"[SHARP] Image size: {width}x{height}")
+                log.info(f"Image size: {width}x{height}")
 
             # Get camera parameters for this image
             if has_camera_params:
@@ -162,7 +184,7 @@ class SharpPredict:
                 img_intrinsics = None
 
             # Run inference with caching
-            print(f"[SHARP] Running inference on image {i+1}/{batch_size}...")
+            log.info(f"Running inference on image {i+1}/{batch_size}...")
             gaussians = self._predict_image_cached(
                 predictor, image_np, f_px, device,
                 extrinsics=img_extrinsics,
@@ -183,10 +205,10 @@ class SharpPredict:
             all_extrinsics.append(metadata["extrinsic"])
             all_intrinsics.append(metadata["intrinsic"])
 
-            print(f"[SHARP] Saved: {ply_path} ({metadata['num_gaussians']:,} gaussians)")
+            log.info(f"Saved: {ply_path} ({metadata['num_gaussians']:,} gaussians)")
 
         inference_time = time.time() - inference_start
-        print(f"[SHARP] Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
+        log.info(f"Total inference time: {inference_time:.2f}s ({inference_time/batch_size:.2f}s per image)")
 
         # Return values
         if is_batch:
@@ -231,12 +253,12 @@ class SharpPredict:
         # Check cache
         if _encode_cache["image_hash"] == image_hash:
             # Cache hit - reuse encoded features
-            print(f"[SHARP] Cache hit - reusing encoded features (focal_length change is instant)")
+            log.info("Cache hit - reusing encoded features (focal_length change is instant)")
             monodepth_output = _encode_cache["monodepth_output"]
             image_resized_pt = _encode_cache["image_resized"]
         else:
             # Cache miss - need to encode
-            print(f"[SHARP] Cache miss - running encoder (this is the slow part)...")
+            log.info("Cache miss - running encoder (this is the slow part)...")
 
             # Clear old cache
             _encode_cache["image_hash"] = None
@@ -259,7 +281,7 @@ class SharpPredict:
             encode_start = time.time()
             monodepth_output, _ = predictor.encode(image_resized_pt)
             encode_time = time.time() - encode_start
-            print(f"[SHARP] Encode time: {encode_time:.2f}s")
+            log.info(f"Encode time: {encode_time:.2f}s")
 
             # Update cache
             _encode_cache["image_hash"] = image_hash
@@ -273,7 +295,7 @@ class SharpPredict:
         decode_start = time.time()
         gaussians_ndc = predictor.decode(monodepth_output, image_resized_pt, disparity_factor)
         decode_time = time.time() - decode_start
-        print(f"[SHARP] Decode time: {decode_time:.2f}s")
+        log.info(f"Decode time: {decode_time:.2f}s")
 
         # Build intrinsics for unprojection (use provided or construct from f_px)
         if intrinsics is not None:
