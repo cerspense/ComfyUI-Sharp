@@ -38,8 +38,6 @@ _ACTIVATIONS = {
     "exp": (torch.exp, torch.log),
 }
 
-ops = comfy.ops.manual_cast
-
 # ---------------------------------------------------------------------------
 # Type aliases
 # ---------------------------------------------------------------------------
@@ -62,9 +60,11 @@ def norm_layer_2d(
     num_groups: int = 8,
     dtype=None,
     device=None,
-    operations=ops,
+    operations=None,
 ) -> nn.Module:
     """Create normalization layer."""
+    if operations is None:
+        operations = comfy.ops.manual_cast
     if norm_type == "noop":
         return nn.Identity()
     elif norm_type == "batch_norm":
@@ -85,9 +85,11 @@ def upsampling_layer(
     dim_in: int,
     dtype=None,
     device=None,
-    operations=ops,
+    operations=None,
 ) -> nn.Module:
     """Create upsampling layer."""
+    if operations is None:
+        operations = comfy.ops.manual_cast
     if upsampling_mode == "transposed_conv":
         return operations.ConvTranspose2d(
             in_channels=dim_in,
@@ -164,9 +166,11 @@ class PatchEmbed(nn.Module):
         embed_dim: int = 1024,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.img_size = (img_size, img_size) if isinstance(img_size, int) else img_size
         self.patch_size = (patch_size, patch_size) if isinstance(patch_size, int) else patch_size
         self.grid_size = (
@@ -212,9 +216,11 @@ class ViTAttention(nn.Module):
         qkv_bias: bool = True,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.num_heads = num_heads
         self.qkv = operations.Linear(dim, dim * 3, bias=qkv_bias, dtype=dtype, device=device)
         self.proj = operations.Linear(dim, dim, dtype=dtype, device=device)
@@ -239,9 +245,11 @@ class ViTMlp(nn.Module):
         use_glu: bool = False,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         hidden = int(dim * mlp_ratio)
         self.use_glu = use_glu
         if use_glu:
@@ -275,9 +283,11 @@ class VisionTransformerBlock(nn.Module):
         use_glu_mlp: bool = False,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.norm1 = operations.LayerNorm(dim, dtype=dtype, device=device)
         self.attn = ViTAttention(
             dim, num_heads, qkv_bias=qkv_bias,
@@ -319,9 +329,11 @@ class VisionTransformer(nn.Module):
         intermediate_features_ids: list[int] | None = None,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.embed_dim = embed_dim
         self.dim_in = in_chans
         self.num_prefix_tokens = 1  # CLS token
@@ -473,8 +485,10 @@ def _create_spn_project_upsample_block(
     dim_intermediate: int | None = None,
     dtype=None,
     device=None,
-    operations=ops,
+    operations=None,
 ) -> nn.Module:
+    if operations is None:
+        operations = comfy.ops.manual_cast
     if dim_intermediate is None:
         dim_intermediate = dim_out
     blocks: list[nn.Module] = [
@@ -506,9 +520,11 @@ class SlidingPyramidNetwork(nn.Module):
         use_patch_overlap: bool = True,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.dim_in = patch_encoder.dim_in
         self.dims_encoder = list(dims_encoder)
         self.patch_encoder = patch_encoder
@@ -693,9 +709,11 @@ def residual_block_2d(
     kernel_size: int = 3,
     dtype=None,
     device=None,
-    operations=ops,
+    operations=None,
 ) -> ResidualBlock:
     """Create a simple 2D residual block."""
+    if operations is None:
+        operations = comfy.ops.manual_cast
     if actvn is None:
         actvn = nn.ReLU()
     if dim_hidden is None:
@@ -740,9 +758,11 @@ class FeatureFusionBlock2d(nn.Module):
         batch_norm: bool = False,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         if dim_out is None:
             dim_out = dim_in
         self.resnet1 = self._residual_block(dim_in, batch_norm,
@@ -777,8 +797,10 @@ class FeatureFusionBlock2d(nn.Module):
         batch_norm: bool,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ) -> ResidualBlock:
+        if operations is None:
+            operations = comfy.ops.manual_cast
         def _create_block(dim: int, bn: bool) -> list[nn.Module]:
             layers: list[nn.Module] = [
                 nn.ReLU(False),
@@ -813,9 +835,11 @@ class MultiresConvDecoder(nn.Module):
         upsampling_mode: UpsamplingMode = "transposed_conv",
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.dims_encoder = list(dims_encoder)
 
         if isinstance(dims_decoder, int):
@@ -945,9 +969,11 @@ class MonodepthDensePredictionTransformer(nn.Module):
         last_dims: tuple[int, int],
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.normalizer = AffineRangeNormalizer(
             input_range=(0, 1), output_range=(-1, 1)
         )
@@ -1066,8 +1092,10 @@ def _create_project_upsample_block(
     dim_intermediate: int | None = None,
     dtype=None,
     device=None,
-    operations=ops,
+    operations=None,
 ) -> nn.Module:
+    if operations is None:
+        operations = comfy.ops.manual_cast
     if dim_intermediate is None:
         dim_intermediate = dim_out
     blocks: list[nn.Module] = [
@@ -1099,9 +1127,11 @@ class SkipConvBackbone(nn.Module):
         stride_out: int,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.stride_out = stride_out
         if stride_out == 1 and kernel_size != 1:
             raise ValueError("We only support kernel_size = 1 if stride_out is 1.")
@@ -1140,9 +1170,11 @@ class GaussianDensePredictionTransformer(nn.Module):
         use_depth_input: bool = True,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ):
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.decoder = decoder
         self.dim_in = dim_in
         self.dim_out = dim_out
@@ -1184,8 +1216,10 @@ class GaussianDensePredictionTransformer(nn.Module):
 
     def _create_head(
         self, dim_decoder: int, dim_out: int,
-        dtype=None, device=None, operations=ops,
+        dtype=None, device=None, operations=None,
     ) -> nn.Module:
+        if operations is None:
+            operations = comfy.ops.manual_cast
         return nn.Sequential(
             residual_block_2d(
                 dim_in=dim_decoder, dim_out=dim_decoder, dim_hidden=dim_decoder // 2,
@@ -1205,8 +1239,10 @@ class GaussianDensePredictionTransformer(nn.Module):
 
     def _create_image_encoder(
         self, image_encoder_params, stride_out: int,
-        dtype=None, device=None, operations=ops,
+        dtype=None, device=None, operations=None,
     ) -> nn.Module:
+        if operations is None:
+            operations = comfy.ops.manual_cast
         if self.image_encoder_type == "skip_conv":
             return SkipConvBackbone(
                 image_encoder_params.dim_in, image_encoder_params.dim_out,
@@ -1261,9 +1297,11 @@ class DirectPredictionHead(nn.Module):
         num_layers: int,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ) -> None:
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self.num_layers = num_layers
         self.geometry_prediction_head = operations.Conv2d(
             feature_dim, 3 * num_layers, 1, dtype=dtype, device=device,
@@ -1610,9 +1648,11 @@ class UNetEncoder(nn.Module):
         blocks_per_layer: int = 2,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ) -> None:
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         if blocks_per_layer < 1:
             raise ValueError("blocks_per_layer must be >= 1.")
 
@@ -1685,9 +1725,11 @@ class UNetDecoder(nn.Module):
         blocks_per_layer: int = 2,
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ) -> None:
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         if blocks_per_layer < 1:
             raise ValueError("blocks_per_layer must be >= 1.")
 
@@ -1761,9 +1803,11 @@ class LearnedAlignment(nn.Module):
         activation_type: str = "exp",
         dtype=None,
         device=None,
-        operations=ops,
+        operations=None,
     ) -> None:
         super().__init__()
+        if operations is None:
+            operations = comfy.ops.manual_cast
         self._act_fwd, self._act_inv = _ACTIVATIONS[activation_type]
         bias_value = self._act_inv(torch.tensor(1.0))
 
@@ -1862,8 +1906,10 @@ class RGBGaussianPredictor(nn.Module):
         prediction_head: nn.Module,
         gaussian_composer: GaussianComposer,
         scale_map_estimator: nn.Module | None,
+        dtype=None,
     ) -> None:
         super().__init__()
+        self.dtype = dtype
         self.init_model = init_model
         self.feature_model = feature_model
         self.monodepth_model = monodepth_model

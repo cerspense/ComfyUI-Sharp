@@ -218,6 +218,9 @@ def create_vit(
     config: ViTConfig | None = None,
     preset: ViTPreset | None = "dinov2l16_384",
     intermediate_features_ids: list[int] | None = None,
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> VisionTransformer:
     """Factory function for creating a ViT model."""
     if config is not None:
@@ -243,6 +246,9 @@ def create_vit(
         use_glu_mlp=(config.mlp_mode == "glu"),
         num_classes=config.num_classes,
         intermediate_features_ids=config.intermediate_features_ids,
+        dtype=dtype,
+        device=device,
+        operations=operations,
     )
     return model
 
@@ -252,6 +258,9 @@ def create_monodepth_encoder(
     image_encoder_preset: ViTPreset,
     use_patch_overlap: bool = True,
     last_encoder: int = 256,
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> SlidingPyramidNetwork:
     """Create the SPN-based monodepth encoder."""
     dims_encoder = [last_encoder] + MONODEPTH_ENCODER_DIMS_MAP[patch_encoder_preset]
@@ -260,10 +269,12 @@ def create_monodepth_encoder(
     patch_encoder = create_vit(
         preset=patch_encoder_preset,
         intermediate_features_ids=patch_encoder_block_ids,
+        dtype=dtype, device=device, operations=operations,
     )
     image_encoder = create_vit(
         preset=image_encoder_preset,
         intermediate_features_ids=None,
+        dtype=dtype, device=device, operations=operations,
     )
 
     return SlidingPyramidNetwork(
@@ -271,12 +282,16 @@ def create_monodepth_encoder(
         patch_encoder=patch_encoder,
         image_encoder=image_encoder,
         use_patch_overlap=use_patch_overlap,
+        dtype=dtype, device=device, operations=operations,
     )
 
 
 def create_monodepth_decoder(
     patch_encoder_preset: ViTPreset,
     dims_decoder=None,
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> MultiresConvDecoder:
     """Create monodepth decoder."""
     dims_encoder = MONODEPTH_ENCODER_DIMS_MAP[patch_encoder_preset]
@@ -287,11 +302,15 @@ def create_monodepth_decoder(
     return MultiresConvDecoder(
         dims_encoder=[dims_decoder[0]] + list(dims_encoder),
         dims_decoder=dims_decoder,
+        dtype=dtype, device=device, operations=operations,
     )
 
 
 def create_monodepth_dpt(
     params: MonodepthParams | None = None,
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> MonodepthDensePredictionTransformer:
     """Create MonodepthDensePredictionTransformer model."""
     if params is None:
@@ -302,13 +321,16 @@ def create_monodepth_dpt(
         params.image_encoder_preset,
         use_patch_overlap=params.use_patch_overlap,
         last_encoder=params.dims_decoder[0],
+        dtype=dtype, device=device, operations=operations,
     )
     decoder = create_monodepth_decoder(
-        params.patch_encoder_preset, params.dims_decoder
+        params.patch_encoder_preset, params.dims_decoder,
+        dtype=dtype, device=device, operations=operations,
     )
 
     return MonodepthDensePredictionTransformer(
         encoder=encoder, decoder=decoder, last_dims=(32, 1),
+        dtype=dtype, device=device, operations=operations,
     )
 
 
@@ -329,13 +351,18 @@ def create_monodepth_adaptor(
 
 
 def create_gaussian_decoder(
-    params: GaussianDecoderParams, dims_depth_features: list[int]
+    params: GaussianDecoderParams,
+    dims_depth_features: list[int],
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> GaussianDensePredictionTransformer:
     """Create gaussian_decoder model."""
     decoder = MultiresConvDecoder(
         dims_depth_features,
         params.dims_decoder,
         upsampling_mode=params.upsampling_mode,
+        dtype=dtype, device=device, operations=operations,
     )
 
     return GaussianDensePredictionTransformer(
@@ -348,6 +375,7 @@ def create_gaussian_decoder(
         use_depth_input=params.use_depth_input,
         image_encoder_type=params.image_encoder_type,
         image_encoder_params=params,
+        dtype=dtype, device=device, operations=operations,
     )
 
 
@@ -368,7 +396,11 @@ def create_initializer(params: InitializerParams) -> MultiLayerInitializer:
 
 
 def create_alignment(
-    params: AlignmentParams, depth_decoder_dim: int | None = None
+    params: AlignmentParams,
+    depth_decoder_dim: int | None = None,
+    dtype=None,
+    device=None,
+    operations=None,
 ) -> LearnedAlignment | None:
     """Create depth alignment."""
     if depth_decoder_dim is None:
@@ -380,14 +412,20 @@ def create_alignment(
         stride=params.stride,
         base_width=params.base_width,
         activation_type=params.activation_type,
+        dtype=dtype, device=device, operations=operations,
     )
 
 
-def create_predictor(params: PredictorParams) -> RGBGaussianPredictor:
+def create_predictor(
+    params: PredictorParams,
+    dtype=None,
+    device=None,
+    operations=None,
+) -> RGBGaussianPredictor:
     """Create gaussian predictor model.
 
     This is the top-level factory called by load_model.py.
-    Signature is unchanged for backward compatibility.
+    Accepts dtype, device, operations for ComfyUI-native weight management.
     """
     if params.gaussian_decoder.stride < params.initializer.stride:
         raise ValueError(
@@ -408,7 +446,10 @@ def create_predictor(params: PredictorParams) -> RGBGaussianPredictor:
     if params.num_monodepth_layers > 1 and params.initializer.num_layers != 2:
         raise KeyError("We only support num_layers = 2 when num_monodepth_layers > 1.")
 
-    monodepth_model = create_monodepth_dpt(params.monodepth)
+    monodepth_model = create_monodepth_dpt(
+        params.monodepth,
+        dtype=dtype, device=device, operations=operations,
+    )
     monodepth_adaptor = create_monodepth_adaptor(
         monodepth_model,
         params.monodepth_adaptor,
@@ -422,10 +463,12 @@ def create_predictor(params: PredictorParams) -> RGBGaussianPredictor:
     gaussian_decoder = create_gaussian_decoder(
         params.gaussian_decoder,
         dims_depth_features=monodepth_adaptor.get_feature_dims(),
+        dtype=dtype, device=device, operations=operations,
     )
     initializer = create_initializer(params.initializer)
     prediction_head = DirectPredictionHead(
-        feature_dim=gaussian_decoder.dim_out, num_layers=initializer.num_layers
+        feature_dim=gaussian_decoder.dim_out, num_layers=initializer.num_layers,
+        dtype=dtype, device=device, operations=operations,
     )
     decoder_dim = monodepth_model.decoder.dims_decoder[-1]
     return RGBGaussianPredictor(
@@ -435,8 +478,10 @@ def create_predictor(params: PredictorParams) -> RGBGaussianPredictor:
         monodepth_model=monodepth_adaptor,
         gaussian_composer=gaussian_composer,
         scale_map_estimator=create_alignment(
-            params.depth_alignment, depth_decoder_dim=decoder_dim
+            params.depth_alignment, depth_decoder_dim=decoder_dim,
+            dtype=dtype, device=device, operations=operations,
         ),
+        dtype=dtype,
     )
 
 

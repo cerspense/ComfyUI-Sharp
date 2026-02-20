@@ -52,6 +52,7 @@ class LoadSharpModel:
         """Build model, load weights, wrap with ModelPatcher."""
         import comfy.model_management
         import comfy.model_patcher
+        import comfy.ops
         import comfy.utils
         from .sharp import PredictorParams, create_predictor
 
@@ -73,6 +74,10 @@ class LoadSharpModel:
         else:
             dtype = torch.float32
 
+        # Select optimal operations class (enables fp8, nvfp4, CublasOps, etc.)
+        manual_cast_dtype = comfy.model_management.unet_manual_cast(dtype, load_device)
+        operations = comfy.ops.pick_operations(dtype, manual_cast_dtype)
+
         # Resolve / download checkpoint
         if checkpoint_path and os.path.exists(checkpoint_path):
             model_path = checkpoint_path
@@ -88,15 +93,20 @@ class LoadSharpModel:
         log.info(f"Loading checkpoint from {model_path}")
         state_dict = comfy.utils.load_torch_file(model_path)
 
-        # Build model on meta device (zero memory)
+        # Build model on meta device (zero memory), with native operations
         log.info("Initializing model...")
         with torch.device("meta"):
-            predictor = create_predictor(PredictorParams())
+            predictor = create_predictor(
+                PredictorParams(),
+                dtype=dtype,
+                device="meta",
+                operations=operations,
+            )
 
-        # Load weights and set dtype
+        # Load weights (assign=True replaces meta tensors with checkpoint data)
+        # Operations handle dtype casting at forward time — no .to(dtype) needed
         predictor.load_state_dict(state_dict, assign=True)
         predictor.eval()
-        predictor.to(dtype=dtype)
         log.info(f"Model ready ({dtype})")
 
         # Wrap with ModelPatcher — ComfyUI manages VRAM from here
