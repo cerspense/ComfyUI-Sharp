@@ -1,5 +1,5 @@
 comfy-env==0.2.10
-comfy-3d-viewers==0.2.29
+comfy-3d-viewers==0.2.32
 
 # Core dependencies for SHARP
 torch>=2.0.0
