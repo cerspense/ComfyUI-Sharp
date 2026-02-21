@@ -145,8 +145,15 @@ def decompose_covariance_matrices(
 
     Note: This operation is not differentiable.
     """
-    # SVD on GPU in float32 (sufficient for inference/visualization)
-    covariance_matrices = covariance_matrices.detach().float()
+    device = covariance_matrices.device
+    dtype = covariance_matrices.dtype
+
+    # MPS doesn't support linalg.svd — move to CPU for that device only.
+    if device.type == "mps":
+        covariance_matrices = covariance_matrices.detach().cpu().float()
+    else:
+        covariance_matrices = covariance_matrices.detach().float()
+
     rotations, singular_values_2, _ = torch.linalg.svd(covariance_matrices)
 
     # Vectorized reflection fix — ensure proper rotations (det > 0)
@@ -156,7 +163,8 @@ def decompose_covariance_matrices(
         rotations[mask, :, -1] *= -1
 
     quaternions = linalg.quaternions_from_rotation_matrices(rotations)
-    singular_values = singular_values_2.sqrt()
+    quaternions = quaternions.to(dtype=dtype, device=device)
+    singular_values = singular_values_2.sqrt().to(dtype=dtype, device=device)
     return quaternions, singular_values
 
 
