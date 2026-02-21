@@ -4,11 +4,14 @@ Loads an image and extracts focal length from EXIF metadata.
 """
 
 import hashlib
+import logging
 import os
 
 import numpy as np
 import torch
 from PIL import Image, ImageOps, ImageSequence, ExifTags, TiffTags
+
+log = logging.getLogger("sharp")
 
 try:
     import folder_paths
@@ -73,16 +76,16 @@ def extract_focal_length_mm(img_pil: Image.Image, default_mm: float = 30.0) -> f
         f_35mm = img_exif.get("FocalLength", None)
 
         if f_35mm is None:
-            print(f"[LoadImageWithExif] No focal length in EXIF - using default {default_mm}mm")
+            log.info(f"No focal length in EXIF - using default {default_mm}mm")
             return default_mm
 
         # If focal length is very small, it's probably not for 35mm equivalent
         if f_35mm < 10.0:
-            print(f"[LoadImageWithExif] Found focal length {f_35mm}mm < 10mm, assuming not 35mm equivalent")
+            log.info(f"Found focal length {f_35mm}mm < 10mm, assuming not 35mm equivalent")
             # This is a crude approximation (assumes typical smartphone sensor crop factor)
             f_35mm *= 8.4
 
-    print(f"[LoadImageWithExif] Extracted focal length: {f_35mm}mm (35mm equivalent)")
+    log.info(f"Extracted focal length: {f_35mm}mm (35mm equivalent)")
     return float(f_35mm)
 
 

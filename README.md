@@ -1,5 +1,13 @@
 # ComfyUI-Sharp
 
+<div align="center">
+<a href="https://pozzettiandrea.github.io/ComfyUI-Sharp/">
+<img src="https://pozzettiandrea.github.io/ComfyUI-Sharp/gallery-preview.png" alt="Workflow Test Gallery" width="800">
+</a>
+<br>
+<b><a href="https://pozzettiandrea.github.io/ComfyUI-Sharp/">View Live Test Gallery →</a></b>
+</div>
+
 ComfyUI wrapper for [SHARP](https://arxiv.org/abs/2512.10685) by [Apple](https://github.com/apple/ml-sharp) - monocular 3D Gaussian Splatting in under 1 second.
 
 2 Example workflows.
