@@ -2,22 +2,12 @@ name: PR Gate
 on:
   pull_request:
     branches: [main]
-    paths-ignore:
-      - '**.md'
-      - 'pyproject.toml'
-      - 'LICENSE'
-      - '.github/workflows/publish.yml'
   push:
     branches: [main]
-    paths-ignore:
-      - '**.md'
-      - 'pyproject.toml'
-      - 'LICENSE'
-      - '.github/workflows/publish.yml'
   workflow_dispatch:
 
 jobs:
   gate:
-    uses: PozzettiAndrea/comfy-test/.github/workflows/pr-gate.yml@main
+    uses: PozzettiAndrea/comfy-test/.github/workflows/pr-gate.yml@v0.2.11
     with:
       test-workflow-name: "Workflow Tests"
