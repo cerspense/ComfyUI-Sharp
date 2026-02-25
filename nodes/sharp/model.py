@@ -200,7 +200,7 @@ class LayerScale(nn.Module):
         )
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        return x * self.gamma
+        return x * self.gamma.to(device=x.device, dtype=x.dtype)
 
 
 class ViTAttention(nn.Module):
@@ -398,9 +398,9 @@ class VisionTransformer(nn.Module):
         x = self.patch_embed(input_tensor)
 
         # Prepend CLS token and add positional embedding
-        cls_tokens = self.cls_token.expand(x.shape[0], -1, -1)
+        cls_tokens = self.cls_token.to(device=x.device, dtype=x.dtype).expand(x.shape[0], -1, -1)
         x = torch.cat((cls_tokens, x), dim=1)
-        x = x + self.pos_embed
+        x = x + self.pos_embed.to(device=x.device, dtype=x.dtype)
 
         x = self.patch_drop(x)
         x = self.norm_pre(x)
@@ -605,8 +605,11 @@ class SlidingPyramidNetwork(nn.Module):
             x2_patches = x2
             padding = 0
         x0_tile_size = x0_patches.shape[0]
+        x1_tile_size = x1_patches.shape[0]
+        x2_tile_size = x2_patches.shape[0]
 
         x_pyramid_patches = torch.cat((x0_patches, x1_patches, x2_patches), dim=0)
+        del x0, x1, x0_patches, x1_patches  # Free pyramid/patch tensors (x2_patches still needed)
 
         # Dynamic chunking based on free VRAM (same pattern as ComfyUI's attention_split)
         N = x_pyramid_patches.shape[0]
@@ -627,10 +630,12 @@ class SlidingPyramidNetwork(nn.Module):
                 for layer_id, feat in inter.items():
                     intermediate_chunks.setdefault(layer_id, []).append(feat)
             x_pyramid_encodings = torch.cat(encoding_chunks, dim=0)
+            del encoding_chunks
             patch_intermediate_features = {
                 layer_id: torch.cat(feats, dim=0)
                 for layer_id, feats in intermediate_chunks.items()
             }
+            del intermediate_chunks
 
         # Merge intermediate features
         x_latent0_encodings = self.patch_encoder.reshape_feature(
@@ -648,15 +653,19 @@ class SlidingPyramidNetwork(nn.Module):
             x_latent1_encodings[: batch_size * x0_tile_size],
             batch_size=batch_size, padding=padding,
         )
+        del patch_intermediate_features, x_latent0_encodings, x_latent1_encodings
 
         x0_encodings, x1_encodings, x2_encodings = torch.split(
             x_pyramid_encodings,
-            [len(x0_patches), len(x1_patches), len(x2_patches)],
+            [x0_tile_size, x1_tile_size, x2_tile_size],
             dim=0,
         )
+        del x_pyramid_encodings
 
         x0_features = merge(x0_encodings, batch_size=batch_size, padding=padding)
+        del x0_encodings
         x1_features = merge(x1_encodings, batch_size=batch_size, padding=2 * padding)
+        del x1_encodings
         x2_features = x2_encodings
 
         x_lowres_features, _ = self.image_encoder(x2_patches)
@@ -1037,6 +1046,7 @@ class MonodepthWithEncodingAdaptor(nn.Module):
         num_encoder_features = len(self.monodepth_predictor.encoder.dims_encoder)
         encoder_features = encoder_output[:num_encoder_features]
         intermediate_features = encoder_output[num_encoder_features:]
+        del encoder_output
         decoder_features = self.monodepth_predictor.decoder(encoder_features)
         disparity = self.monodepth_predictor.head(decoder_features)
 
