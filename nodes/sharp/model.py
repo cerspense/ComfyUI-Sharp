@@ -620,6 +620,7 @@ class SlidingPyramidNetwork(nn.Module):
 
         if chunk_size >= N:
             x_pyramid_encodings, patch_intermediate_features = self.patch_encoder(x_pyramid_patches)
+            del x_pyramid_patches
         else:
             encoding_chunks = []
             intermediate_chunks: dict[int, list[torch.Tensor]] = {}
@@ -629,6 +630,7 @@ class SlidingPyramidNetwork(nn.Module):
                 encoding_chunks.append(enc)
                 for layer_id, feat in inter.items():
                     intermediate_chunks.setdefault(layer_id, []).append(feat)
+            del x_pyramid_patches
             x_pyramid_encodings = torch.cat(encoding_chunks, dim=0)
             del encoding_chunks
             patch_intermediate_features = {
