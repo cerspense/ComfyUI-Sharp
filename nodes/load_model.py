@@ -6,12 +6,16 @@ import logging
 import torch
 from huggingface_hub import hf_hub_download
 
+from comfy_api.latest import io
+
 log = logging.getLogger("sharp")
 
 # Try to get ComfyUI models directory
 try:
     import folder_paths
     MODELS_DIR = os.path.join(folder_paths.models_dir, "sharp")
+    os.makedirs(MODELS_DIR, exist_ok=True)
+    folder_paths.add_model_folder_path("sharp", MODELS_DIR)
 except ImportError:
     MODELS_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", "sharp")
 
@@ -19,7 +23,7 @@ SHARP_REPO_ID = "apple/Sharp"
 SHARP_FILENAME = "sharp_2572gikvuh.pt"
 
 
-class LoadSharpModel:
+class LoadSharpModel(io.ComfyNode):
     """Load SHARP model and wrap with ModelPatcher for ComfyUI-native VRAM management.
 
     The model is built once, cached by ComfyUI's execution cache, and stays in
@@ -27,28 +31,26 @@ class LoadSharpModel:
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {},
-            "optional": {
-                "precision": (["auto", "bf16", "fp16", "fp32"], {
-                    "default": "auto",
-                    "tooltip": "Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."
-                }),
-                "checkpoint_path": ("STRING", {
-                    "default": "",
-                    "tooltip": "Path to .pt checkpoint. Leave empty to auto-download from Hugging Face."
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="LoadSharpModel",
+            display_name="(Down)Load SHARP Model",
+            category="SHARP",
+            description="Load the SHARP model for monocular 3D Gaussian Splatting prediction.",
+            inputs=[
+                io.Combo.Input("precision", options=["auto", "bf16", "fp16", "fp32"],
+                               default="auto", optional=True,
+                               tooltip="Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."),
+                io.String.Input("checkpoint_path", default="", optional=True,
+                                tooltip="Path to .pt checkpoint. Leave empty to auto-download from Hugging Face."),
+            ],
+            outputs=[
+                io.Custom("SHARP_MODEL").Output(display_name="model"),
+            ],
+        )
 
-    RETURN_TYPES = ("SHARP_MODEL",)
-    RETURN_NAMES = ("model",)
-    FUNCTION = "load_model"
-    CATEGORY = "SHARP"
-    DESCRIPTION = "Load the SHARP model for monocular 3D Gaussian Splatting prediction."
-
-    def load_model(self, precision: str = "auto", checkpoint_path: str = ""):
+    @classmethod
+    def execute(cls, precision: str = "auto", checkpoint_path: str = ""):
         """Build model, load weights, wrap with ModelPatcher."""
         import comfy.model_management
         import comfy.model_patcher
@@ -93,18 +95,32 @@ class LoadSharpModel:
         log.info(f"Loading checkpoint from {model_path}")
         state_dict = comfy.utils.load_torch_file(model_path)
 
-        # Build model with native operations (disable_weight_init skips random weight init)
-        log.info("Initializing model...")
-        predictor = create_predictor(
-            PredictorParams(),
-            dtype=dtype,
-            device=None,
-            operations=operations,
-        )
+        # Build model on meta device (zero memory allocation) then load weights
+        # directly with assign=True, avoiding 2x RAM peak from CPU construction.
+        log.info("Initializing model on meta device...")
+        with torch.device("meta"):
+            predictor = create_predictor(
+                PredictorParams(),
+                dtype=dtype,
+                device=None,
+                operations=operations,
+            )
 
-        # Load weights (assign=True efficiently replaces nn.Parameter objects)
-        # Operations handle dtype casting at forward time — no .to(dtype) needed
-        predictor.load_state_dict(state_dict, assign=True)
+        # Load weights with assign=True — replaces meta Parameters with real tensors
+        # without ever allocating the full model on CPU first.
+        # strict=False because registered buffers (e.g. normalization stats) may not
+        # be in the checkpoint and will be fixed up below.
+        predictor.load_state_dict(state_dict, strict=False, assign=True)
+
+        # Fix any leftover meta-device buffers (e.g. register_buffer constants not
+        # present in the checkpoint) by materializing them as real zero tensors.
+        for name, buf in list(predictor.named_buffers()):
+            if buf.device.type == "meta":
+                parts = name.split(".")
+                parent = predictor
+                for p in parts[:-1]:
+                    parent = getattr(parent, p)
+                parent._buffers[parts[-1]] = torch.zeros_like(buf, device="cpu")
         predictor.eval()
         if comfy.model_management.force_channels_last():
             predictor.to(memory_format=torch.channels_last)
@@ -118,7 +134,7 @@ class LoadSharpModel:
             offload_device=offload_device,
         )
 
-        return (patcher,)
+        return io.NodeOutput(patcher)
 
 
 NODE_CLASS_MAPPINGS = {
@@ -126,5 +142,5 @@ NODE_CLASS_MAPPINGS = {
 }
 
 NODE_DISPLAY_NAME_MAPPINGS = {
-    "LoadSharpModel": "Load SHARP Model",
+    "LoadSharpModel": "(Down)Load SHARP Model",
 }

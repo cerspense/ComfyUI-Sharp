@@ -21,7 +21,7 @@ import torch.nn.functional as F
 
 import comfy.model_management
 import comfy.ops
-from comfy.ldm.modules.attention import optimized_attention
+from comfy.ldm.modules.attention import optimized_attention_for_device
 
 from .color_space import ColorSpace, sRGB2linearRGB
 from .gaussians import Gaussians3D
@@ -228,8 +228,8 @@ class ViTAttention(nn.Module):
     def forward(self, x: torch.Tensor, transformer_options={}) -> torch.Tensor:
         qkv = self.qkv(x)
         q, k, v = qkv.chunk(3, dim=-1)  # Each [B, N, C]
-        out = optimized_attention(q, k, v, heads=self.num_heads,
-                                  transformer_options=transformer_options)
+        out = optimized_attention_for_device(q.device)(q, k, v, heads=self.num_heads,
+                                                     transformer_options=transformer_options)
         return self.proj(out)
 
 

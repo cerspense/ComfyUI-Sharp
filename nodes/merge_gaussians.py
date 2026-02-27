@@ -12,6 +12,8 @@ import numpy as np
 import torch
 from plyfile import PlyData, PlyElement
 
+from comfy_api.latest import io
+
 log = logging.getLogger("sharp")
 
 
@@ -104,51 +106,41 @@ def save_merged_ply(
     PlyData([el]).write(output_path)
 
 
-class MergeGaussians:
+class MergeGaussians(io.ComfyNode):
     """Merge multiple Gaussian PLY files into a single scene.
 
     Used after running SHARP on panorama samples to combine all views.
     """
 
     @classmethod
-    def INPUT_TYPES(cls):
-        return {
-            "required": {
-                "ply_folder": ("STRING", {
-                    "tooltip": "Path to folder containing PLY files to merge"
-                }),
-            },
-            "optional": {
-                "output_prefix": ("STRING", {
-                    "default": "merged",
-                    "tooltip": "Prefix for output merged PLY file"
-                }),
-                "max_depth": ("FLOAT", {
-                    "default": 0.0,
-                    "min": 0.0,
-                    "max": 1000.0,
-                    "step": 0.1,
-                    "tooltip": "Filter out Gaussians beyond this depth (0 = no filter)"
-                }),
-                "min_opacity": ("FLOAT", {
-                    "default": 0.0,
-                    "min": 0.0,
-                    "max": 1.0,
-                    "step": 0.01,
-                    "tooltip": "Filter out Gaussians with opacity below this (0 = no filter)"
-                }),
-            }
-        }
+    def define_schema(cls):
+        return io.Schema(
+            node_id="MergeGaussians",
+            display_name="Merge Gaussians (PLY Files)",
+            category="SHARP",
+            description="Merge multiple Gaussian PLY files into a single unified scene.",
+            is_output_node=True,
+            inputs=[
+                io.String.Input("ply_folder",
+                                tooltip="Path to folder containing PLY files to merge"),
+                io.String.Input("output_prefix", default="merged", optional=True,
+                                tooltip="Prefix for output merged PLY file"),
+                io.Float.Input("max_depth", default=0.0, min=0.0, max=1000.0, step=0.1,
+                               optional=True,
+                               tooltip="Filter out Gaussians beyond this depth (0 = no filter)"),
+                io.Float.Input("min_opacity", default=0.0, min=0.0, max=1.0, step=0.01,
+                               optional=True,
+                               tooltip="Filter out Gaussians with opacity below this (0 = no filter)"),
+            ],
+            outputs=[
+                io.String.Output(display_name="ply_path"),
+                io.Int.Output(display_name="num_gaussians"),
+            ],
+        )
 
-    RETURN_TYPES = ("STRING", "INT",)
-    RETURN_NAMES = ("ply_path", "num_gaussians",)
-    FUNCTION = "merge"
-    CATEGORY = "SHARP"
-    OUTPUT_NODE = True
-    DESCRIPTION = "Merge multiple Gaussian PLY files into a single unified scene."
-
-    def merge(
-        self,
+    @classmethod
+    def execute(
+        cls,
         ply_folder: str,
         output_prefix: str = "merged",
         max_depth: float = 0.0,
@@ -232,7 +224,7 @@ class MergeGaussians:
 
         log.info(f"Done! Merged {len(ply_files)} files into {num_gaussians:,} Gaussians")
 
-        return (str(output_path), num_gaussians,)
+        return io.NodeOutput(str(output_path), num_gaussians)
 
 
 NODE_CLASS_MAPPINGS = {
