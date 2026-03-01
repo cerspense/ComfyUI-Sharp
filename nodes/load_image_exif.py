@@ -116,7 +116,7 @@ class LoadImageWithExif(io.ComfyNode):
             description="Load an image and extract focal length from EXIF metadata (35mm equivalent).",
             inputs=[
                 io.Combo.Input("image", options=_get_image_files(),
-                               image_upload=True),
+                               upload=io.UploadType.image),
                 io.Float.Input("default_focal_mm", default=30.0, min=1.0, max=500.0, step=0.1,
                                optional=True,
                                tooltip="Default focal length (35mm equiv) if not found in EXIF"),

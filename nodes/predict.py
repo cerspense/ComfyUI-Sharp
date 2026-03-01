@@ -33,6 +33,18 @@ _encode_cache = {
 }
 
 
+def _monodepth_to(output, device):
+    """Move all tensors in a MonodepthOutput to the given device."""
+    from .sharp.model import MonodepthOutput
+    return MonodepthOutput(
+        disparity=output.disparity.to(device),
+        encoder_features=[t.to(device) for t in output.encoder_features],
+        decoder_features=output.decoder_features.to(device),
+        output_features=[t.to(device) for t in output.output_features],
+        intermediate_features=[t.to(device) for t in output.intermediate_features],
+    )
+
+
 def _compute_image_hash(image_np: np.ndarray) -> str:
     """Compute hash of image for cache key."""
     return hashlib.sha256(image_np.tobytes()).hexdigest()[:16]
@@ -242,8 +254,8 @@ def _predict_image_cached(
     if _encode_cache["image_hash"] == image_hash:
         # Cache hit - reuse encoded features
         log.info("Cache hit - reusing encoded features (focal_length change is instant)")
-        monodepth_output = _encode_cache["monodepth_output"]
-        image_resized_pt = _encode_cache["image_resized"]
+        monodepth_output = _monodepth_to(_encode_cache["monodepth_output"], device)
+        image_resized_pt = _encode_cache["image_resized"].to(device)
     else:
         # Cache miss - need to encode
         log.info("Encoding...")
@@ -270,14 +282,14 @@ def _predict_image_cached(
         monodepth_output, _ = predictor.encode(image_resized_pt)
         log.info(f"Encode time: {time.time() - encode_start:.2f}s")
 
+        # Update cache (store on CPU to free VRAM)
+        _encode_cache["image_hash"] = image_hash
+        _encode_cache["monodepth_output"] = _monodepth_to(monodepth_output, "cpu")
+        _encode_cache["image_resized"] = image_resized_pt.cpu()
+        _encode_cache["original_shape"] = (height, width)
+
         # Release fragmented GPU memory after heavy encode (35 ViT passes)
         comfy.model_management.soft_empty_cache()
-
-        # Update cache
-        _encode_cache["image_hash"] = image_hash
-        _encode_cache["monodepth_output"] = monodepth_output
-        _encode_cache["image_resized"] = image_resized_pt
-        _encode_cache["original_shape"] = (height, width)
 
     # Decode - always run with current focal length
     disparity_factor = torch.tensor([f_px / width]).float().to(device)
