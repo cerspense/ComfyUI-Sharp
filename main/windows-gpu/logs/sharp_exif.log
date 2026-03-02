@@ -1,0 +1,33 @@
+Capturing execution frames: sharp_exif.json
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=3.4s)
+  Frame 3 saved (frame_002.jpg, t=17.7s)
+  Frame 4 saved (frame_003.jpg, t=28.4s)
+  Node executed (1 total), capturing...
+  Frame 5 saved (frame_004.jpg, t=35.1s)
+  Execution complete (t=35.9s)
+  [3d-wait] viewer_ready=False, matching_logs=[], total_console_logs=62
+  [3d-wait] Waiting for '[GaussianViewer] Loaded successfully' console message (timeout=60s)...
+  [3d-wait] Got it!
+  [3d-wait] Unfrozen, waiting for first paint...
+  [3d-wait] Frozen after viewer render
+  Captured 5 unique frames over 192.44s
+  [debug] iframes: 1
+  [debug]   iframe[0]: src=http://127.0.0.1:8288/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=3040x2022, rafFrozen=True
+  [timing] trigger_3d_previews: 0.1s
+  Saved high-quality screenshot: sharp_exif_executed.png
+  [timing] final_screenshot: 4.5s
+    Captured 6 video frames

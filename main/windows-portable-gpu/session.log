@@ -1,0 +1,123 @@
+[00:00] Crash dump logging enabled: C:\github-runners\PozzettiAndrea-ComfyUI-Sharp-portable\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0601\windows_portable-gpu\crash_dump.log
+[00:00] 
+[00:00] [1/3] REGISTRATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=http://127.0.0.1:8188, api=None
+[00:00] 
+Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connected to server! (attempt 1, 0.0s)
+[00:00] Checking for import errors in server logs...
+[00:00] No import errors detected
+[00:00] Found 679 registered nodes
+[00:00] [REGISTRATION] PASSED
+[00:00] 
+[00:00] [2/3] INSTANTIATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000013B2A974C20>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000013B2A974D70>
+[00:00] Testing node constructors...
+[00:12] All 8 node(s) instantiated successfully!
+[00:12] [INSTANTIATION] PASSED
+[00:12] 
+[00:12] [3/3] EXECUTION
+[00:12] ----------------------------------------
+[00:12] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000013B2A974C20>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000013B2A974D70>
+[00:12] GPU runner - will execute 3 workflow(s)
+[00:12] Running 3 workflow(s) (all with videos)...
+[00:12] Starting headless browser...
+[00:26] Capturing execution frames: pano.json
+[00:28]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:28]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:32]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:33]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:33]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:34]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[00:35]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[00:35]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[00:37]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[00:37]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[00:45]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[00:45]   Validating workflow...
+[00:45]   Queuing workflow for execution...
+[00:48]   Frame 2 saved (frame_001.jpg, t=2.9s)
+[01:06]   Frame 3 saved (frame_002.jpg, t=21.0s)
+[01:08]   Node executed (1 total), capturing...
+[01:09]   Frame 4 saved (frame_003.jpg, t=23.7s)
+[02:08]   Frame 5 saved (frame_004.jpg, t=82.8s)
+[02:52]   Frame 6 saved (frame_005.jpg, t=126.9s)
+[03:06]   Node executed (2 total), capturing...
+[03:07]   Frame 7 saved (frame_006.jpg, t=141.8s)
+[03:07]   Node executed (4 total), capturing...
+[03:08]   Frame 8 saved (frame_007.jpg, t=143.0s)
+[04:05]   Frame 9 saved (frame_008.jpg, t=200.3s)
+[04:19]   Frame 10 saved (frame_009.jpg, t=213.5s)
+[04:19]   Node executed (6 total), capturing...
+[04:20]   Frame 11 saved (frame_010.jpg, t=214.5s)
+[04:20]   Execution complete (t=214.5s)
+[04:20]   Captured 11 unique frames over 215.31s
+[04:20]   [debug] iframes: 0
+[04:24]   [timing] trigger_3d_previews: 4.1s
+[04:26]   Saved high-quality screenshot: pano_executed.png
+[04:26]   [timing] final_screenshot: 2.5s
+[04:27] Capturing execution frames: sharp_basic.json
+[04:27]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[04:27]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[04:29]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[04:29]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[04:29]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[04:30]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[04:30]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[04:30]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[04:32]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[04:33]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[04:40]   [Console-warning] [.WebGL-0x6c0c077f9b00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[04:40]   [Console-warning] [.WebGL-0x6c0c077f9b00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[04:40]   [Console-warning] [.WebGL-0x6c0c077f9b00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[04:40]   [Console-warning] [.WebGL-0x6c0c077f9b00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[04:42]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[04:42]   Validating workflow...
+[04:42]   Queuing workflow for execution...
+[04:46]   Frame 2 saved (frame_001.jpg, t=3.4s)
+[04:48]   Frame 3 saved (frame_002.jpg, t=6.2s)
+[05:02]   Frame 4 saved (frame_003.jpg, t=19.8s)
+[05:05]   Frame 5 saved (frame_004.jpg, t=22.5s)
+[05:11]   Node executed (1 total), capturing...
+[05:12]   Frame 6 saved (frame_005.jpg, t=29.7s)
+[05:12]   Execution complete (t=29.7s)
+[05:12]   Captured 6 unique frames over 30.62s
+[05:12]   [debug] iframes: 1
+[05:12]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=588x610, rafFrozen=True
+[05:19]   [timing] trigger_3d_previews: 7.1s
+[05:21]   Saved high-quality screenshot: sharp_basic_executed.png
+[05:22]   [timing] final_screenshot: 2.3s
+[05:22] Capturing execution frames: sharp_exif.json
+[05:23]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:23]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:25]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:25]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:26]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:26]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[05:26]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[05:27]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[05:29]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[05:29]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[05:37]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[05:37]   Validating workflow...
+[05:37]   Queuing workflow for execution...
+[05:40]   Frame 2 saved (frame_001.jpg, t=3.2s)
+[05:46]   Frame 3 saved (frame_002.jpg, t=8.6s)
+[05:55]   Node executed (1 total), capturing...
+[05:55]   Frame 4 saved (frame_003.jpg, t=18.2s)
+[05:55]   Execution complete (t=18.2s)
+[05:55]   Captured 4 unique frames over 18.93s
+[05:56]   [debug] iframes: 1
+[05:56]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=588x385, rafFrozen=True
+[06:04]   [timing] trigger_3d_previews: 8.4s
+[06:06]   Saved high-quality screenshot: sharp_exif_executed.png
+[06:06]   [timing] final_screenshot: 2.2s
+[06:07] Results saved to C:\github-runners\PozzettiAndrea-ComfyUI-Sharp-portable\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0601\windows_portable-gpu\results.json
+[06:07] Model report: 11 files, 2.6 GB -> C:\github-runners\PozzettiAndrea-ComfyUI-Sharp-portable\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0601\windows_portable-gpu\models.json
+[06:07] Saved: C:\github-runners\PozzettiAndrea-ComfyUI-Sharp-portable\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0601\windows_portable-gpu\index.html
+[06:07] [EXECUTION] PASSED
+[06:07] 
+windows_portable: PASSED

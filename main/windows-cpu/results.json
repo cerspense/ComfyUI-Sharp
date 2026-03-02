@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-02-21T12:14:26.630914+00:00",
+  "platform": "windows",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 343.76,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.67,
+          "avg": 7.73
+        },
+        "total_ram_gb": 16.0,
+        "samples": 341
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 364.31,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 106 Stepping 6, GenuineIntel"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.52,
+          "avg": 7.51
+        },
+        "total_ram_gb": 16.0,
+        "samples": 364
+      }
+    }
+  ]
+}

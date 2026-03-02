@@ -1,0 +1,142 @@
+[00:00] Crash dump logging enabled: C:\github-runners\PozzettiAndrea-ComfyUI-Sharp\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0627\windows-gpu\crash_dump.log
+[00:00] 
+[00:00] [1/3] REGISTRATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=http://127.0.0.1:8288, api=None
+[00:00] 
+Connecting to existing server at http://127.0.0.1:8288...
+[00:00] Connecting to existing server at http://127.0.0.1:8288...
+[00:00] Connected to server! (attempt 1, 0.0s)
+[00:00] Checking for import errors in server logs...
+[00:00] No import errors detected
+[00:00] Found 680 registered nodes
+[00:00] [REGISTRATION] PASSED
+[00:00] 
+[00:00] [2/3] INSTANTIATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x000001CD661B17F0>, server_url=http://127.0.0.1:8288, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000001CD661B1940>
+[00:00] Testing node constructors...
+[00:10] All 8 node(s) instantiated successfully!
+[00:10] [INSTANTIATION] PASSED
+[00:10] 
+[00:10] [3/3] EXECUTION
+[00:10] ----------------------------------------
+[00:10] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x000001CD661B17F0>, server_url=http://127.0.0.1:8288, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x000001CD661B1940>
+[00:10] GPU runner - will execute 3 workflow(s)
+[00:10] Running 3 workflow(s) (all with videos)...
+[00:11] Starting headless browser...
+[00:20] Capturing execution frames: pano.json
+[00:21]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:21]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:24]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:24]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:24]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:25]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:25]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[00:26]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[00:26]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[00:28]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[00:28]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[00:35]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[00:35]   Validating workflow...
+[00:36]   Queuing workflow for execution...
+[00:38]   Frame 2 saved (frame_001.jpg, t=3.1s)
+[00:54]   Frame 3 saved (frame_002.jpg, t=18.5s)
+[00:58]   Node executed (1 total), capturing...
+[00:59]   Frame 4 saved (frame_003.jpg, t=23.4s)
+[01:49]   Frame 5 saved (frame_004.jpg, t=74.2s)
+[02:36]   Frame 6 saved (frame_005.jpg, t=120.9s)
+[02:50]   Node executed (2 total), capturing...
+[02:51]   Frame 7 saved (frame_006.jpg, t=135.9s)
+[02:52]   Node executed (4 total), capturing...
+[02:52]   Frame 8 saved (frame_007.jpg, t=137.1s)
+[03:50]   Frame 9 saved (frame_008.jpg, t=194.4s)
+[04:03]   Frame 10 saved (frame_009.jpg, t=207.3s)
+[04:03]   Node executed (6 total), capturing...
+[04:04]   Frame 11 saved (frame_010.jpg, t=208.5s)
+[04:04]   Execution complete (t=208.5s)
+[04:04]   [3d-wait] viewer_ready=False, matching_logs=[], total_console_logs=55
+[04:04]   [3d-wait] Waiting for '[GaussianViewer] Loaded successfully' console message (timeout=60s)...
+[05:04]   [3d-wait] Exception: Timeout 60000ms exceeded while waiting for event "console"
+=========================== logs ===========================
+waiting for event "console"
+============================================================
+[05:04]   Captured 11 unique frames over 269.2s
+[05:04]   [debug] iframes: 0
+[05:04]   [timing] trigger_3d_previews: 0.0s
+[05:06]   Saved high-quality screenshot: pano_executed.png
+[05:06]   [timing] final_screenshot: 2.4s
+[05:06] Capturing execution frames: sharp_basic.json
+[05:07]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:07]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:10]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:10]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:10]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[05:11]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[05:11]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[05:11]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[05:13]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[05:13]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[05:19]   [Console-warning] [.WebGL-0x6e4c1014cd00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[05:19]   [Console-warning] [.WebGL-0x6e4c1014cd00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[05:19]   [Console-warning] [.WebGL-0x6e4c1014cd00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[05:19]   [Console-warning] [.WebGL-0x6e4c1014cd00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[05:21]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[05:21]   Validating workflow...
+[05:21]   Queuing workflow for execution...
+[05:24]   Frame 2 saved (frame_001.jpg, t=3.2s)
+[05:29]   Frame 3 saved (frame_002.jpg, t=8.7s)
+[05:46]   Frame 4 saved (frame_003.jpg, t=25.0s)
+[05:51]   Node executed (1 total), capturing...
+[05:52]   Frame 5 saved (frame_004.jpg, t=31.4s)
+[05:52]   Execution complete (t=31.4s)
+[05:52]   [3d-wait] viewer_ready=False, matching_logs=[], total_console_logs=66
+[05:52]   [3d-wait] Waiting for '[GaussianViewer] Loaded successfully' console message (timeout=60s)...
+[05:58]   [3d-wait] Got it!
+[05:58]   [3d-wait] Unfrozen, waiting for first paint...
+[08:29]   [3d-wait] Frozen after viewer render
+[08:29]   Captured 5 unique frames over 188.76s
+[10:47]   [debug] iframes: 1
+[10:47]   [debug]   iframe[0]: src=http://127.0.0.1:8288/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=1536x1024, rafFrozen=True
+[10:47]   [timing] trigger_3d_previews: 0.0s
+[10:50]   Saved high-quality screenshot: sharp_basic_executed.png
+[10:51]   [timing] final_screenshot: 3.5s
+[10:51] Capturing execution frames: sharp_exif.json
+[10:53]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:53]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:56]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:57]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:57]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:57]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[10:58]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[10:58]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[10:59]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[11:01]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[11:01]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[11:07]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[11:07]   Validating workflow...
+[11:08]   Queuing workflow for execution...
+[11:11]   Frame 2 saved (frame_001.jpg, t=3.4s)
+[11:25]   Frame 3 saved (frame_002.jpg, t=17.7s)
+[11:36]   Frame 4 saved (frame_003.jpg, t=28.4s)
+[11:42]   Node executed (1 total), capturing...
+[11:42]   Frame 5 saved (frame_004.jpg, t=35.1s)
+[11:43]   Execution complete (t=35.9s)
+[11:43]   [3d-wait] viewer_ready=False, matching_logs=[], total_console_logs=62
+[11:43]   [3d-wait] Waiting for '[GaussianViewer] Loaded successfully' console message (timeout=60s)...
+[11:49]   [3d-wait] Got it!
+[11:49]   [3d-wait] Unfrozen, waiting for first paint...
+[14:19]   [3d-wait] Frozen after viewer render
+[14:19]   Captured 5 unique frames over 192.44s
+[16:38]   [debug] iframes: 1
+[16:38]   [debug]   iframe[0]: src=http://127.0.0.1:8288/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=3040x2022, rafFrozen=True
+[16:38]   [timing] trigger_3d_previews: 0.1s
+[16:42]   Saved high-quality screenshot: sharp_exif_executed.png
+[16:43]   [timing] final_screenshot: 4.5s
+[16:44] Results saved to C:\github-runners\PozzettiAndrea-ComfyUI-Sharp\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0627\windows-gpu\results.json
+[16:44] Model report: 3 files, 2.6 GB -> C:\github-runners\PozzettiAndrea-ComfyUI-Sharp\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0627\windows-gpu\models.json
+[16:44] Saved: C:\github-runners\PozzettiAndrea-ComfyUI-Sharp\_work\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-0627\windows-gpu\index.html
+[16:44] [EXECUTION] PASSED
+[16:44] 
+windows: PASSED

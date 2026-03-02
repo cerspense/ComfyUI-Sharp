@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-03-01T23:10:12.325151+00:00",
+  "platform": "windows_portable",
+  "hardware": {
+    "os": "Windows-2025Server-10.0.26100-SP0",
+    "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+  },
+  "commit_hash": "e848839b2f360eb9e3079bf27745a16f044ded9f",
+  "success": true,
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 418.47,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.94,
+          "avg": 7.94
+        },
+        "total_ram_gb": 16.0,
+        "samples": 418
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 430.8,
+      "error": null,
+      "hardware": {
+        "os": "Windows-2025Server-10.0.26100-SP0",
+        "cpu": "AMD64 Family 25 Model 1 Stepping 1, AuthenticAMD"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.17,
+          "avg": 7.3
+        },
+        "total_ram_gb": 16.0,
+        "samples": 430
+      }
+    }
+  ]
+}

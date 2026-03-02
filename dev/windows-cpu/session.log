@@ -1,0 +1,220 @@
+[00:00] Crash dump logging enabled: D:\a\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-2254\windows-cpu\crash_dump.log
+[00:00] 
+[00:00] [1/3] REGISTRATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=http://127.0.0.1:8188, api=None
+[00:00] 
+Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connected to server! (attempt 1, 0.0s)
+[00:00] Checking for import errors in server logs...
+[00:00] No import errors detected
+[00:00] Found 685 registered nodes
+[00:00] [REGISTRATION] PASSED
+[00:00] 
+[00:00] [2/3] INSTANTIATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000023E20284440>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000023E20284590>
+[00:00] Testing node constructors...
+[00:02] All 8 node(s) instantiated successfully!
+[00:02] [INSTANTIATION] PASSED
+[00:02] 
+[00:02] [3/3] EXECUTION
+[00:02] ----------------------------------------
+[00:02] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x0000023E20284440>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x0000023E20284590>
+[00:02] CPU runner - will execute 2 workflow(s)
+[00:02] Running 3 workflow(s) (all with videos)...
+[00:02] Starting headless browser...
+[00:03]   Downloading Mesa llvmpipe for Windows...
+[00:07]   Copied opengl32.dll to Chromium dir
+[00:07]   Copied libgallium_wgl.dll to Chromium dir
+[00:07]   Using Mesa llvmpipe (desktop GL) — multithreaded CPU rendering
+[00:07]   [1/3] SKIPPED (not in cpu list) pano.json
+[00:08] Capturing execution frames: sharp_basic.json
+[00:08]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:08]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:09]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[00:09]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[00:09]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[00:10]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[00:10]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[00:14]   [Console-warning] [.WebGL-0x10c40c75a300]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:14]   [Console-warning] [.WebGL-0x10c40c75a300]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:14]   [Console-warning] [.WebGL-0x10c40c75a300]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:14]   [Console-warning] [.WebGL-0x10c40c75a300]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[00:16]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[00:16]   Validating workflow...
+[00:16]   Queuing workflow for execution...
+[00:19]   Frame 2 saved (frame_001.jpg, t=2.5s)
+[00:19]   [capture-periodic] freeze=34ms shot=247ms unfreeze=9ms saved=True
+[00:24]   [capture-loop] iter=50 t=7.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[00:31]   [capture-loop] iter=100 t=14.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[00:35]   Frame 3 saved (frame_002.jpg, t=18.6s)
+[00:35]   [capture-periodic] freeze=9ms shot=145ms unfreeze=6ms saved=True
+[00:37]   [capture-loop] iter=150 t=20.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[00:43]   [capture-loop] iter=200 t=26.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[00:49]   [capture-loop] iter=250 t=32.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[00:54]   [capture-loop] iter=300 t=38.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[01:00]   [capture-loop] iter=350 t=44.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[01:04]   Frame 4 saved (frame_003.jpg, t=47.6s)
+[01:04]   [capture-periodic] freeze=3ms shot=158ms unfreeze=6ms saved=True
+[01:06]   [capture-loop] iter=400 t=50.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:12]   [capture-loop] iter=450 t=55.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:18]   [capture-loop] iter=500 t=61.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:24]   [capture-loop] iter=550 t=67.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[01:30]   [capture-loop] iter=600 t=73.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[01:36]   [capture-loop] iter=650 t=79.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[01:42]   [capture-loop] iter=700 t=85.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[01:48]   [capture-loop] iter=750 t=91.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[01:54]   [capture-loop] iter=800 t=97.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:00]   [capture-loop] iter=850 t=103.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[02:06]   [capture-loop] iter=900 t=109.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:12]   [capture-loop] iter=950 t=115.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[02:17]   [capture-loop] iter=1000 t=121.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:23]   [capture-loop] iter=1050 t=127.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[02:29]   [capture-loop] iter=1100 t=133.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[02:35]   [capture-loop] iter=1150 t=139.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[02:41]   [capture-loop] iter=1200 t=145.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[02:47]   [capture-loop] iter=1250 t=151.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:53]   [capture-loop] iter=1300 t=156.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:59]   [capture-loop] iter=1350 t=162.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[03:05]   [capture-loop] iter=1400 t=168.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[03:11]   [capture-loop] iter=1450 t=174.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[03:17]   [capture-loop] iter=1500 t=180.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[03:23]   [capture-loop] iter=1550 t=186.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[03:29]   [capture-loop] iter=1600 t=192.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[03:34]   [capture-loop] iter=1650 t=198.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[03:40]   [capture-loop] iter=1700 t=204.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[03:47]   [capture-loop] iter=1750 t=210.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[03:53]   [capture-loop] iter=1800 t=216.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[03:59]   [capture-loop] iter=1850 t=222.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[04:05]   [capture-loop] iter=1900 t=228.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13
+[04:11]   [capture-loop] iter=1950 t=235.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=13
+[04:18]   [capture-loop] iter=2000 t=241.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[04:25]   [capture-loop] iter=2050 t=248.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[04:31]   [capture-loop] iter=2100 t=255.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[04:37]   [capture-loop] iter=2150 t=261.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[04:44]   [capture-loop] iter=2200 t=267.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[04:50]   [capture-loop] iter=2250 t=273.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[04:51]   Frame 5 saved (frame_004.jpg, t=274.8s)
+[04:51]   [capture-periodic] freeze=4ms shot=171ms unfreeze=7ms saved=True
+[04:56]   [capture-loop] iter=2300 t=279.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[05:02]   [capture-loop] iter=2350 t=285.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[05:05]   Node executed (1 total), capturing...
+[05:05]   Frame 6 saved (frame_005.jpg, t=289.0s)
+[05:05]   [capture-node] freeze=6ms shot=177ms unfreeze=0ms saved=True
+[05:05]   Execution complete (t=289.0s)
+[05:05]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[05:05]   [3d-wait] Phase 1 done in 0.0s
+[05:05]   [3d-wait] Phase 2: iframes=1
+[05:05]   [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+[05:05]   [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+[05:07]   [3d-wait] Got 'Loaded successfully' after 1.2s
+[05:07]   [3d-wait] Unfrozen in 0.239s, rendering for 5s...
+[05:21]   [3d-wait] JS halted via CDP after 14.5s
+[06:04]   [3d-wait] Re-frozen in 57.5s
+[06:04]   [3d-wait] Total 3D wait: 58.7s
+[06:04]   Captured 6 unique frames over 347.88s
+[06:04]   [debug] iframes: 1
+[06:04]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=1536x1024, rafFrozen=True
+[06:04]   [timing] trigger_3d_previews: 0.0s
+[06:07]   Saved high-quality screenshot: sharp_basic_executed.png
+[06:07]   [timing] final_screenshot: 1.3s
+[06:07] Capturing execution frames: sharp_exif.json
+[06:08]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:08]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:08]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:09]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[06:09]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[06:09]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[06:09]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[06:09]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[06:09]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[06:16]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[06:16]   Validating workflow...
+[06:16]   Queuing workflow for execution...
+[06:18]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[06:18]   [capture-periodic] freeze=8ms shot=182ms unfreeze=4ms saved=True
+[06:21]   Frame 3 saved (frame_002.jpg, t=4.6s)
+[06:21]   [capture-periodic] freeze=7ms shot=167ms unfreeze=5ms saved=True
+[06:22]   [capture-loop] iter=50 t=6.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[06:23]   Frame 4 saved (frame_003.jpg, t=6.9s)
+[06:23]   [capture-periodic] freeze=4ms shot=190ms unfreeze=6ms saved=True
+[06:28]   [capture-loop] iter=100 t=12.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[06:34]   [capture-loop] iter=150 t=18.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[06:40]   [capture-loop] iter=200 t=24.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[06:46]   [capture-loop] iter=250 t=30.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[06:48]   Frame 5 saved (frame_004.jpg, t=31.8s)
+[06:48]   [capture-periodic] freeze=3ms shot=186ms unfreeze=5ms saved=True
+[06:52]   [capture-loop] iter=300 t=36.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[06:58]   [capture-loop] iter=350 t=42.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[07:04]   [capture-loop] iter=400 t=48.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[07:10]   [capture-loop] iter=450 t=53.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[07:16]   [capture-loop] iter=500 t=60.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[07:22]   [capture-loop] iter=550 t=66.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[07:28]   [capture-loop] iter=600 t=71.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[07:34]   [capture-loop] iter=650 t=77.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[07:40]   [capture-loop] iter=700 t=83.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[07:46]   [capture-loop] iter=750 t=89.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[07:52]   [capture-loop] iter=800 t=95.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[07:57]   [capture-loop] iter=850 t=101.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:04]   [capture-loop] iter=900 t=107.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:09]   [capture-loop] iter=950 t=113.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:15]   [capture-loop] iter=1000 t=119.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[08:21]   [capture-loop] iter=1050 t=125.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:27]   [capture-loop] iter=1100 t=131.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:33]   [capture-loop] iter=1150 t=137.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[08:40]   [capture-loop] iter=1200 t=143.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[08:46]   [capture-loop] iter=1250 t=150.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[08:52]   [capture-loop] iter=1300 t=156.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[08:58]   [capture-loop] iter=1350 t=162.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[09:04]   [capture-loop] iter=1400 t=168.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[09:10]   [capture-loop] iter=1450 t=174.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[09:16]   [capture-loop] iter=1500 t=179.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[09:22]   [capture-loop] iter=1550 t=185.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[09:28]   [capture-loop] iter=1600 t=191.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[09:34]   [capture-loop] iter=1650 t=198.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[09:40]   [capture-loop] iter=1700 t=204.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[09:46]   [capture-loop] iter=1750 t=210.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[09:52]   [capture-loop] iter=1800 t=216.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[09:58]   [capture-loop] iter=1850 t=222.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[10:04]   [capture-loop] iter=1900 t=228.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=12
+[10:10]   [capture-loop] iter=1950 t=234.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[10:16]   [capture-loop] iter=2000 t=240.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[10:22]   [capture-loop] iter=2050 t=246.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[10:28]   [capture-loop] iter=2100 t=252.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[10:31]   Frame 6 saved (frame_005.jpg, t=254.9s)
+[10:31]   [capture-periodic] freeze=3ms shot=144ms unfreeze=3ms saved=True
+[10:34]   [capture-loop] iter=2150 t=258.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[10:37]   Node executed (1 total), capturing...
+[10:37]   Frame 7 saved (frame_006.jpg, t=260.9s)
+[10:37]   [capture-node] freeze=5ms shot=190ms unfreeze=0ms saved=True
+[10:37]   Execution complete (t=260.9s)
+[10:37]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[10:37]   [3d-wait] Phase 1 done in 0.0s
+[10:37]   [3d-wait] Phase 2: iframes=1
+[10:37]   [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+[10:37]   [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+[10:38]   [3d-wait] Got 'Loaded successfully' after 1.4s
+[10:39]   [3d-wait] Unfrozen in 0.269s, rendering for 5s...
+[10:56]   [3d-wait] JS halted via CDP after 17.2s
+[11:46]   [3d-wait] Re-frozen in 67.3s
+[11:46]   [3d-wait] Total 3D wait: 68.8s
+[11:46]   Captured 7 unique frames over 329.87s
+[11:46]   [debug] iframes: 1
+[11:46]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=3040x2022, rafFrozen=True
+[11:46]   [timing] trigger_3d_previews: 0.0s
+[11:49]   Saved high-quality screenshot: sharp_exif_executed.png
+[11:49]   [timing] final_screenshot: 1.3s
+[11:50] Results saved to D:\a\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-2254\windows-cpu\results.json
+[11:50] Model report: 3 files, 2.6 GB -> D:\a\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-2254\windows-cpu\models.json
+[11:50] Saved: D:\a\ComfyUI-Sharp\ComfyUI-Sharp\comfy-test-logs\Sharp-2254\windows-cpu\index.html
+[11:50] [EXECUTION] PASSED
+[11:50] 
+windows: PASSED

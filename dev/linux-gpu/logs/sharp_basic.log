@@ -1,0 +1,184 @@
+Capturing execution frames: sharp_basic.json
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/buttonGroup.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/buttonGroup.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/button.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/button.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  [ComfyUI] === /validate endpoint called ===
+  [ComfyUI] === /validate endpoint called ===
+  [ComfyUI] Received JSON with keys: ['prompt']
+  [ComfyUI] Received JSON with keys: ['prompt']
+  Queuing workflow for execution...
+  [ComfyUI] Prompt has 4 nodes
+  [ComfyUI] Prompt has 4 nodes
+  [ComfyUI]   Node 1: LoadImage
+  [ComfyUI]   Node 1: LoadImage
+  [ComfyUI]     Inputs: {"image": "beach.jpg"}
+  [ComfyUI]     Inputs: {"image": "beach.jpg"}
+  [ComfyUI]   Node 2: LoadSharpModel
+  [ComfyUI]   Node 2: LoadSharpModel
+  [ComfyUI]     Inputs: {"precision": "auto", "checkpoint_path": ""}
+  [ComfyUI]     Inputs: {"precision": "auto", "checkpoint_path": ""}
+  [ComfyUI]   Node 4: GeomPackPreviewGaussian
+  [ComfyUI]   Node 4: GeomPackPreviewGaussian
+  [ComfyUI]     Inputs: {"preview_gaussian": "", "ply_path": ["5", 0], "extrinsics": ["5", 1], "intrinsics": ["5", 2]}
+  [ComfyUI]     Inputs: {"preview_gaussian": "", "ply_path": ["5", 0], "extrinsics": ["5", 1], "intrinsics": ["5", 2]}
+  [ComfyUI]   Node 5: SharpPredict
+  [ComfyUI]   Node 5: SharpPredict
+  [ComfyUI]     Inputs: {"focal_length_mm": 30, "output_prefix": "sharp", "model": ["2", 0], "image": ["1", 0]}
+  [ComfyUI]     Inputs: {"focal_length_mm": 30, "output_prefix": "sharp", "model": ["2", 0], "image": ["1", 0]}
+  [ComfyUI] Generated prompt_id: c23da986-171b-4c75-8712-dbb99f6e79a7
+  [ComfyUI] Generated prompt_id: c23da986-171b-4c75-8712-dbb99f6e79a7
+  [ComfyUI] Calling execution.validate_prompt()...
+  [ComfyUI] Calling execution.validate_prompt()...
+  [ComfyUI] Validation result: valid=True
+  [ComfyUI] Validation result: valid=True
+  [ComfyUI] === Validation PASSED ===
+  [ComfyUI] === Validation PASSED ===
+  [ComfyUI] got prompt
+  [ComfyUI] got prompt
+  [ComfyUI] HTTP Request: HEAD https://huggingface.co/apple/Sharp/resolve/main/sharp_2572gikvuh.pt "HTTP/1.1 302 Found"
+  [ComfyUI] HTTP Request: HEAD https://huggingface.co/apple/Sharp/resolve/main/sharp_2572gikvuh.pt "HTTP/1.1 302 Found"
+  [ComfyUI] HTTP Request: GET https://huggingface.co/api/models/apple/Sharp/xet-read-token/50753d96c1f7ad0bae4184ddfb6aa98bca975f29 "HTTP/1.1 200 OK"
+  [ComfyUI] HTTP Request: GET https://huggingface.co/api/models/apple/Sharp/xet-read-token/50753d96c1f7ad0bae4184ddfb6aa98bca975f29 "HTTP/1.1 200 OK"
+  Frame 2 saved (frame_001.jpg, t=2.5s)
+  [capture-periodic] freeze=10ms shot=226ms unfreeze=8ms saved=True
+  [ComfyUI] Loading checkpoint from /home/shadeform/workspaces/Sharp-1740/ComfyUI/models/sharp/sharp_2572gikvuh.pt
+  [ComfyUI] Loading checkpoint from /home/shadeform/workspaces/Sharp-1740/ComfyUI/models/sharp/sharp_2572gikvuh.pt
+  [capture-loop] iter=50 t=13.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+  [ComfyUI] Initializing model...
+  [ComfyUI] Initializing model...
+  [ComfyUI] Using preset ViT dinov2l16_384.
+  [ComfyUI] Using preset ViT dinov2l16_384.
+  [ComfyUI] Using preset ViT dinov2l16_384.
+  [ComfyUI] Using preset ViT dinov2l16_384.
+  [ComfyUI] Model ready (torch.bfloat16)
+  [ComfyUI] Model ready (torch.bfloat16)
+  [ComfyUI] Requested to load RGBGaussianPredictor
+  [ComfyUI] Requested to load RGBGaussianPredictor
+  [ComfyUI] loaded completely; 46384.86 MB usable, 2674.57 MB loaded, full load: True
+  [ComfyUI] loaded completely; 46384.86 MB usable, 2674.57 MB loaded, full load: True
+  [ComfyUI] Processing 1 image(s)
+  [ComfyUI] Processing 1 image(s)
+  [ComfyUI] Image size: 1536x1024
+  [ComfyUI] Image size: 1536x1024
+  [ComfyUI] Running inference on image 1/1...
+  [ComfyUI] Running inference on image 1/1...
+  [ComfyUI] Encoding...
+  [ComfyUI] Encoding...
+  Frame 3 saved (frame_002.jpg, t=15.4s)
+  [capture-periodic] freeze=4ms shot=181ms unfreeze=4ms saved=True
+  [ComfyUI] Encode time: 1.52s
+  [ComfyUI] Encode time: 1.52s
+  [ComfyUI] Decode time: 0.32s
+  [ComfyUI] Decode time: 0.32s
+  [ComfyUI] Saved: /home/shadeform/workspaces/Sharp-1740/ComfyUI/output/sharp_1772041298829.ply (1,179,648 gaussians)
+  [ComfyUI] Saved: /home/shadeform/workspaces/Sharp-1740/ComfyUI/output/sharp_1772041298829.ply (1,179,648 gaussians)
+  [ComfyUI] [comfy-env] Removed stale socket: /dev/shm/comfy_worker_b24fa31ff9ce.sock
+  [ComfyUI] [comfy-env] Removed stale socket: /dev/shm/comfy_worker_b24fa31ff9ce.sock
+  [ComfyUI] Total inference time: 3.92s (3.92s per image)
+  [ComfyUI] Total inference time: 3.92s (3.92s per image)
+  [ComfyUI] [comfy-env] SubprocessWorker: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [comfy-env] SubprocessWorker: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [SubprocessWorker] call_method: nodes.main.visualization.preview_gaussian.PreviewGaussianNode.preview_gaussian
+  [ComfyUI] [SubprocessWorker] call_method: nodes.main.visualization.preview_gaussian.PreviewGaussianNode.preview_gaussian
+  [ComfyUI] [comfy-env] env_vars: {'KMP_DUPLICATE_LIB_OK': 'TRUE', 'OMP_NUM_THREADS': '1', 'COMFYUI_BASE': '/home/shadeform/workspaces/Sharp-1740/ComfyUI'}
+  [ComfyUI] [comfy-env] env_vars: {'KMP_DUPLICATE_LIB_OK': 'TRUE', 'OMP_NUM_THREADS': '1', 'COMFYUI_BASE': '/home/shadeform/workspaces/Sharp-1740/ComfyUI'}
+  [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+  [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+  [ComfyUI] [ComfyUI-GeometryPack] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [ComfyUI-GeometryPack] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [ComfyUI-GeometryPack] sys_path sent to worker: ['/home/shadeform/workspaces/Sharp-1740/ComfyUI', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/lib/python3.1/site-packages', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack']
+  [ComfyUI] [ComfyUI-GeometryPack] sys_path sent to worker: ['/home/shadeform/workspaces/Sharp-1740/ComfyUI', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/lib/python3.1/site-packages', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack']
+  [ComfyUI] [SubprocessWorker] is_pixi=False, python=/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [SubprocessWorker] is_pixi=False, python=/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python', '/tmp/comfyui_pvenv_4umd0s28/persistent_worker.py', 'unix:///dev/shm/comfy_worker_d92f61c8f4e4.sock']...
+  [ComfyUI] [SubprocessWorker] launching cmd=['/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python', '/tmp/comfyui_pvenv_4umd0s28/persistent_worker.py', 'unix:///dev/shm/comfy_worker_d92f61c8f4e4.sock']...
+  [ComfyUI] [SubprocessWorker] PATH has 8 entries:
+  [ComfyUI] [SubprocessWorker] PATH has 8 entries:
+  [ComfyUI] [SubprocessWorker]   [0] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [0] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [1] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [1] /home/shadeform/.local/bin
+  [ComfyUI] [worker] PATH has 8 entries:
+  [ComfyUI] [worker] PATH has 8 entries:
+  [ComfyUI] [SubprocessWorker]   [2] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [2] /home/shadeform/.local/bin
+  [ComfyUI] [worker]   [0] /home/shadeform/.local/bin
+  [ComfyUI] [worker]   [0] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [3] /home/shadeform/.venv/bin
+  [ComfyUI] [SubprocessWorker]   [3] /home/shadeform/.venv/bin
+  [ComfyUI] [worker]   [1] /home/shadeform/.local/bin
+  [ComfyUI] [worker]   [1] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [4] /usr/local/bin
+  [ComfyUI] [SubprocessWorker]   [4] /usr/local/bin
+  [ComfyUI] [worker]   [2] /home/shadeform/.local/bin
+  [ComfyUI] [worker]   [2] /home/shadeform/.local/bin
+  [ComfyUI] [SubprocessWorker]   [5] /usr/bin
+  [ComfyUI] [SubprocessWorker]   [5] /usr/bin
+  [ComfyUI] [worker]   [3] /home/shadeform/.venv/bin
+  [ComfyUI] [worker]   [3] /home/shadeform/.venv/bin
+  [ComfyUI] [SubprocessWorker]   [6] /bin
+  [ComfyUI] [SubprocessWorker]   [6] /bin
+  [ComfyUI] [worker]   [4] /usr/local/bin
+  [ComfyUI] [worker]   [4] /usr/local/bin
+  [ComfyUI] [SubprocessWorker]   [7] /snap/bin
+  [ComfyUI] [SubprocessWorker]   [7] /snap/bin
+  [ComfyUI] [worker]   [5] /usr/bin
+  [ComfyUI] [worker]   [5] /usr/bin
+  [ComfyUI] [worker]   [6] /bin
+  [ComfyUI] [worker]   [6] /bin
+  [ComfyUI] [worker]   [7] /snap/bin
+  [ComfyUI] [worker]   [7] /snap/bin
+  [capture-loop] iter=100 t=19.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [ComfyUI] [SubprocessWorker] worker started/confirmed
+  [ComfyUI] [SubprocessWorker] worker started/confirmed
+  [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+  [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+  [ComfyUI] [SubprocessWorker] created 0 shm blocks
+  [ComfyUI] [SubprocessWorker] created 0 shm blocks
+  [ComfyUI] [SubprocessWorker] sending request via socket...
+  [ComfyUI] [SubprocessWorker] sending request via socket...
+  Frame 4 saved (frame_003.jpg, t=19.9s)
+  [capture-periodic] freeze=3ms shot=295ms unfreeze=6ms saved=True
+  [ComfyUI] [worker:ComfyUI-GeometryPack] [PreviewGaussian] Loading PLY: sharp_1772041298829.ply (63.00 MB)
+  [ComfyUI] [worker:ComfyUI-GeometryPack] [PreviewGaussian] Loading PLY: sharp_1772041298829.ply (63.00 MB)
+  [ComfyUI] [SubprocessWorker] got response: ok
+  [ComfyUI] [SubprocessWorker] got response: ok
+  [ComfyUI] Prompt executed in 20.03 seconds
+  [ComfyUI] Prompt executed in 20.03 seconds
+  Node executed (1 total), capturing...
+  Frame 5 saved (frame_004.jpg, t=20.6s)
+  [capture-node] freeze=9ms shot=186ms unfreeze=0ms saved=True
+  Execution complete (t=20.6s)
+  [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+  [3d-wait] Phase 1 done in 0.0s
+  [3d-wait] Phase 2: iframes=1
+  [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+  [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+  [3d-wait] Got 'Loaded successfully' after 1.8s
+  [3d-wait] Unfrozen in 0.459s, rendering for 5s...
+  [3d-wait] JS halted via CDP after 5.6s
+  [3d-wait] Re-frozen in 6.6s
+  [3d-wait] Total 3D wait: 8.5s
+  Captured 5 unique frames over 29.47s
+  [debug] iframes: 1
+  [debug]   iframe[0]: src=http://127.0.0.1:41898/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=17, canvas=1536x1024, rafFrozen=True
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: sharp_basic_executed.png
+  [timing] final_screenshot: 2.4s
+    Captured 6 video frames

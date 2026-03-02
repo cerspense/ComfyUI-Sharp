@@ -1,0 +1,85 @@
+{
+  "timestamp": "2026-02-21T12:08:03.635071+00:00",
+  "platform": "windows_portable",
+  "hardware": {
+    "os": "Windows-11-10.0.26100-SP0",
+    "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+    "gpu": "NVIDIA RTX A4000"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 3,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "pass",
+      "duration_seconds": 240.45,
+      "error": null,
+      "hardware": {
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 17.35,
+          "avg": 15.68
+        },
+        "total_ram_gb": 30.0,
+        "samples": 189,
+        "vram": {
+          "peak": 11.91,
+          "avg": 6.63
+        }
+      }
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 55.04,
+      "error": null,
+      "hardware": {
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 19.15,
+          "avg": 16.03
+        },
+        "total_ram_gb": 30.0,
+        "samples": 45,
+        "vram": {
+          "peak": 8.12,
+          "avg": 3.83
+        }
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 43.95,
+      "error": null,
+      "hardware": {
+        "os": "Windows-11-10.0.26100-SP0",
+        "cpu": "Intel64 Family 6 Model 58 Stepping 9, GenuineIntel",
+        "gpu": "NVIDIA RTX A4000"
+      },
+      "resources": {
+        "ram": {
+          "peak": 17.95,
+          "avg": 15.66
+        },
+        "total_ram_gb": 30.0,
+        "samples": 36,
+        "vram": {
+          "peak": 9.63,
+          "avg": 3.84
+        }
+      }
+    }
+  ]
+}

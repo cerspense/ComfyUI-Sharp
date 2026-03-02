@@ -1,0 +1,58 @@
+{
+  "timestamp": "2026-02-21T12:23:05.800562+00:00",
+  "platform": "macos",
+  "hardware": {
+    "os": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+    "cpu": "arm"
+  },
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 745.03,
+      "error": null,
+      "hardware": {
+        "os": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+        "cpu": "arm"
+      },
+      "resources": {
+        "ram": {
+          "peak": 4.1,
+          "avg": 2.31
+        },
+        "total_ram_gb": 7.0,
+        "samples": 684
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 705.59,
+      "error": null,
+      "hardware": {
+        "os": "macOS-15.7.4-arm64-arm-64bit-Mach-O",
+        "cpu": "arm"
+      },
+      "resources": {
+        "ram": {
+          "peak": 4.06,
+          "avg": 2.27
+        },
+        "total_ram_gb": 7.0,
+        "samples": 644
+      }
+    }
+  ]
+}

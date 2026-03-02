@@ -1,0 +1,60 @@
+{
+  "timestamp": "2026-03-01T23:08:48.510690+00:00",
+  "platform": "linux",
+  "hardware": {
+    "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+    "cpu": "AMD EPYC 7763 64-Core Processor"
+  },
+  "commit_hash": "e848839b2f360eb9e3079bf27745a16f044ded9f",
+  "success": true,
+  "summary": {
+    "total": 3,
+    "passed": 2,
+    "failed": 0
+  },
+  "workflows": [
+    {
+      "name": "pano",
+      "status": "skipped",
+      "duration_seconds": 0,
+      "error": "Not configured for CPU runner",
+      "hardware": null
+    },
+    {
+      "name": "sharp_basic",
+      "status": "pass",
+      "duration_seconds": 339.56,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+        "cpu": "AMD EPYC 7763 64-Core Processor"
+      },
+      "resources": {
+        "ram": {
+          "peak": 8.62,
+          "avg": 6.03
+        },
+        "total_ram_gb": 15.6,
+        "samples": 340
+      }
+    },
+    {
+      "name": "sharp_exif",
+      "status": "pass",
+      "duration_seconds": 373.73,
+      "error": null,
+      "hardware": {
+        "os": "Linux-6.14.0-1017-azure-x86_64-with-glibc2.39",
+        "cpu": "AMD EPYC 7763 64-Core Processor"
+      },
+      "resources": {
+        "ram": {
+          "peak": 9.56,
+          "avg": 7.3
+        },
+        "total_ram_gb": 15.6,
+        "samples": 374
+      }
+    }
+  ]
+}

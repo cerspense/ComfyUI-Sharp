@@ -1,0 +1,561 @@
+[00:00] Crash dump logging enabled: /home/shadeform/logs/Sharp-1740/dev/linux-gpu/crash_dump.log
+[00:00] 
+[00:00] [1/5] SYNTAX
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=None, api=None
+[00:00] Found pyproject.toml (modern format)
+[00:00] Found requirements.txt (legacy format)
+[00:00] Unicode check: OK (all characters cp1252-safe)
+[00:00] Forbidden patterns check: OK
+[00:00] [SYNTAX] PASSED
+[00:00] 
+[00:00] [2/5] INSTALL
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=None, api=None
+[00:00] Setting up ComfyUI...
+[00:00] Creating virtual environment...
+[00:00] Running: uv venv /home/shadeform/workspaces/Sharp-1740/.venv --python 3.10
+[00:00] Cloning ComfyUI (latest)...
+[00:00] Running: git clone --depth 1 https://github.com/comfyanonymous/ComfyUI.git /home/shadeform/workspaces/Sharp-1740/ComfyUI
+[00:01] Installing ComfyUI requirements...
+[00:01] Running: uv pip install --python /home/shadeform/workspaces/Sharp-1740/.venv/bin/python --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple -r /home/shadeform/workspaces/Sharp-1740/ComfyUI/requirements.txt
+[00:02] Installing local comfy-env (editable)...
+[00:03] Running: uv pip install -e /home/shadeform/utils/comfy-env --python /home/shadeform/workspaces/Sharp-1740/.venv/bin/python
+[00:03] Installing local comfy-test (editable)...
+[00:03] Running: uv pip install -e /home/shadeform/utils/comfy-test --python /home/shadeform/workspaces/Sharp-1740/.venv/bin/python
+[00:04] Installing local comfy-3d-viewers (editable)...
+[00:04] Running: uv pip install -e /home/shadeform/utils/comfy-3d-viewers --python /home/shadeform/workspaces/Sharp-1740/.venv/bin/python
+[00:05] Installing custom node...
+[00:05] Copying ComfyUI-Sharp to custom_nodes/...
+[00:05] Installing node requirements...
+[00:05] Running: uv pip install --python /home/shadeform/workspaces/Sharp-1740/.venv/bin/python --index-url https://download.pytorch.org/whl/cu128 --extra-index-url https://pypi.org/simple -r /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-Sharp/requirements.txt
+[00:05] Running install.py...
+[00:05] Running: /home/shadeform/workspaces/Sharp-1740/.venv/bin/python /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-Sharp/install.py
+[00:09]   Installing 2 node dependencies...
+[00:09]     Cloning ComfyUI-GeometryPack...
+[00:09]     Installing requirements for ComfyUI-GeometryPack...
+[00:09]     Running install.py for ComfyUI-GeometryPack...
+[00:09]     Cloning ComfyUI-Env-Manager...
+[00:09]     Installing requirements for ComfyUI-Env-Manager...
+[00:09]   
+[00:09]   [requirements] Re-installing main package requirements...
+[00:09]     Installing requirements for ComfyUI-Sharp...
+[00:09]   
+[00:09]   Installation complete!
+[00:09] Installing 2 node dependency(ies)...
+[00:09]   ComfyUI-GeometryPack from PozzettiAndrea/ComfyUI-GeometryPack
+[00:09]   ComfyUI-GeometryPack already exists, skipping...
+[00:09]   ComfyUI-Env-Manager from PozzettiAndrea/ComfyUI-Env-Manager
+[00:09]   ComfyUI-Env-Manager already exists, skipping...
+[00:09] Installing validation endpoint...
+[00:09]   Cloning PozzettiAndrea/ComfyUI-validate-endpoint...
+[00:09] Running: git clone --depth 1 https://github.com/PozzettiAndrea/ComfyUI-validate-endpoint.git /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-validate-endpoint
+[00:09] COMFY_TEST_GPU env var = '1'
+[00:09] GPU mode: using real CUDA (no mocking)
+[00:09] [INSTALL] PASSED
+[00:09] 
+[00:09] [3/5] REGISTRATION
+[00:09] ----------------------------------------
+[00:09] [DEBUG] server=None, server_url=None, api=None
+[00:09] 
+Starting ComfyUI server...
+[00:09] Starting ComfyUI server on port 41898...
+[00:09] Starting ComfyUI server on port 41898...
+[00:09] Waiting for server to be ready (timeout: 300s)...
+[00:12]   [ComfyUI] [comfy-env] ComfyUI-Sharp: root config found but env not built yet
+[00:12]   [ComfyUI] [comfy-env] Library paths (main process):
+[00:12]   [ComfyUI] [comfy-env]   PATH=/home/shadeform/.local/bin:/home/shadeform/.local/bin:/home/shadeform/.local/bin:/home/shadeform/.venv/bin:/usr/local/bin:/usr/bin:/bin:/snap/bin
+[00:12]   [ComfyUI] [comfy-env] prestartup complete
+[00:16]   [ComfyUI] [comfy-env] ComfyUI-GeometryPack: root config found but env not built yet
+[00:16]   [ComfyUI] [comfy-env] 3 isolation env(s):
+[00:16]   [ComfyUI] [comfy-env]   _env_6f15f8 -> /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/gpu/_env_6f15f8
+[00:16]   [ComfyUI] [comfy-env]   _env_726b32 -> /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/blender/_env_726b32
+[00:16]   [ComfyUI] [comfy-env]   _env_12709f -> /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f
+[00:16]   [ComfyUI] [comfy-env] Library paths (main process):
+[00:16]   [ComfyUI] [comfy-env]   PATH=/home/shadeform/.local/bin:/home/shadeform/.local/bin:/home/shadeform/.local/bin:/home/shadeform/.venv/bin:/usr/local/bin:/usr/bin:/bin:/snap/bin
+[00:16]   [ComfyUI] [comfy-env] prestartup complete
+[00:16]   [ComfyUI] 
+[00:16]   [ComfyUI] Prestartup times for custom nodes:
+[00:16]   [ComfyUI]    0.1 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:16]   [ComfyUI]    4.6 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-Sharp
+[00:16]   [ComfyUI] 
+[00:16]   [ComfyUI] WARNING: Potential Error in code: Torch already imported, torch should never be imported before this point.
+[00:22]   [ComfyUI] WARNING: You need pytorch with cu130 or higher to use optimized CUDA operations.
+[00:22]   [ComfyUI] Found comfy_kitchen backend triton: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
+[00:22]   [ComfyUI] Found comfy_kitchen backend cuda: {'available': True, 'disabled': True, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8']}
+[00:22]   [ComfyUI] Found comfy_kitchen backend eager: {'available': True, 'disabled': False, 'unavailable_reason': None, 'capabilities': ['apply_rope', 'apply_rope1', 'dequantize_nvfp4', 'dequantize_per_tensor_fp8', 'quantize_nvfp4', 'quantize_per_tensor_fp8', 'scaled_mm_nvfp4']}
+[00:22]   [ComfyUI] Checkpoint files will always be loaded safely.
+[00:22]   [ComfyUI] Total VRAM 48539 MB, total RAM 48269 MB
+[00:22]   [ComfyUI] pytorch version: 2.10.0+cu128
+[00:22]   [ComfyUI] Set vram state to: NORMAL_VRAM
+[00:22]   [ComfyUI] Device: cuda:0 NVIDIA RTX A6000 : cudaMallocAsync
+[00:22]   [ComfyUI] Using async weight offloading with 2 streams
+[00:22]   [ComfyUI] Enabled pinned memory 45855.0
+[00:22]   [ComfyUI] working around nvidia conv3d memory bug.
+[00:23]   [ComfyUI] Using pytorch attention
+[00:30]   [ComfyUI] Python version: 3.10.12 (main, Jan 26 2026, 14:55:28) [GCC 11.4.0]
+[00:30]   [ComfyUI] ComfyUI version: 0.15.0
+[00:30]   [ComfyUI] ****** User settings have been changed to be stored on the server instead of browser storage. ******
+[00:30]   [ComfyUI] ****** For multi-user setups add the --multi-user CLI argument to enable multiple user profiles. ******
+[00:30]   [ComfyUI] ComfyUI frontend version: 1.39.16
+[00:30]   [ComfyUI] [Prompt Server] web root: /home/shadeform/workspaces/Sharp-1740/.venv/lib/python3.10/site-packages/comfyui_frontend_package/static
+[00:34]   [ComfyUI] [geompack] loading...
+[00:34]   [ComfyUI] [geompack] calling register_nodes
+[00:34]   [ComfyUI] [comfy-env] Version: 0.2.11
+[00:34]   [ComfyUI] [comfy-env] register_nodes: pkg_dir=/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack, caller=/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:34]   [ComfyUI] [comfy-env] Found 3 isolation env(s)
+[00:34]   [ComfyUI] [comfy-env] Importing nodes (root)...
+[00:34]   [ComfyUI] [comfy-env] Imported nodes root: 0 nodes
+[00:34]   [ComfyUI] [comfy-env] Cache stale for nodes.blender (key v1:ef6471f7b1b6ea67 != v1:72c524bcd5a2b57a)
+[00:34]   [ComfyUI] [comfy-env] Cache stale for nodes.gpu (key v1:2ac0a94a488cef8f != v1:cfb150dd18fb563f)
+[00:34]   [ComfyUI] [comfy-env] Metadata scan: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/gpu/_env_6f15f8/bin/python /tmp/comfy_meta_p18jcein.py /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack nodes.gpu
+[00:34]   [ComfyUI] [comfy-env] Scan env PATH for nodes.gpu:
+[00:34]   [ComfyUI] [comfy-env]   [0] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [1] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [2] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [3] /home/shadeform/.venv/bin
+[00:34]   [ComfyUI] [comfy-env]   [4] /usr/local/bin
+[00:34]   [ComfyUI] [comfy-env]   [5] /usr/bin
+[00:34]   [ComfyUI] [comfy-env]   [6] /bin
+[00:34]   [ComfyUI] [comfy-env]   [7] /snap/bin
+[00:34]   [ComfyUI] [comfy-env] Metadata scan: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/blender/_env_726b32/bin/python /tmp/comfy_meta_jgd39qd2.py /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack nodes.blender
+[00:34]   [ComfyUI] [comfy-env] Scan env PATH for nodes.blender:
+[00:34]   [ComfyUI] [comfy-env]   [0] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [1] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [2] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [3] /home/shadeform/.venv/bin
+[00:34]   [ComfyUI] [comfy-env]   [4] /usr/local/bin
+[00:34]   [ComfyUI] [comfy-env]   [5] /usr/bin
+[00:34]   [ComfyUI] [comfy-env]   [6] /bin
+[00:34]   [ComfyUI] [comfy-env]   [7] /snap/bin
+[00:34]   [ComfyUI] [comfy-env] Cache stale for nodes.main (key v1:f88300dca75b438e != v1:7dcc63376c9482a0)
+[00:34]   [ComfyUI] [comfy-env] Metadata scan: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python /tmp/comfy_meta_15z3ojek.py /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack nodes.main
+[00:34]   [ComfyUI] [comfy-env] Scan env PATH for nodes.main:
+[00:34]   [ComfyUI] [comfy-env]   [0] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [1] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [2] /home/shadeform/.local/bin
+[00:34]   [ComfyUI] [comfy-env]   [3] /home/shadeform/.venv/bin
+[00:34]   [ComfyUI] [comfy-env]   [4] /usr/local/bin
+[00:34]   [ComfyUI] [comfy-env]   [5] /usr/bin
+[00:34]   [ComfyUI] [comfy-env]   [6] /bin
+[00:34]   [ComfyUI] [comfy-env]   [7] /snap/bin
+[00:36]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes.main:
+[00:36]   [ComfyUI] [comfy-env]   [meta-scan] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+[00:36]   [ComfyUI] [comfy-env]   [meta-scan] PATH:
+[00:36]   [ComfyUI] [comfy-env]   [meta-scan]   [0] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [1] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [2] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [3] /home/shadeform/.venv/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [4] /usr/local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [5] /usr/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [6] /bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [7] /snap/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/lib: 218 shared libs
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_AABB_tree_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Alpha_shape_2_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Kernel_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Mesh_3_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Surface_mesher_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Triangulation_2_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libCGAL_Triangulation_3_cpp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libatomic.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libblas.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_atomic.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_charconv.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_chrono.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_cobalt.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_container.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_context.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_contract.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_coroutine.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_date_time.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_fiber.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_filesystem.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_graph.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_iostreams.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_json.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_locale.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_log.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_log_setup.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_c99.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_c99f.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_c99l.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_tr1.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_tr1f.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_math_tr1l.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_nowide.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_prg_exec_monitor.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_process.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_program_options.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_random.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_regex.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_serialization.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libboost_stacktrace_addr2line.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   ... and 58 more
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] LD/DYLD_LIBRARY_PATH: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/lib:/usr/lib/x86_64-linux-gnu:/usr/lib:/lib/x86_64-linux-gnu
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes.main from /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] import OK
+[00:37]   [ComfyUI] [comfy-env] Scanned nodes.main: 57 nodes (1.8s)
+[00:37]   [ComfyUI] [comfy-env] Registered 57 isolation nodes from main
+[00:37]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes.blender:
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/blender/_env_726b32/bin/python
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] PATH:
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [0] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [1] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [2] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [3] /home/shadeform/.venv/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [4] /usr/local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [5] /usr/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [6] /bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [7] /snap/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/blender/_env_726b32/lib: 107 shared libs
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libatomic.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libbz2.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libcrypt.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libcrypto.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libexpat.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libffi.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libform.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libformw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libgcc_s.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libgomp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libhistory.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicudata.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicui18n.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicuio.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicutest.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicutu.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicuuc.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libitm.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   liblzma.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libmenu.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libmenuw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libncurses.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libncursesw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libnsl.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpanel.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpanelw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpython3.11.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpython3.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libquadmath.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libreadline.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libsqlite3.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libssl.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libstdc++.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtcl8.6.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtinfo.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtinfow.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtk8.6.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libuuid.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libz.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libzstd.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] LD/DYLD_LIBRARY_PATH: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/blender/_env_726b32/lib:/usr/lib/x86_64-linux-gnu:/usr/lib:/lib/x86_64-linux-gnu
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes.blender from /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] import OK
+[00:37]   [ComfyUI] [comfy-env] Scanned nodes.blender: 5 nodes (2.0s)
+[00:37]   [ComfyUI] [comfy-env] Registered 5 isolation nodes from blender
+[00:37]   [ComfyUI] [comfy-env] Metadata scan stderr for nodes.gpu:
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/gpu/_env_6f15f8/bin/python
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] PATH:
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [0] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [1] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [2] /home/shadeform/.local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [3] /home/shadeform/.venv/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [4] /usr/local/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [5] /usr/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [6] /bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   [7] /snap/bin
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/gpu/_env_6f15f8/lib: 107 shared libs
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libatomic.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libbz2.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libcrypt.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libcrypto.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libexpat.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libffi.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libform.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libformw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libgcc_s.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libgomp.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libhistory.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicudata.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicui18n.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicuio.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicutest.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicutu.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libicuuc.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libitm.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   liblzma.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libmenu.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libmenuw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libncurses.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libncursesw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libnsl.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpanel.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpanelw.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpython3.12.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libpython3.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libquadmath.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libreadline.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libsqlite3.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libssl.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libstdc++.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtcl8.6.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtinfo.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtinfow.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libtk8.6.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libuuid.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libz.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan]   libzstd.so
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] LD/DYLD_LIBRARY_PATH: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/gpu/_env_6f15f8/lib:/usr/lib/x86_64-linux-gnu:/usr/lib:/lib/x86_64-linux-gnu
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] importing nodes.gpu from /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:37]   [ComfyUI] [comfy-env]   [meta-scan] import OK
+[00:37]   [ComfyUI] [comfy-env] Scanned nodes.gpu: 1 nodes (2.0s)
+[00:37]   [ComfyUI] [comfy-env] Registered 1 isolation nodes from gpu
+[00:37]   [ComfyUI] [comfy-env] Registered 63 total nodes
+[00:37]   [ComfyUI] ComfyUI-Env-Manager v0.1.0 routes registered
+[00:37]   [ComfyUI] 
+[00:37]   [ComfyUI] Import times for custom nodes:
+[00:37]   [ComfyUI]    0.0 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/websocket_image_save.py
+[00:37]   [ComfyUI]    0.0 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-validate-endpoint
+[00:37]   [ComfyUI]    0.0 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-Env-Manager
+[00:37]   [ComfyUI]    0.1 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-Sharp
+[00:37]   [ComfyUI]    2.4 seconds: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack
+[00:37]   [ComfyUI] 
+[00:37]   [ComfyUI] Context impl SQLiteImpl.
+[00:37]   [ComfyUI] Will assume non-transactional DDL.
+[00:37]   [ComfyUI] Context impl SQLiteImpl.
+[00:37]   [ComfyUI] Will assume non-transactional DDL.
+[00:37]   [ComfyUI] Running upgrade  -> 0001_assets, Initial assets schema
+[00:37]   [ComfyUI] Revision ID: 0001_assets
+[00:37]   [ComfyUI] Revises: None
+[00:37]   [ComfyUI] Create Date: 2025-12-10 00:00:00
+[00:37]   [ComfyUI] Database upgraded from None to 0001_assets
+[00:37]   [ComfyUI] Assets scan(roots=['models']) completed in 0.090s (created=11, skipped_existing=0, orphans_pruned=0, total_seen=11)
+[00:37]   [ComfyUI] Starting server
+[00:37]   [ComfyUI] 
+[00:37]   [ComfyUI] To see the GUI go to: http://127.0.0.1:41898
+[00:38] Server responding, waiting for nodes to load...
+[00:58] Server is ready!
+[00:58] Checking for import errors in server logs...
+[00:58] No import errors detected
+[00:58] Found 709 registered nodes
+[00:59] [REGISTRATION] PASSED
+[00:59] 
+[00:59] [4/5] INSTANTIATION
+[00:59] ----------------------------------------
+[00:59] [DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x7acee4ab5820>, server_url=None, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x7acee49183e0>
+[00:59] Testing node constructors...
+[01:02] All 8 node(s) instantiated successfully!
+[01:02] [INSTANTIATION] PASSED
+[01:02] 
+[01:02] [5/5] EXECUTION
+[01:02] ----------------------------------------
+[01:02] [DEBUG] server=<comfy_test.comfyui.server.ComfyUIServer object at 0x7acee4ab5820>, server_url=None, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x7acee49183e0>
+[01:02] GPU runner - will execute 2 workflow(s)
+[01:02] Running 3 workflow(s) (all with videos)...
+[01:02] Starting headless browser...
+[01:03]   GPU + Vulkan detected — using ANGLE/Vulkan rendering
+[01:04] [VRAM] monitoring=OFF, server_pid=321506
+[01:04]   [1/3] SKIPPED (not in gpu list) pano.json
+[01:04] Capturing execution frames: sharp_basic.json
+[01:05]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:05]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:06]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:06]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:06]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:06]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:06]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[01:07]   [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[01:07]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[01:07]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[01:08]   [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/buttonGroup.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[01:08]   [ComfyUI] [DEPRECATION WARNING] Detected import of deprecated legacy API: /scripts/ui/components/button.js. This is likely caused by a custom node extension using outdated APIs. Please update your extensions or contact the extension author for an updated version.
+[01:08]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[01:08]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[01:13]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[01:13]   Validating workflow...
+[01:13]   [ComfyUI] === /validate endpoint called ===
+[01:13]   [ComfyUI] Received JSON with keys: ['prompt']
+[01:13]   [ComfyUI] Prompt has 4 nodes
+[01:13]   Queuing workflow for execution...
+[01:13]   [ComfyUI]   Node 1: LoadImage
+[01:13]   [ComfyUI]     Inputs: {"image": "beach.jpg"}
+[01:13]   [ComfyUI]   Node 2: LoadSharpModel
+[01:13]   [ComfyUI]     Inputs: {"precision": "auto", "checkpoint_path": ""}
+[01:13]   [ComfyUI]   Node 4: GeomPackPreviewGaussian
+[01:13]   [ComfyUI]     Inputs: {"preview_gaussian": "", "ply_path": ["5", 0], "extrinsics": ["5", 1], "intrinsics": ["5", 2]}
+[01:13]   [ComfyUI]   Node 5: SharpPredict
+[01:13]   [ComfyUI]     Inputs: {"focal_length_mm": 30, "output_prefix": "sharp", "model": ["2", 0], "image": ["1", 0]}
+[01:13]   [ComfyUI] Generated prompt_id: c23da986-171b-4c75-8712-dbb99f6e79a7
+[01:13]   [ComfyUI] Calling execution.validate_prompt()...
+[01:13]   [ComfyUI] Validation result: valid=True
+[01:13]   [ComfyUI] === Validation PASSED ===
+[01:13]   [ComfyUI] got prompt
+[01:13]   [ComfyUI] HTTP Request: HEAD https://huggingface.co/apple/Sharp/resolve/main/sharp_2572gikvuh.pt "HTTP/1.1 302 Found"
+[01:13]   [ComfyUI] HTTP Request: GET https://huggingface.co/api/models/apple/Sharp/xet-read-token/50753d96c1f7ad0bae4184ddfb6aa98bca975f29 "HTTP/1.1 200 OK"
+[01:15]   Frame 2 saved (frame_001.jpg, t=2.5s)
+[01:16]   [capture-periodic] freeze=10ms shot=226ms unfreeze=8ms saved=True
+[01:23]   [ComfyUI] Loading checkpoint from /home/shadeform/workspaces/Sharp-1740/ComfyUI/models/sharp/sharp_2572gikvuh.pt
+[01:25]   [capture-loop] iter=50 t=13.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[01:27]   [ComfyUI] Initializing model...
+[01:27]   [ComfyUI] Using preset ViT dinov2l16_384.
+[01:27]   [ComfyUI] Using preset ViT dinov2l16_384.
+[01:27]   [ComfyUI] Model ready (torch.bfloat16)
+[01:27]   [ComfyUI] Requested to load RGBGaussianPredictor
+[01:27]   [ComfyUI] loaded completely; 46384.86 MB usable, 2674.57 MB loaded, full load: True
+[01:28]   [ComfyUI] Processing 1 image(s)
+[01:28]   [ComfyUI] Image size: 1536x1024
+[01:28]   [ComfyUI] Running inference on image 1/1...
+[01:28]   [ComfyUI] Encoding...
+[01:28]   Frame 3 saved (frame_002.jpg, t=15.4s)
+[01:28]   [capture-periodic] freeze=4ms shot=181ms unfreeze=4ms saved=True
+[01:29]   [ComfyUI] Encode time: 1.52s
+[01:30]   [ComfyUI] Decode time: 0.32s
+[01:31]   [ComfyUI] Saved: /home/shadeform/workspaces/Sharp-1740/ComfyUI/output/sharp_1772041298829.ply (1,179,648 gaussians)
+[01:31]   [ComfyUI] [comfy-env] Removed stale socket: /dev/shm/comfy_worker_b24fa31ff9ce.sock
+[01:31]   [ComfyUI] Total inference time: 3.92s (3.92s per image)
+[01:31]   [ComfyUI] [comfy-env] SubprocessWorker: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+[01:31]   [ComfyUI] [SubprocessWorker] call_method: nodes.main.visualization.preview_gaussian.PreviewGaussianNode.preview_gaussian
+[01:31]   [ComfyUI] [comfy-env] env_vars: {'KMP_DUPLICATE_LIB_OK': 'TRUE', 'OMP_NUM_THREADS': '1', 'COMFYUI_BASE': '/home/shadeform/workspaces/Sharp-1740/ComfyUI'}
+[01:31]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[01:31]   [ComfyUI] [ComfyUI-GeometryPack] python: /home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+[01:31]   [ComfyUI] [ComfyUI-GeometryPack] sys_path sent to worker: ['/home/shadeform/workspaces/Sharp-1740/ComfyUI', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/lib/python3.1/site-packages', '/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack']
+[01:31]   [ComfyUI] [SubprocessWorker] is_pixi=False, python=/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python
+[01:31]   [ComfyUI] [SubprocessWorker] launching cmd=['/home/shadeform/workspaces/Sharp-1740/ComfyUI/custom_nodes/ComfyUI-GeometryPack/nodes/main/_env_12709f/bin/python', '/tmp/comfyui_pvenv_4umd0s28/persistent_worker.py', 'unix:///dev/shm/comfy_worker_d92f61c8f4e4.sock']...
+[01:31]   [ComfyUI] [SubprocessWorker] PATH has 8 entries:
+[01:31]   [ComfyUI] [SubprocessWorker]   [0] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [1] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [worker] PATH has 8 entries:
+[01:32]   [ComfyUI] [SubprocessWorker]   [2] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [worker]   [0] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [3] /home/shadeform/.venv/bin
+[01:32]   [ComfyUI] [worker]   [1] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [4] /usr/local/bin
+[01:32]   [ComfyUI] [worker]   [2] /home/shadeform/.local/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [5] /usr/bin
+[01:32]   [ComfyUI] [worker]   [3] /home/shadeform/.venv/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [6] /bin
+[01:32]   [ComfyUI] [worker]   [4] /usr/local/bin
+[01:32]   [ComfyUI] [SubprocessWorker]   [7] /snap/bin
+[01:32]   [ComfyUI] [worker]   [5] /usr/bin
+[01:32]   [ComfyUI] [worker]   [6] /bin
+[01:32]   [ComfyUI] [worker]   [7] /snap/bin
+[01:32]   [capture-loop] iter=100 t=19.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:32]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[01:32]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[01:32]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[01:32]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[01:33]   Frame 4 saved (frame_003.jpg, t=19.9s)
+[01:33]   [capture-periodic] freeze=3ms shot=295ms unfreeze=6ms saved=True
+[01:33]   [ComfyUI] [worker:ComfyUI-GeometryPack] [PreviewGaussian] Loading PLY: sharp_1772041298829.ply (63.00 MB)
+[01:33]   [ComfyUI] [SubprocessWorker] got response: ok
+[01:33]   [ComfyUI] Prompt executed in 20.03 seconds
+[01:33]   Node executed (1 total), capturing...
+[01:33]   Frame 5 saved (frame_004.jpg, t=20.6s)
+[01:33]   [capture-node] freeze=9ms shot=186ms unfreeze=0ms saved=True
+[01:33]   Execution complete (t=20.6s)
+[01:33]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[01:33]   [3d-wait] Phase 1 done in 0.0s
+[01:33]   [3d-wait] Phase 2: iframes=1
+[01:33]   [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+[01:33]   [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+[01:35]   [3d-wait] Got 'Loaded successfully' after 1.8s
+[01:36]   [3d-wait] Unfrozen in 0.459s, rendering for 5s...
+[01:41]   [3d-wait] JS halted via CDP after 5.6s
+[01:42]   [3d-wait] Re-frozen in 6.6s
+[01:42]   [3d-wait] Total 3D wait: 8.5s
+[01:42]   Captured 5 unique frames over 29.47s
+[01:42]   [debug] iframes: 1
+[01:42]   [debug]   iframe[0]: src=http://127.0.0.1:41898/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=17, canvas=1536x1024, rafFrozen=True
+[01:42]   [timing] trigger_3d_previews: 0.0s
+[01:46]   Saved high-quality screenshot: sharp_basic_executed.png
+[01:46]   [timing] final_screenshot: 2.4s
+[01:46] Capturing execution frames: sharp_exif.json
+[01:46]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:46]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:47]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[01:59]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[02:02]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[02:03]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[02:03]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[02:03]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[02:03]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[02:03]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[02:03]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[02:07]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[02:07]   Validating workflow...
+[02:07]   [ComfyUI] === /validate endpoint called ===
+[02:07]   Queuing workflow for execution...
+[02:07]   [ComfyUI] Received JSON with keys: ['prompt']
+[02:07]   [ComfyUI] Prompt has 4 nodes
+[02:07]   [ComfyUI]   Node 2: LoadSharpModel
+[02:07]   [ComfyUI]     Inputs: {"precision": "auto", "checkpoint_path": ""}
+[02:07]   [ComfyUI]   Node 7: SharpPredict
+[02:07]   [ComfyUI]     Inputs: {"focal_length_mm": ["9", 2], "output_prefix": "sharp", "model": ["2", 0], "image": ["9", 0]}
+[02:07]   [ComfyUI]   Node 8: GeomPackPreviewGaussian
+[02:07]   [ComfyUI]     Inputs: {"preview_gaussian": "", "ply_path": ["7", 0], "extrinsics": ["7", 1], "intrinsics": ["7", 2]}
+[02:07]   [ComfyUI]   Node 9: LoadImageWithExif
+[02:07]   [ComfyUI]     Inputs: {"image": "eth3d.png", "default_focal_mm": 30}
+[02:07]   [ComfyUI] Generated prompt_id: 80b1c2e7-63fb-4e42-8c66-b1893ba4ae67
+[02:07]   [ComfyUI] Calling execution.validate_prompt()...
+[02:07]   [ComfyUI] Validation result: valid=True
+[02:07]   [ComfyUI] === Validation PASSED ===
+[02:07]   [ComfyUI] got prompt
+[02:07]   [ComfyUI] Extracted focal length: 20mm (35mm equivalent)
+[02:08]   [ComfyUI] HTTP Request: HEAD https://huggingface.co/apple/Sharp/resolve/main/sharp_2572gikvuh.pt "HTTP/1.1 302 Found"
+[02:08]   [ComfyUI] Loading checkpoint from /home/shadeform/workspaces/Sharp-1740/ComfyUI/models/sharp/sharp_2572gikvuh.pt
+[02:09]   Frame 2 saved (frame_001.jpg, t=2.5s)
+[02:09]   [capture-periodic] freeze=18ms shot=270ms unfreeze=30ms saved=True
+[02:10]   [ComfyUI] Initializing model...
+[02:10]   [ComfyUI] Using preset ViT dinov2l16_384.
+[02:10]   [ComfyUI] Using preset ViT dinov2l16_384.
+[02:10]   [ComfyUI] Model ready (torch.bfloat16)
+[02:10]   [ComfyUI] Requested to load RGBGaussianPredictor
+[02:12]   Frame 3 saved (frame_002.jpg, t=5.1s)
+[02:12]   [capture-periodic] freeze=12ms shot=430ms unfreeze=7ms saved=True
+[02:13]   [ComfyUI] loaded completely; 44330.05 MB usable, 2674.57 MB loaded, full load: True
+[02:13]   [ComfyUI] Processing 1 image(s)
+[02:13]   [ComfyUI] Image size: 3040x2022
+[02:13]   [ComfyUI] Running inference on image 1/1...
+[02:13]   [ComfyUI] Encoding...
+[02:13]   [ComfyUI] Encode time: 0.09s
+[02:14]   [capture-loop] iter=50 t=7.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:15]   [ComfyUI] Decode time: 0.26s
+[02:15]   [ComfyUI] Saved: /home/shadeform/workspaces/Sharp-1740/ComfyUI/output/sharp_1772041343881.ply (1,179,648 gaussians)
+[02:15]   [ComfyUI] Total inference time: 2.74s (2.74s per image)
+[02:15]   [ComfyUI] [SubprocessWorker] call_method: nodes.main.visualization.preview_gaussian.PreviewGaussianNode.preview_gaussian
+[02:15]   [ComfyUI] [SubprocessWorker] acquired lock, ensuring started...
+[02:15]   [ComfyUI] [ComfyUI-GeometryPack] Health check: ping (timeout=5.0s)...
+[02:15]   [ComfyUI] [ComfyUI-GeometryPack] Health check: ok
+[02:15]   [ComfyUI] [SubprocessWorker] worker started/confirmed
+[02:15]   [ComfyUI] [SubprocessWorker] serializing kwargs to shm...
+[02:15]   [ComfyUI] [SubprocessWorker] created 0 shm blocks
+[02:15]   [ComfyUI] [SubprocessWorker] sending request via socket...
+[02:15]   [ComfyUI] [worker:ComfyUI-GeometryPack] [PreviewGaussian] Loading PLY: sharp_1772041343881.ply (63.00 MB)
+[02:15]   [ComfyUI] [SubprocessWorker] got response: ok
+[02:15]   [ComfyUI] Prompt executed in 8.66 seconds
+[02:16]   Node executed (1 total), capturing...
+[02:18]   Frame 4 saved (frame_003.jpg, t=9.4s)
+[02:18]   [capture-node] freeze=33ms shot=2606ms unfreeze=0ms saved=True
+[02:18]   Execution complete (t=9.4s)
+[02:18]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[02:18]   [3d-wait] Phase 1 done in 0.0s
+[02:18]   [3d-wait] Phase 2: iframes=1
+[02:18]   [3d-wait] iframe viewer_ready=True (matched 1 console logs)
+[02:18]   [3d-wait] Unfrozen in 0.003s, rendering for 5s...
+[02:23]   [3d-wait] JS halted via CDP after 5.0s
+[02:25]   [3d-wait] Re-frozen in 6.2s
+[02:25]   [3d-wait] Total 3D wait: 6.4s
+[02:25]   Captured 4 unique frames over 18.5s
+[02:25]   [debug] iframes: 1
+[02:25]   [debug]   iframe[0]: src=http://127.0.0.1:41898/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=17, canvas=3040x2022, rafFrozen=True
+[02:25]   [timing] trigger_3d_previews: 0.0s
+[02:29]   Saved high-quality screenshot: sharp_exif_executed.png
+[02:29]   [timing] final_screenshot: 2.0s
+[02:29] Results saved to /home/shadeform/logs/Sharp-1740/dev/linux-gpu/results.json
+[02:29] Model report: 3 files, 2.6 GB -> /home/shadeform/logs/Sharp-1740/dev/linux-gpu/models.json
+[02:29] Saved: /home/shadeform/logs/Sharp-1740/dev/linux-gpu/index.html
+[02:29] [EXECUTION] PASSED
+[02:29] 
+linux: PASSED
+[02:29] Stopping ComfyUI server...

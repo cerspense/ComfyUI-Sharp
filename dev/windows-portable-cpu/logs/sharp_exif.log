@@ -1,0 +1,103 @@
+Capturing execution frames: sharp_exif.json
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+  [Console-warning] WARNING: Multiple instances of Three.js being imported.
+  [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+  [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+  Frame 1 saved (frame_000.jpg, t=0.0s)
+  Validating workflow...
+  Queuing workflow for execution...
+  Frame 2 saved (frame_001.jpg, t=2.3s)
+  [capture-periodic] freeze=3ms shot=165ms unfreeze=3ms saved=True
+  [capture-loop] iter=50 t=6.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  Frame 3 saved (frame_002.jpg, t=9.0s)
+  [capture-periodic] freeze=3ms shot=170ms unfreeze=5ms saved=True
+  [capture-loop] iter=100 t=12.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=150 t=17.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+  [capture-loop] iter=200 t=24.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  Frame 4 saved (frame_003.jpg, t=27.2s)
+  [capture-periodic] freeze=6ms shot=185ms unfreeze=5ms saved=True
+  [capture-loop] iter=250 t=30.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=300 t=36.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=350 t=42.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=400 t=48.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=450 t=53.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=500 t=59.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=550 t=65.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+  [capture-loop] iter=600 t=71.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=650 t=77.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=700 t=83.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=750 t=89.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=800 t=95.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=850 t=101.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=900 t=107.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=950 t=113.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  [capture-loop] iter=1000 t=119.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  [capture-loop] iter=1050 t=125.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  [capture-loop] iter=1100 t=131.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1150 t=137.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1200 t=143.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1250 t=149.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=1300 t=155.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1350 t=161.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1400 t=167.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  [capture-loop] iter=1450 t=173.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1500 t=179.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=1550 t=185.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1600 t=191.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=1650 t=197.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1700 t=203.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1750 t=209.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=1800 t=215.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1850 t=221.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=1900 t=227.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=1950 t=233.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2000 t=239.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+  [capture-loop] iter=2050 t=245.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2100 t=251.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2150 t=257.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2200 t=263.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+  [capture-loop] iter=2250 t=269.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2300 t=275.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2350 t=281.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2400 t=287.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2450 t=293.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  [capture-loop] iter=2500 t=299.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2550 t=305.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+  [capture-loop] iter=2600 t=311.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2650 t=317.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2700 t=323.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+  [capture-loop] iter=2750 t=329.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2800 t=335.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+  [capture-loop] iter=2850 t=341.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+  [capture-loop] iter=2900 t=347.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+  [capture-loop] iter=2950 t=353.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+  Frame 5 saved (frame_004.jpg, t=356.5s)
+  [capture-periodic] freeze=4ms shot=195ms unfreeze=4ms saved=True
+  Node executed (1 total), capturing...
+  Frame 6 saved (frame_005.jpg, t=360.3s)
+  [capture-node] freeze=25ms shot=201ms unfreeze=0ms saved=True
+  Execution complete (t=360.3s)
+  [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+  [3d-wait] Phase 1 done in 0.0s
+  [3d-wait] Phase 2: iframes=1
+  [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+  [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+  [3d-wait] Got 'Loaded successfully' after 3.7s
+  [3d-wait] Unfrozen in 0.233s, rendering for 5s...
+  [3d-wait] JS halted via CDP after 14.7s
+  [3d-wait] Re-frozen in 56.9s
+  [3d-wait] Total 3D wait: 60.7s
+  Captured 6 unique frames over 421.24s
+  [debug] iframes: 1
+  [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=3040x2022, rafFrozen=True
+  [timing] trigger_3d_previews: 0.0s
+  Saved high-quality screenshot: sharp_exif_executed.png
+  [timing] final_screenshot: 1.4s
+    Captured 7 video frames

@@ -1,0 +1,368 @@
+[00:00] Crash dump logging enabled: /Users/runner/work/ComfyUI-Sharp/ComfyUI-Sharp/comfy-test-logs/Sharp-2256/macos-cpu/crash_dump.log
+[00:00] 
+[00:00] [1/3] REGISTRATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=None, server_url=http://127.0.0.1:8188, api=None
+[00:00] 
+Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connecting to existing server at http://127.0.0.1:8188...
+[00:00] Connected to server! (attempt 1, 0.0s)
+[00:00] Checking for import errors in server logs...
+[00:00] No import errors detected
+[00:00] Found 685 registered nodes
+[00:00] [REGISTRATION] PASSED
+[00:00] 
+[00:00] [2/3] INSTANTIATION
+[00:00] ----------------------------------------
+[00:00] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x105b88590>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x105b886e0>
+[00:00] Testing node constructors...
+[00:01] All 8 node(s) instantiated successfully!
+[00:01] [INSTANTIATION] PASSED
+[00:01] 
+[00:01] [3/3] EXECUTION
+[00:01] ----------------------------------------
+[00:01] [DEBUG] server=<comfy_test.comfyui.server.ExternalComfyUIServer object at 0x105b88590>, server_url=http://127.0.0.1:8188, api=<comfy_test.comfyui.api.ComfyUIAPI object at 0x105b886e0>
+[00:01] CPU runner - will execute 2 workflow(s)
+[00:01] Running 3 workflow(s) (all with videos)...
+[00:01] Starting headless browser...
+[00:02]   No GPU, no Mesa — using SwiftShader software rendering
+[00:03]   [1/3] SKIPPED (not in cpu list) pano.json
+[00:03] Capturing execution frames: sharp_basic.json
+[00:03]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:03]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:03]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:04]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:04]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:04]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[00:04]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[00:04]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[00:04]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[00:04]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[00:04]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[00:05]   [Console-warning] [.WebGL-0x11c00446a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:05]   [Console-warning] [.WebGL-0x11c00446a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:05]   [Console-warning] [.WebGL-0x11c00446a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels
+[00:05]   [Console-warning] [.WebGL-0x11c00446a00]GL Driver Message (OpenGL, Performance, GL_CLOSE_PATH_NV, High): GPU stall due to ReadPixels (this message will no longer repeat)
+[00:08]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[00:08]   Validating workflow...
+[00:08]   Queuing workflow for execution...
+[00:11]   Frame 2 saved (frame_001.jpg, t=2.3s)
+[00:11]   [capture-periodic] freeze=14ms shot=486ms unfreeze=8ms saved=True
+[00:14]   Frame 3 saved (frame_002.jpg, t=5.0s)
+[00:14]   [capture-periodic] freeze=6ms shot=730ms unfreeze=18ms saved=True
+[00:16]   [capture-loop] iter=50 t=7.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=29
+[00:26]   [capture-loop] iter=100 t=18.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14
+[00:34]   [capture-loop] iter=150 t=26.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=30
+[00:43]   [capture-loop] iter=200 t=34.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=45
+[00:47]   Frame 4 saved (frame_003.jpg, t=38.2s)
+[00:47]   [capture-periodic] freeze=14ms shot=291ms unfreeze=5ms saved=True
+[00:50]   [capture-loop] iter=250 t=42.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[00:57]   [capture-loop] iter=300 t=48.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[01:03]   [capture-loop] iter=350 t=55.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=41
+[01:10]   [capture-loop] iter=400 t=61.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[01:16]   [capture-loop] iter=450 t=67.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:22]   [capture-loop] iter=500 t=74.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[01:29]   [capture-loop] iter=550 t=81.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=68
+[01:37]   [capture-loop] iter=600 t=89.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=25
+[01:44]   [capture-loop] iter=650 t=96.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:51]   [capture-loop] iter=700 t=103.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[01:59]   [capture-loop] iter=750 t=110.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[02:05]   [capture-loop] iter=800 t=117.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=44
+[02:12]   [capture-loop] iter=850 t=123.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:19]   [capture-loop] iter=900 t=130.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[02:25]   [capture-loop] iter=950 t=137.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[02:32]   [capture-loop] iter=1000 t=143.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[02:38]   [capture-loop] iter=1050 t=149.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:45]   [capture-loop] iter=1100 t=156.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[02:51]   [capture-loop] iter=1150 t=163.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[02:58]   [capture-loop] iter=1200 t=169.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[03:04]   [capture-loop] iter=1250 t=176.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[03:10]   [capture-loop] iter=1300 t=182.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[03:17]   [capture-loop] iter=1350 t=188.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[03:23]   [capture-loop] iter=1400 t=194.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[03:29]   [capture-loop] iter=1450 t=201.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[03:36]   [capture-loop] iter=1500 t=207.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[03:42]   [capture-loop] iter=1550 t=213.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[03:48]   [capture-loop] iter=1600 t=219.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[03:54]   [capture-loop] iter=1650 t=225.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[04:00]   [capture-loop] iter=1700 t=232.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[04:10]   [capture-loop] iter=1750 t=242.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[04:18]   [capture-loop] iter=1800 t=250.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[04:26]   [capture-loop] iter=1850 t=257.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=56
+[04:33]   [capture-loop] iter=1900 t=264.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16
+[04:40]   [capture-loop] iter=1950 t=272.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[04:48]   [capture-loop] iter=2000 t=279.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=31
+[04:58]   [capture-loop] iter=2050 t=289.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=41
+[05:08]   [capture-loop] iter=2100 t=300.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[05:17]   [capture-loop] iter=2150 t=309.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[05:28]   [capture-loop] iter=2200 t=319.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[05:37]   [capture-loop] iter=2250 t=328.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=29
+[05:46]   [capture-loop] iter=2300 t=338.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[05:55]   [capture-loop] iter=2350 t=346.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[06:05]   [capture-loop] iter=2400 t=357.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=23
+[06:14]   [capture-loop] iter=2450 t=366.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[06:24]   [capture-loop] iter=2500 t=376.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=28
+[06:31]   [capture-loop] iter=2550 t=382.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[06:38]   [capture-loop] iter=2600 t=389.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[06:49]   [capture-loop] iter=2650 t=400.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=31
+[06:59]   [capture-loop] iter=2700 t=411.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[07:10]   [capture-loop] iter=2750 t=421.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=56
+[07:22]   [capture-loop] iter=2800 t=434.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=23
+[07:31]   [capture-loop] iter=2850 t=442.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[07:37]   [capture-loop] iter=2900 t=449.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=19
+[07:49]   [capture-loop] iter=2950 t=461.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=30
+[07:58]   [capture-loop] iter=3000 t=469.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=49
+[08:04]   [capture-loop] iter=3050 t=476.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[08:19]   [capture-loop] iter=3100 t=490.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=69
+[08:32]   [capture-loop] iter=3150 t=503.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=21
+[08:42]   [capture-loop] iter=3200 t=514.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=23
+[08:54]   [capture-loop] iter=3250 t=526.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=45
+[09:04]   [capture-loop] iter=3300 t=535.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[09:14]   [capture-loop] iter=3350 t=546.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=25
+[09:22]   [capture-loop] iter=3400 t=553.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[09:34]   [capture-loop] iter=3450 t=565.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[09:52]   [capture-loop] iter=3500 t=584.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[10:00]   [capture-loop] iter=3550 t=592.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[10:19]   [capture-loop] iter=3600 t=610.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=61
+[10:31]   [capture-loop] iter=3650 t=623.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=99
+[10:45]   Frame 5 saved (frame_004.jpg, t=633.5s)
+[10:45]   [capture-periodic] freeze=1590ms shot=1362ms unfreeze=4ms saved=True
+[10:49]   [capture-loop] iter=3700 t=640.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[10:56]   [capture-loop] iter=3750 t=647.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[11:04]   [capture-loop] iter=3800 t=655.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=26
+[11:11]   [capture-loop] iter=3850 t=663.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[11:19]   [capture-loop] iter=3900 t=670.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[11:28]   [capture-loop] iter=3950 t=679.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[11:36]   [capture-loop] iter=4000 t=688.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=46
+[11:43]   [capture-loop] iter=4050 t=695.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[11:53]   [capture-loop] iter=4100 t=704.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=32
+[12:00]   [capture-loop] iter=4150 t=711.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[12:06]   [capture-loop] iter=4200 t=717.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=30
+[12:16]   [capture-loop] iter=4250 t=728.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=31
+[12:22]   [capture-loop] iter=4300 t=734.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[12:29]   [capture-loop] iter=4350 t=740.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[12:36]   [capture-loop] iter=4400 t=747.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[12:44]   [capture-loop] iter=4450 t=755.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=21
+[12:52]   [capture-loop] iter=4500 t=763.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=12
+[12:59]   [capture-loop] iter=4550 t=771.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[13:07]   [capture-loop] iter=4600 t=779.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=58
+[13:16]   [capture-loop] iter=4650 t=787.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=12
+[13:23]   [capture-loop] iter=4700 t=795.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=33
+[13:31]   [capture-loop] iter=4750 t=802.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=15
+[13:38]   [capture-loop] iter=4800 t=810.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[13:45]   [capture-loop] iter=4850 t=816.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[13:52]   [capture-loop] iter=4900 t=824.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=19
+[13:59]   [capture-loop] iter=4950 t=830.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[14:06]   [capture-loop] iter=5000 t=837.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[14:15]   [capture-loop] iter=5050 t=846.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[14:21]   [capture-loop] iter=5100 t=853.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[14:28]   [capture-loop] iter=5150 t=860.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[14:35]   [capture-loop] iter=5200 t=866.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14
+[14:41]   [capture-loop] iter=5250 t=873.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[14:48]   [capture-loop] iter=5300 t=879.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[14:56]   [capture-loop] iter=5350 t=887.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=38
+[15:03]   [capture-loop] iter=5400 t=895.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[15:09]   [capture-loop] iter=5450 t=901.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[15:16]   [capture-loop] iter=5500 t=908.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[15:27]   [capture-loop] iter=5550 t=919.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[15:39]   [capture-loop] iter=5600 t=931.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[15:47]   [capture-loop] iter=5650 t=939.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=41
+[15:58]   [capture-loop] iter=5700 t=950.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=34
+[16:08]   [capture-loop] iter=5750 t=960.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[16:18]   [capture-loop] iter=5800 t=969.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=79
+[16:31]   [capture-loop] iter=5850 t=983.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=19
+[16:44]   [capture-loop] iter=5900 t=995.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[16:52]   [capture-loop] iter=5950 t=1003.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[17:03]   [capture-loop] iter=6000 t=1015.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[17:11]   [capture-loop] iter=6050 t=1022.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[17:18]   [capture-loop] iter=6100 t=1030.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[17:25]   [capture-loop] iter=6150 t=1037.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[17:35]   [capture-loop] iter=6200 t=1047.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[17:44]   [capture-loop] iter=6250 t=1056.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16
+[17:51]   [capture-loop] iter=6300 t=1063.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[17:57]   [capture-loop] iter=6350 t=1069.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[18:04]   [capture-loop] iter=6400 t=1076.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[18:11]   [capture-loop] iter=6450 t=1082.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[18:17]   [capture-loop] iter=6500 t=1089.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[18:19]   Frame 6 saved (frame_005.jpg, t=1090.2s)
+[18:19]   [capture-periodic] freeze=3ms shot=172ms unfreeze=7ms saved=True
+[18:23]   Node executed (1 total), capturing...
+[18:23]   Frame 7 saved (frame_006.jpg, t=1095.1s)
+[18:23]   [capture-node] freeze=6ms shot=158ms unfreeze=0ms saved=True
+[18:23]   Execution complete (t=1095.1s)
+[18:23]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[18:23]   [3d-wait] Phase 1 done in 0.0s
+[18:23]   [3d-wait] Phase 2: iframes=1
+[18:23]   [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+[18:23]   [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+[18:26]   [3d-wait] Got 'Loaded successfully' after 2.8s
+[18:27]   [3d-wait] Unfrozen in 0.280s, rendering for 5s...
+[19:23]   [3d-wait] JS halted via CDP after 57.2s
+[20:08]   [3d-wait] Re-frozen in 101.5s
+[20:08]   [3d-wait] Total 3D wait: 104.4s
+[20:08]   Captured 7 unique frames over 1199.72s
+[20:08]   [debug] iframes: 1
+[20:08]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=1536x1024, rafFrozen=True
+[20:08]   [timing] trigger_3d_previews: 0.0s
+[20:11]   Saved high-quality screenshot: sharp_basic_executed.png
+[20:11]   [timing] final_screenshot: 1.2s
+[20:11] Capturing execution frames: sharp_exif.json
+[20:12]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:12]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:13]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:13]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:13]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:13]   [Console-error] Failed to load resource: the server responded with a status of 404 (Not Found)
+[20:13]   [Console-warning] WARNING: Multiple instances of Three.js being imported.
+[20:13]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui.js" is deprecated and will be removed in v1.34.
+[20:13]   [Console-warning] [MaskEditor] ComfyApp.open_maskeditor is deprecated. Plugins should migrate to using the command system or direct node context menu integration.
+[20:14]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/buttonGroup.js" is deprecated and will be removed in v1.34.
+[20:14]   [Console-warning] [ComfyUI Deprecated] Importing from "scripts/ui/components/button.js" is deprecated and will be removed in v1.34.
+[20:17]   Frame 1 saved (frame_000.jpg, t=0.0s)
+[20:17]   Validating workflow...
+[20:17]   Queuing workflow for execution...
+[20:20]   Frame 2 saved (frame_001.jpg, t=2.5s)
+[20:20]   [capture-periodic] freeze=30ms shot=282ms unfreeze=4ms saved=True
+[20:28]   [capture-loop] iter=50 t=11.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=112
+[20:29]   Frame 3 saved (frame_002.jpg, t=11.9s)
+[20:29]   [capture-periodic] freeze=9ms shot=214ms unfreeze=10ms saved=True
+[20:35]   [capture-loop] iter=100 t=18.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[20:41]   [capture-loop] iter=150 t=24.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[20:48]   [capture-loop] iter=200 t=31.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=19
+[20:54]   [capture-loop] iter=250 t=37.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=33
+[21:00]   [capture-loop] iter=300 t=43.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[21:07]   [capture-loop] iter=350 t=50.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[21:13]   [capture-loop] iter=400 t=56.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[21:20]   [capture-loop] iter=450 t=63.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=30
+[21:26]   [capture-loop] iter=500 t=69.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[21:33]   [capture-loop] iter=550 t=76.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[21:40]   [capture-loop] iter=600 t=83.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[21:46]   [capture-loop] iter=650 t=89.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[21:52]   [capture-loop] iter=700 t=95.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[21:59]   [capture-loop] iter=750 t=102.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=65
+[22:05]   [capture-loop] iter=800 t=108.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[22:11]   [capture-loop] iter=850 t=114.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[22:18]   [capture-loop] iter=900 t=120.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[22:24]   [capture-loop] iter=950 t=127.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[22:30]   [capture-loop] iter=1000 t=133.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[22:36]   [capture-loop] iter=1050 t=139.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18
+[22:43]   [capture-loop] iter=1100 t=146.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=35
+[22:49]   [capture-loop] iter=1150 t=152.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[22:55]   [capture-loop] iter=1200 t=158.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[23:02]   [capture-loop] iter=1250 t=165.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[23:08]   [capture-loop] iter=1300 t=171.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[23:14]   [capture-loop] iter=1350 t=177.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[23:20]   [capture-loop] iter=1400 t=183.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[23:29]   [capture-loop] iter=1450 t=192.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=31
+[23:36]   [capture-loop] iter=1500 t=199.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[23:46]   [capture-loop] iter=1550 t=209.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=20
+[23:54]   [capture-loop] iter=1600 t=217.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[24:03]   [capture-loop] iter=1650 t=226.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[24:10]   [capture-loop] iter=1700 t=233.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14
+[24:21]   [capture-loop] iter=1750 t=244.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=29
+[24:34]   [capture-loop] iter=1800 t=257.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=339
+[24:44]   [capture-loop] iter=1850 t=266.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[24:57]   [capture-loop] iter=1900 t=280.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=237
+[25:07]   [capture-loop] iter=1950 t=290.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=15
+[25:14]   [capture-loop] iter=2000 t=297.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[25:24]   [capture-loop] iter=2050 t=307.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18
+[25:33]   [capture-loop] iter=2100 t=316.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[25:42]   [capture-loop] iter=2150 t=325.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[25:50]   [capture-loop] iter=2200 t=333.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[26:05]   [capture-loop] iter=2250 t=348.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=67
+[26:18]   [capture-loop] iter=2300 t=361.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=7
+[26:32]   [capture-loop] iter=2350 t=375.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=70
+[26:47]   [capture-loop] iter=2400 t=390.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[26:55]   [capture-loop] iter=2450 t=398.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=78
+[27:04]   [capture-loop] iter=2500 t=407.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[27:21]   [capture-loop] iter=2550 t=424.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=38
+[27:31]   [capture-loop] iter=2600 t=434.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[27:47]   [capture-loop] iter=2650 t=450.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=40
+[27:59]   [capture-loop] iter=2700 t=462.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16
+[28:11]   [capture-loop] iter=2750 t=474.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=16
+[28:20]   [capture-loop] iter=2800 t=483.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[28:27]   [capture-loop] iter=2850 t=490.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[28:34]   [capture-loop] iter=2900 t=497.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[28:41]   [capture-loop] iter=2950 t=504.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[28:58]   [capture-loop] iter=3000 t=521.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=54
+[29:10]   [capture-loop] iter=3050 t=533.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[29:23]   [capture-loop] iter=3100 t=546.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[29:31]   [capture-loop] iter=3150 t=554.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=44
+[29:40]   [capture-loop] iter=3200 t=563.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=21
+[29:50]   [capture-loop] iter=3250 t=573.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=30
+[30:01]   [capture-loop] iter=3300 t=584.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=106
+[30:13]   [capture-loop] iter=3350 t=596.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=14
+[30:21]   [capture-loop] iter=3400 t=604.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[30:28]   [capture-loop] iter=3450 t=611.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[30:35]   [capture-loop] iter=3500 t=618.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[30:44]   [capture-loop] iter=3550 t=627.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=6
+[30:50]   [capture-loop] iter=3600 t=633.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=17
+[30:57]   [capture-loop] iter=3650 t=639.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[31:03]   [capture-loop] iter=3700 t=646.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[31:09]   [capture-loop] iter=3750 t=652.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[31:16]   [capture-loop] iter=3800 t=659.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[31:21]   [capture-loop] iter=3850 t=664.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[31:28]   [capture-loop] iter=3900 t=671.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[31:34]   [capture-loop] iter=3950 t=677.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[31:41]   [capture-loop] iter=4000 t=684.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[31:50]   [capture-loop] iter=4050 t=693.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[31:57]   [capture-loop] iter=4100 t=700.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[32:03]   [capture-loop] iter=4150 t=706.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[32:09]   [capture-loop] iter=4200 t=712.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[32:16]   [capture-loop] iter=4250 t=719.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=21
+[32:23]   [capture-loop] iter=4300 t=726.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[32:30]   [capture-loop] iter=4350 t=732.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=9
+[32:37]   [capture-loop] iter=4400 t=739.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=26
+[32:45]   [capture-loop] iter=4450 t=748.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[32:52]   [capture-loop] iter=4500 t=755.5s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18
+[32:59]   [capture-loop] iter=4550 t=762.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=8
+[33:05]   [capture-loop] iter=4600 t=768.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[33:13]   [capture-loop] iter=4650 t=776.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=18
+[33:23]   [capture-loop] iter=4700 t=786.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[33:30]   [capture-loop] iter=4750 t=793.7s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=50
+[33:38]   [capture-loop] iter=4800 t=801.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[33:45]   [capture-loop] iter=4850 t=807.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=10
+[33:51]   [capture-loop] iter=4900 t=814.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[33:57]   [capture-loop] iter=4950 t=820.8s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=11
+[34:04]   [capture-loop] iter=5000 t=827.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[34:16]   [capture-loop] iter=5050 t=839.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=5
+[34:27]   [capture-loop] iter=5100 t=850.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=27
+[34:35]   [capture-loop] iter=5150 t=858.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=70
+[34:43]   [capture-loop] iter=5200 t=866.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[34:53]   [capture-loop] iter=5250 t=876.4s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=104
+[35:04]   [capture-loop] iter=5300 t=887.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=25
+[35:14]   [capture-loop] iter=5350 t=897.3s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=33
+[35:22]   [capture-loop] iter=5400 t=905.0s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=4
+[35:29]   [capture-loop] iter=5450 t=912.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[35:39]   [capture-loop] iter=5500 t=922.2s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=3
+[35:45]   [capture-loop] iter=5550 t=928.1s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=2
+[35:51]   [capture-loop] iter=5600 t=934.6s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=91
+[35:58]   [capture-loop] iter=5650 t=940.9s state={'complete': False, 'error': None, 'executedCount': 0, 'wsState': 1} eval_ms=176
+[35:58]   Frame 4 saved (frame_003.jpg, t=941.4s)
+[35:58]   [capture-periodic] freeze=2ms shot=123ms unfreeze=14ms saved=True
+[36:01]   Node executed (1 total), capturing...
+[36:02]   Frame 5 saved (frame_004.jpg, t=944.8s)
+[36:02]   [capture-node] freeze=4ms shot=126ms unfreeze=0ms saved=True
+[36:02]   Execution complete (t=944.8s)
+[36:02]   [3d-wait] Phase 1: Waiting for 'Loading 3D Model' text to disappear...
+[36:02]   [3d-wait] Phase 1 done in 0.0s
+[36:02]   [3d-wait] Phase 2: iframes=1
+[36:02]   [3d-wait] iframe viewer_ready=False (matched 0 console logs)
+[36:02]   [3d-wait] Waiting for 'Loaded successfully' console message (timeout=60s)...
+[36:04]   [3d-wait] Got 'Loaded successfully' after 2.1s
+[36:04]   [3d-wait] Unfrozen in 0.189s, rendering for 5s...
+[36:17]   [3d-wait] JS halted via CDP after 13.2s
+[36:49]   [3d-wait] Re-frozen in 45.1s
+[36:49]   [3d-wait] Total 3D wait: 47.3s
+[36:49]   Captured 5 unique frames over 992.23s
+[36:49]   [debug] iframes: 1
+[36:49]   [debug]   iframe[0]: src=http://127.0.0.1:8188/extensions/ComfyUI-GeometryPack/viewer_gaussian.html?v=177, canvas=3040x2022, rafFrozen=True
+[36:49]   [timing] trigger_3d_previews: 0.0s
+[36:52]   Saved high-quality screenshot: sharp_exif_executed.png
+[36:52]   [timing] final_screenshot: 0.9s
+[36:52] Results saved to /Users/runner/work/ComfyUI-Sharp/ComfyUI-Sharp/comfy-test-logs/Sharp-2256/macos-cpu/results.json
+[36:52] Model report: 3 files, 2.6 GB -> /Users/runner/work/ComfyUI-Sharp/ComfyUI-Sharp/comfy-test-logs/Sharp-2256/macos-cpu/models.json
+[36:52] Saved: /Users/runner/work/ComfyUI-Sharp/ComfyUI-Sharp/comfy-test-logs/Sharp-2256/macos-cpu/index.html
+[36:52] [EXECUTION] PASSED
+[36:52] 
+macos: PASSED
