@@ -41,8 +41,6 @@ class LoadSharpModel(io.ComfyNode):
                 io.Combo.Input("precision", options=["auto", "bf16", "fp16", "fp32"],
                                default="auto", optional=True,
                                tooltip="Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."),
-                io.String.Input("checkpoint_path", default="", optional=True,
-                                tooltip="Path to .pt checkpoint. Leave empty to auto-download from Hugging Face."),
             ],
             outputs=[
                 io.Custom("SHARP_MODEL").Output(display_name="model"),
@@ -50,7 +48,7 @@ class LoadSharpModel(io.ComfyNode):
         )
 
     @classmethod
-    def execute(cls, precision: str = "auto", checkpoint_path: str = ""):
+    def execute(cls, precision: str = "auto"):
         """Build model, load weights, wrap with ModelPatcher."""
         import comfy.model_management
         import comfy.model_patcher
@@ -80,16 +78,13 @@ class LoadSharpModel(io.ComfyNode):
         manual_cast_dtype = comfy.model_management.unet_manual_cast(dtype, load_device)
         operations = comfy.ops.pick_operations(dtype, manual_cast_dtype)
 
-        # Resolve / download checkpoint
-        if checkpoint_path and os.path.exists(checkpoint_path):
-            model_path = checkpoint_path
-        else:
-            os.makedirs(MODELS_DIR, exist_ok=True)
-            model_path = hf_hub_download(
-                repo_id=SHARP_REPO_ID,
-                filename=SHARP_FILENAME,
-                local_dir=MODELS_DIR,
-            )
+        # Download checkpoint if needed
+        os.makedirs(MODELS_DIR, exist_ok=True)
+        model_path = hf_hub_download(
+            repo_id=SHARP_REPO_ID,
+            filename=SHARP_FILENAME,
+            local_dir=MODELS_DIR,
+        )
 
         # Load state dict
         log.info(f"Loading checkpoint from {model_path}")
