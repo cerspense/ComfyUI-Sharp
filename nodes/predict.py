@@ -107,9 +107,9 @@ class SharpPredict(io.ComfyNode):
         from .sharp.gaussians import save_ply, unproject_gaussians
 
         # model is a ModelPatcher from LoadSharpModel
-        # Estimate activation memory: SPN processes 35 patches through ViT at 1536x1536
-        dtype = model.model.dtype if hasattr(model.model, 'dtype') else torch.float32
-        memory_required = (1536 * 1536 * 6) * comfy.model_management.dtype_size(dtype)
+        # SPN processes ~35 patches through ViT + merge + upsample features + decode
+        # ~3 GB activation memory at 1536x1536 with chunked processing
+        memory_required = 3 * 1024 * 1024 * 1024
         comfy.model_management.load_models_gpu([model], memory_required=memory_required)
         predictor = model.model
         device = model.load_device

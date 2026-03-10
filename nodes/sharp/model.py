@@ -12,8 +12,11 @@ from __future__ import annotations
 
 import abc
 import copy
+import logging
 import math
 from typing import Literal, NamedTuple, Sequence, Tuple, Union
+
+log = logging.getLogger("sharp")
 
 import torch
 import torch.nn as nn
@@ -590,8 +593,14 @@ class SlidingPyramidNetwork(nn.Module):
         x2 = F.interpolate(x, size=None, scale_factor=0.25, mode="bilinear", align_corners=False)
         return x0, x1, x2
 
+    @staticmethod
+    def _vram_gb(device):
+        return torch.cuda.memory_allocated(device) / (1024 ** 3)
+
     def forward(self, x: torch.Tensor) -> list[torch.Tensor]:
         batch_size = x.shape[0]
+        _dev = x.device
+        log.warning(f"[SPN] start: {self._vram_gb(_dev):.2f} GB, input={list(x.shape)}")
         x0, x1, x2 = self._create_pyramid(x)
 
         if self.use_patch_overlap:
@@ -610,34 +619,51 @@ class SlidingPyramidNetwork(nn.Module):
 
         x_pyramid_patches = torch.cat((x0_patches, x1_patches, x2_patches), dim=0)
         del x0, x1, x0_patches, x1_patches  # Free pyramid/patch tensors (x2_patches still needed)
+        log.warning(f"[SPN] patches: {self._vram_gb(_dev):.2f} GB, x0={x0_tile_size} x1={x1_tile_size} x2={x2_tile_size} total={x_pyramid_patches.shape[0]}")
 
         # Dynamic chunking based on free VRAM (same pattern as ComfyUI's attention_split)
+        MAX_PATCH_CHUNK = 4
         N = x_pyramid_patches.shape[0]
         mem_free = comfy.model_management.get_free_memory(x_pyramid_patches.device)
         patch_mem_estimate = 200 * 1024 * 1024  # ~200 MB per patch through ViT
         chunk_size = max(1, int(mem_free * 0.8 / patch_mem_estimate))
-        chunk_size = min(chunk_size, N)
+        chunk_size = min(chunk_size, N, MAX_PATCH_CHUNK)
 
-        if chunk_size >= N:
-            x_pyramid_encodings, patch_intermediate_features = self.patch_encoder(x_pyramid_patches)
-            del x_pyramid_patches
-        else:
-            encoding_chunks = []
-            intermediate_chunks: dict[int, list[torch.Tensor]] = {}
-            for i in range(0, N, chunk_size):
-                comfy.model_management.throw_exception_if_processing_interrupted()
-                enc, inter = self.patch_encoder(x_pyramid_patches[i:i + chunk_size])
-                encoding_chunks.append(enc)
-                for layer_id, feat in inter.items():
-                    intermediate_chunks.setdefault(layer_id, []).append(feat)
-            del x_pyramid_patches
-            x_pyramid_encodings = torch.cat(encoding_chunks, dim=0)
-            del encoding_chunks
-            patch_intermediate_features = {
-                layer_id: torch.cat(feats, dim=0)
-                for layer_id, feats in intermediate_chunks.items()
-            }
-            del intermediate_chunks
+        # Process first chunk to discover output shapes, then pre-allocate
+        first_end = min(chunk_size, N)
+        first_enc, first_inter = self.patch_encoder(x_pyramid_patches[:first_end])
+
+        x_pyramid_encodings = torch.empty(
+            N, *first_enc.shape[1:], device=first_enc.device, dtype=first_enc.dtype,
+        )
+        x_pyramid_encodings[:first_end] = first_enc
+        del first_enc
+
+        patch_intermediate_features: dict[int, torch.Tensor] = {
+            layer_id: torch.empty(
+                N, *feat.shape[1:], device=feat.device, dtype=feat.dtype,
+            )
+            for layer_id, feat in first_inter.items()
+        }
+        for layer_id, feat in first_inter.items():
+            patch_intermediate_features[layer_id][:first_end] = feat
+        del first_inter
+
+        log.warning(f"[SPN] after first chunk ({first_end}/{N}): {self._vram_gb(_dev):.2f} GB, chunk_size={chunk_size}")
+
+        for i in range(first_end, N, chunk_size):
+            comfy.model_management.throw_exception_if_processing_interrupted()
+            end = min(i + chunk_size, N)
+            enc, inter = self.patch_encoder(x_pyramid_patches[i:end])
+            x_pyramid_encodings[i:end] = enc
+            del enc
+            for layer_id, feat in inter.items():
+                patch_intermediate_features[layer_id][i:end] = feat
+            del inter
+        del x_pyramid_patches
+        # Release cached CUDA blocks from ViT forward passes
+        comfy.model_management.soft_empty_cache()
+        log.warning(f"[SPN] after all chunks + cache clear: {self._vram_gb(_dev):.2f} GB")
 
         # Merge intermediate features
         x_latent0_encodings = self.patch_encoder.reshape_feature(
@@ -656,6 +682,7 @@ class SlidingPyramidNetwork(nn.Module):
             batch_size=batch_size, padding=padding,
         )
         del patch_intermediate_features, x_latent0_encodings, x_latent1_encodings
+        log.warning(f"[SPN] after merge intermediates: {self._vram_gb(_dev):.2f} GB")
 
         x0_encodings, x1_encodings, x2_encodings = torch.split(
             x_pyramid_encodings,
@@ -670,7 +697,9 @@ class SlidingPyramidNetwork(nn.Module):
         del x1_encodings
         x2_features = x2_encodings
 
+        log.warning(f"[SPN] after merge all: {self._vram_gb(_dev):.2f} GB")
         x_lowres_features, _ = self.image_encoder(x2_patches)
+        log.warning(f"[SPN] after image_encoder: {self._vram_gb(_dev):.2f} GB")
 
         x_latent0_features = self.upsample_latent0(x_latent0_features)
         x_latent1_features = self.upsample_latent1(x_latent1_features)
@@ -681,6 +710,7 @@ class SlidingPyramidNetwork(nn.Module):
         x_lowres_features = self.fuse_lowres(
             torch.cat((x2_features, x_lowres_features), dim=1)
         )
+        log.warning(f"[SPN] after upsample: {self._vram_gb(_dev):.2f} GB")
 
         return [
             x_latent0_features,
@@ -1041,15 +1071,24 @@ class MonodepthWithEncodingAdaptor(nn.Module):
         self.num_monodepth_layers = num_monodepth_layers
         self.sorting_monodepth = sorting_monodepth
 
+    @staticmethod
+    def _vram_gb(device):
+        return torch.cuda.memory_allocated(device) / (1024 ** 3)
+
     def forward(self, image: torch.Tensor) -> MonodepthOutput:
+        _dev = image.device
         inputs = self.monodepth_predictor.normalizer(image)
         encoder_output = self.monodepth_predictor.encoder(inputs)
+        # Release cached CUDA blocks from SPN's heavy ViT processing
+        comfy.model_management.soft_empty_cache()
+        log.warning(f"[Monodepth] after SPN encoder + cache clear: {self._vram_gb(_dev):.2f} GB")
 
         num_encoder_features = len(self.monodepth_predictor.encoder.dims_encoder)
         encoder_features = encoder_output[:num_encoder_features]
         intermediate_features = encoder_output[num_encoder_features:]
         del encoder_output
         decoder_features = self.monodepth_predictor.decoder(encoder_features)
+        log.warning(f"[Monodepth] after decoder: {self._vram_gb(_dev):.2f} GB")
         disparity = self.monodepth_predictor.head(decoder_features)
 
         if self.num_monodepth_layers == 2 and self.sorting_monodepth:
@@ -1942,6 +1981,9 @@ class RGBGaussianPredictor(nn.Module):
         disparity_factor: torch.Tensor,
         depth: torch.Tensor | None = None,
     ) -> Gaussians3D:
+        _dev = image.device
+        _vram = lambda: torch.cuda.memory_allocated(_dev) / (1024 ** 3)
+        log.warning(f"[Decode] start: {_vram():.2f} GB")
         monodepth_disparity = monodepth_output.disparity
         disparity_factor = disparity_factor[:, None, None, None]
         monodepth = disparity_factor / monodepth_disparity.clamp(min=1e-4, max=1e4)
@@ -1949,12 +1991,16 @@ class RGBGaussianPredictor(nn.Module):
         monodepth, _ = self.depth_alignment(
             monodepth, depth, monodepth_output.decoder_features,
         )
+        log.warning(f"[Decode] after depth_alignment: {_vram():.2f} GB")
 
         init_output = self.init_model(image, monodepth)
+        log.warning(f"[Decode] after init_model: {_vram():.2f} GB")
         image_features = self.feature_model(
             init_output.feature_input, encodings=monodepth_output.output_features
         )
+        log.warning(f"[Decode] after feature_model: {_vram():.2f} GB")
         delta_values = self.prediction_head(image_features)
+        log.warning(f"[Decode] after prediction_head: {_vram():.2f} GB")
         return self.gaussian_composer(
             delta=delta_values,
             base_values=init_output.gaussian_base_values,

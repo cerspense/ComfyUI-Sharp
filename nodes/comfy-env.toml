@@ -1,0 +1,7 @@
+[pypi-dependencies]
+numpy = ">=1.21.0"
+pillow = ">=9.0.0"
+plyfile = ">=1.0.0"
+pillow-heif = ">=0.10.0"
+huggingface_hub = ">=0.16.0"
+hf_xet = "*"
