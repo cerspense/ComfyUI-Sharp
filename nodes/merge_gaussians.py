@@ -10,7 +10,6 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from plyfile import PlyData, PlyElement
 
 from comfy_api.latest import io
 
@@ -22,6 +21,7 @@ def load_ply_simple(path: str) -> dict:
 
     Returns dict with arrays: positions, colors, scales, rotations, opacities
     """
+    from plyfile import PlyData
     plydata = PlyData.read(path)
     vertex = plydata['vertex']
 
@@ -102,6 +102,7 @@ def save_merged_ply(
     elements['rot_2'] = rotations[:, 2]
     elements['rot_3'] = rotations[:, 3]
 
+    from plyfile import PlyData, PlyElement
     el = PlyElement.describe(elements, 'vertex')
     PlyData([el]).write(output_path)
 
