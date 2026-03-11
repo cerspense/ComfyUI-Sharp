@@ -27,7 +27,7 @@ except ImportError:
 SHARP_REPO_ID = "apple/Sharp"
 SHARP_FILENAME = "sharp_2572gikvuh.pt"
 
-# ── Module-level model cache (persists across subprocess calls) ──────────
+# -- Module-level model cache (persists across subprocess calls) ----------
 
 _model_patcher = None   # Single ModelPatcher instance
 _model_config = None     # Config dict that built the current patcher
@@ -117,7 +117,7 @@ def _load_sharp_model(config):
     return _model_patcher.model, _model_patcher.load_device
 
 
-# ── Node ─────────────────────────────────────────────────────────────────
+# -- Node -----------------------------------------------------------------
 
 class LoadSharpModel(io.ComfyNode):
     """Download the SHARP checkpoint and return a config for inference nodes.
