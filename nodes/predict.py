@@ -62,7 +62,7 @@ class SharpPredict(io.ComfyNode):
             description="Generate 3D Gaussian Splatting PLY file(s) from image(s) using SHARP. Batch input creates a folder with numbered PLY files.",
             is_output_node=True,
             inputs=[
-                io.Custom("SHARP_MODEL").Input("model"),
+                io.Custom("SHARP_MODEL_CONFIG").Input("model"),
                 io.Image.Input("image"),
                 io.Float.Input("focal_length_mm", default=30.0, min=0.0, max=500.0, step=0.1,
                                optional=True,
@@ -104,15 +104,11 @@ class SharpPredict(io.ComfyNode):
         """
         import comfy.model_management
         import comfy.utils
+        from .load_model import _load_sharp_model
         from .sharp.gaussians import save_ply, unproject_gaussians
 
-        # model is a ModelPatcher from LoadSharpModel
-        # SPN processes ~35 patches through ViT + merge + upsample features + decode
-        # ~3 GB activation memory at 1536x1536 with chunked processing
-        memory_required = 3 * 1024 * 1024 * 1024
-        comfy.model_management.load_models_gpu([model], memory_required=memory_required)
-        predictor = model.model
-        device = model.load_device
+        # model is a config dict from LoadSharpModel — load on-demand
+        predictor, device = _load_sharp_model(model)
 
         # Handle batch dimension
         if image.dim() == 3:

@@ -1,4 +1,9 @@
-"""LoadSharpModel node for ComfyUI-Sharp."""
+"""LoadSharpModel node for ComfyUI-Sharp.
+
+Returns a lightweight config dict (JSON-serializable) so it works across
+comfy-env subprocess isolation boundaries. Actual model loading happens
+on-demand in _load_sharp_model(), called by inference nodes.
+"""
 
 import os
 import logging
@@ -22,69 +27,42 @@ except ImportError:
 SHARP_REPO_ID = "apple/Sharp"
 SHARP_FILENAME = "sharp_2572gikvuh.pt"
 
+# ── Module-level model cache (persists across subprocess calls) ──────────
 
-class LoadSharpModel(io.ComfyNode):
-    """Load SHARP model and wrap with ModelPatcher for ComfyUI-native VRAM management.
+_model_patcher = None   # Single ModelPatcher instance
+_model_config = None     # Config dict that built the current patcher
 
-    The model is built once, cached by ComfyUI's execution cache, and stays in
-    VRAM between runs (no repeated GPU transfers).
+_DTYPE_MAP = {
+    "bf16": torch.bfloat16,
+    "fp16": torch.float16,
+    "fp32": torch.float32,
+}
+
+
+def _load_sharp_model(config):
+    """Load model on first call, reuse on subsequent calls.
+
+    Returns (predictor, device). The model is wrapped in ModelPatcher for
+    ComfyUI-native VRAM management and loaded to GPU via load_models_gpu().
     """
+    global _model_patcher, _model_config
+    import comfy.model_management
+    import comfy.model_patcher
+    import comfy.ops
+    import comfy.utils
+    from .sharp import PredictorParams, create_predictor
 
-    @classmethod
-    def define_schema(cls):
-        return io.Schema(
-            node_id="LoadSharpModel",
-            display_name="(Down)Load SHARP Model",
-            category="SHARP",
-            description="Load the SHARP model for monocular 3D Gaussian Splatting prediction.",
-            inputs=[
-                io.Combo.Input("precision", options=["auto", "bf16", "fp16", "fp32"],
-                               default="auto", optional=True,
-                               tooltip="Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."),
-            ],
-            outputs=[
-                io.Custom("SHARP_MODEL").Output(display_name="model"),
-            ],
-        )
-
-    @classmethod
-    def execute(cls, precision: str = "auto"):
-        """Build model, load weights, wrap with ModelPatcher."""
-        import comfy.model_management
-        import comfy.model_patcher
-        import comfy.ops
-        import comfy.utils
-        from .sharp import PredictorParams, create_predictor
+    if _model_patcher is None or _model_config != config:
+        # Config changed or first load — build from scratch
+        model_path = config["model_path"]
+        dtype = _DTYPE_MAP[config["dtype"]]
 
         load_device = comfy.model_management.get_torch_device()
         offload_device = comfy.model_management.unet_offload_device()
 
-        # Resolve dtype
-        if precision == "auto":
-            if comfy.model_management.should_use_bf16(load_device):
-                dtype = torch.bfloat16
-            elif comfy.model_management.should_use_fp16(load_device):
-                dtype = torch.float16
-            else:
-                dtype = torch.float32
-        elif precision == "bf16":
-            dtype = torch.bfloat16
-        elif precision == "fp16":
-            dtype = torch.float16
-        else:
-            dtype = torch.float32
-
         # Select optimal operations class (enables fp8, nvfp4, CublasOps, etc.)
         manual_cast_dtype = comfy.model_management.unet_manual_cast(dtype, load_device)
         operations = comfy.ops.pick_operations(dtype, manual_cast_dtype)
-
-        # Download checkpoint if needed
-        os.makedirs(MODELS_DIR, exist_ok=True)
-        model_path = hf_hub_download(
-            repo_id=SHARP_REPO_ID,
-            filename=SHARP_FILENAME,
-            local_dir=MODELS_DIR,
-        )
 
         # Load state dict
         log.info(f"Loading checkpoint from {model_path}")
@@ -128,8 +106,80 @@ class LoadSharpModel(io.ComfyNode):
             load_device=load_device,
             offload_device=offload_device,
         )
+        _model_patcher = patcher
+        _model_config = config
 
-        return io.NodeOutput(patcher)
+    # Load to GPU via ComfyUI VRAM management
+    # SPN processes ~35 patches through ViT + merge + upsample features + decode
+    # ~3 GB activation memory at 1536x1536 with chunked processing
+    memory_required = 3 * 1024 * 1024 * 1024
+    comfy.model_management.load_models_gpu([_model_patcher], memory_required=memory_required)
+    return _model_patcher.model, _model_patcher.load_device
+
+
+# ── Node ─────────────────────────────────────────────────────────────────
+
+class LoadSharpModel(io.ComfyNode):
+    """Download the SHARP checkpoint and return a config for inference nodes.
+
+    Returns a lightweight config dict (model path + dtype) that is
+    JSON-serializable for comfy-env IPC. The actual model is loaded
+    on-demand by inference nodes via _load_sharp_model().
+    """
+
+    @classmethod
+    def define_schema(cls):
+        return io.Schema(
+            node_id="LoadSharpModel",
+            display_name="(Down)Load SHARP Model",
+            category="SHARP",
+            description="Download/configure the SHARP model for monocular 3D Gaussian Splatting prediction.",
+            inputs=[
+                io.Combo.Input("precision", options=["auto", "bf16", "fp16", "fp32"],
+                               default="auto", optional=True,
+                               tooltip="Model precision. auto: best for your GPU (bf16 on Ampere+, fp16 on Volta/Turing, fp32 on older)."),
+            ],
+            outputs=[
+                io.Custom("SHARP_MODEL_CONFIG").Output(display_name="model_config"),
+            ],
+        )
+
+    @classmethod
+    def execute(cls, precision: str = "auto"):
+        """Download checkpoint and return config dict."""
+        import comfy.model_management
+
+        load_device = comfy.model_management.get_torch_device()
+
+        # Resolve dtype
+        if precision == "auto":
+            if comfy.model_management.should_use_bf16(load_device):
+                dtype = torch.bfloat16
+            elif comfy.model_management.should_use_fp16(load_device):
+                dtype = torch.float16
+            else:
+                dtype = torch.float32
+        else:
+            dtype = _DTYPE_MAP[precision]
+
+        dtype_str = {torch.bfloat16: "bf16", torch.float16: "fp16", torch.float32: "fp32"}[dtype]
+
+        # Download checkpoint if needed
+        os.makedirs(MODELS_DIR, exist_ok=True)
+        model_path = hf_hub_download(
+            repo_id=SHARP_REPO_ID,
+            filename=SHARP_FILENAME,
+            local_dir=MODELS_DIR,
+        )
+
+        log.info(f"SHARP config: precision={precision} -> dtype={dtype_str}, path={model_path}")
+
+        config = {
+            "model_path": model_path,
+            "precision": precision,
+            "dtype": dtype_str,
+        }
+        return io.NodeOutput(config)
 
 
 NODE_CLASS_MAPPINGS = {

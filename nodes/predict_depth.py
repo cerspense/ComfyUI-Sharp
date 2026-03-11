@@ -32,7 +32,7 @@ class SharpPredictDepth(io.ComfyNode):
             category="SHARP",
             description="Generate depth maps from images using SHARP. Optionally align to reference depth (e.g., DepthAnythingV3) using learned dense alignment.",
             inputs=[
-                io.Custom("SHARP_MODEL").Input("model"),
+                io.Custom("SHARP_MODEL_CONFIG").Input("model"),
                 io.Image.Input("image"),
                 io.Custom("EXTRINSICS").Input("extrinsics", optional=True,
                                              tooltip="Camera extrinsics (from SamplePanorama). Passed through for pipeline."),
@@ -65,14 +65,10 @@ class SharpPredictDepth(io.ComfyNode):
         If reference_depth is provided, uses SHARP's learned dense alignment.
         """
         import comfy.model_management
+        from .load_model import _load_sharp_model
 
-        # model is a ModelPatcher from LoadSharpModel
-        # Estimate activation memory: SPN processes 35 patches through ViT at 1536x1536
-        dtype = model.model.dtype if hasattr(model.model, 'dtype') else torch.float32
-        memory_required = (1536 * 1536 * 6) * comfy.model_management.dtype_size(dtype)
-        comfy.model_management.load_models_gpu([model], memory_required=memory_required)
-        predictor = model.model
-        device = model.load_device
+        # model is a config dict from LoadSharpModel — load on-demand
+        predictor, device = _load_sharp_model(model)
 
         # Handle batch dimension
         if image.dim() == 3:
