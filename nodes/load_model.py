@@ -108,7 +108,8 @@ class LoadSharpModel:
         predictor.eval()
         if comfy.model_management.force_channels_last():
             predictor.to(memory_format=torch.channels_last)
-        comfy.model_management.archive_model_dtypes(predictor)
+        if hasattr(comfy.model_management, 'archive_model_dtypes'):
+            comfy.model_management.archive_model_dtypes(predictor)
         log.info(f"Model ready ({dtype})")
 
         # Wrap with ModelPatcher — ComfyUI manages VRAM from here
